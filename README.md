@@ -269,38 +269,53 @@ tokens.fontFamily.sans  // ['Inter', ...]
 
 ---
 
+## Documentation
+
+- **[Design Tokens Reference](packages/tokens/src/)** - Complete token definitions
+- **[Component API](packages/react/src/)** - All component source code
+- **[Contributing Guide](CONTRIBUTING.md)** - Development guidelines
+
+---
+
+## Roadmap
+
+- [x] Design token system (colors, typography, spacing)
+- [x] Tailwind CSS integration
+- [x] Button component
+- [ ] Input component
+- [ ] Card component
+- [ ] AI-specific components (ChatBubble, StreamText, CodeBlock)
+- [ ] Storybook documentation site
+- [ ] npm package publication
+
+---
+
 ## Development
 
 ```bash
-# Install dependencies
+# Clone and install
+git clone https://github.com/Deepractice/Lucid-UI.git
+cd Lucid-UI
 pnpm install
+
+# Development mode
+pnpm dev
 
 # Build all packages
 pnpm build
 
-# Watch mode
-pnpm dev
-
-# Lint
-pnpm lint
+# Type check
+pnpm tsc --noEmit
 ```
 
-### Project Structure
-
-```
-Lucid-UI/
-├── packages/
-│   ├── tokens/         # Design tokens
-│   └── react/          # React components
-├── apps/
-│   └── docs/           # Storybook (planned)
-├── README.md           # This file
-├── CONTRIBUTING.md     # Component development guide
-└── pnpm-workspace.yaml
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
 ## License
 
-MIT © [Deepractice](https://deepractice.ai)
+MIT - see [LICENSE](LICENSE)
+
+**Built with care by [Deepractice](https://deepractice.ai)**
+
+*Making AI Generation Beautiful*

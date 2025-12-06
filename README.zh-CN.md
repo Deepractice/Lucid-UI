@@ -269,38 +269,53 @@ tokens.fontFamily.sans  // ['Inter', ...]
 
 ---
 
-## Development
+## 文档
 
-```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Watch mode
-pnpm dev
-
-# Lint
-pnpm lint
-```
-
-### Project Structure
-
-```
-Lucid-UI/
-├── packages/
-│   ├── tokens/         # Design tokens
-│   └── react/          # React components
-├── apps/
-│   └── docs/           # Storybook (planned)
-├── README.md           # This file
-├── CONTRIBUTING.md     # Component development guide
-└── pnpm-workspace.yaml
-```
+- **[设计 Token 参考](packages/tokens/src/)** - 完整的 token 定义
+- **[组件 API](packages/react/src/)** - 所有组件源代码
+- **[贡献指南](CONTRIBUTING.md)** - 开发规范
 
 ---
 
-## License
+## 路线图
 
-MIT © [Deepractice](https://deepractice.ai)
+- [x] 设计 token 系统（颜色、字体、间距）
+- [x] Tailwind CSS 集成
+- [x] Button 组件
+- [ ] Input 组件
+- [ ] Card 组件
+- [ ] AI 专属组件（ChatBubble、StreamText、CodeBlock）
+- [ ] Storybook 文档站
+- [ ] npm 包发布
+
+---
+
+## 开发
+
+```bash
+# 克隆并安装
+git clone https://github.com/Deepractice/Lucid-UI.git
+cd Lucid-UI
+pnpm install
+
+# 开发模式
+pnpm dev
+
+# 构建所有包
+pnpm build
+
+# 类型检查
+pnpm tsc --noEmit
+```
+
+查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解开发规范。
+
+---
+
+## 许可证
+
+MIT - 查看 [LICENSE](LICENSE)
+
+**用心打造 by [Deepractice](https://deepractice.ai)**
+
+*让 AI 时代更美好*
