@@ -153,6 +153,70 @@ function PhilosophySection() {
         </div>
       </div>
 
+      {/* Why We Reject AI Purple */}
+      <div className="bg-gray-900 text-white rounded-xl p-8">
+        <h2 className="text-2xl font-semibold mb-6">Why We Reject AI Purple</h2>
+        <div className="grid grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-lg font-medium mb-3 text-gray-300">The Problem</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li>• Purple gradients have become a cliché in AI products</li>
+              <li>• They create artificial mystique rather than clarity</li>
+              <li>• They prioritize aesthetics over usability</li>
+              <li>• They make all AI products look the same</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-3 text-gray-300">Our Approach</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li>• Clarity over mystique</li>
+              <li>• Function over decoration</li>
+              <li>• Trust through transparency</li>
+              <li>• Differentiation through simplicity</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Brand Values */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Brand Values</h2>
+        <div className="grid grid-cols-4 gap-4">
+          {[
+            { value: 'Professional', desc: 'Enterprise-grade quality' },
+            { value: 'Trustworthy', desc: 'Reliable and consistent' },
+            { value: 'Clear', desc: 'Easy to understand' },
+            { value: 'Efficient', desc: 'Respects user time' },
+          ].map(item => (
+            <div key={item.value} className="text-center p-4 bg-gray-50 rounded-lg">
+              <p className="text-lg font-semibold text-gray-900">{item.value}</p>
+              <p className="text-sm text-gray-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Design Principles */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Design Principles</h2>
+        <div className="space-y-4">
+          {[
+            { num: '01', title: 'Content First', desc: 'Design should elevate content, not compete with it. Every visual element must serve a purpose.' },
+            { num: '02', title: 'Consistent Hierarchy', desc: 'Use typography, spacing, and color consistently to create clear visual hierarchy across all interfaces.' },
+            { num: '03', title: 'Accessible by Default', desc: 'Design for everyone. Ensure sufficient contrast, clear focus states, and semantic structure.' },
+            { num: '04', title: 'Restrained Decoration', desc: 'Avoid gratuitous animations, shadows, and effects. Each embellishment must earn its place.' },
+          ].map(item => (
+            <div key={item.num} className="flex gap-6 p-4 border-b border-gray-100">
+              <span className="text-3xl font-bold text-gray-200">{item.num}</span>
+              <div>
+                <h3 className="font-semibold text-gray-900">{item.title}</h3>
+                <p className="text-gray-600">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Next Steps */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Next Steps</h2>
