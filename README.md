@@ -4,10 +4,7 @@
     <strong>A Lucid Design System for AI Agent Platforms</strong>
   </p>
   <p>
-    <strong>清晰明澈的智能体视觉语言</strong>
-  </p>
-  <p>
-    Design System for AI Agent Platforms | Chat Components | Dual Theme System | White Foundation
+    Chat Components | Dual Theme System | White Foundation
   </p>
 
   <hr/>
