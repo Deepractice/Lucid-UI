@@ -282,49 +282,6 @@ Lucid-UI/
 
 ---
 
-## Contributing
-
-我们欢迎贡献！查看 [CONTRIBUTING.md](./CONTRIBUTING.md) 了解：
-- 组件开发规范
-- 设计 token 使用
-- 代码提交流程
-
----
-
-## Roadmap
-
-### Phase 1: Foundations ✅
-- [x] Design tokens
-- [x] Button component
-- [ ] Input component
-- [ ] Card component
-
-### Phase 2: AI-Specific (Q1 2025)
-- [ ] ChatBubble component
-- [ ] StreamText component
-- [ ] ThinkingIndicator component
-- [ ] CodeBlock component
-
-### Phase 3: Advanced (Q2 2025)
-- [ ] Dialog
-- [ ] Dropdown
-- [ ] Tabs
-- [ ] Table
-
----
-
 ## License
 
 MIT © [Deepractice](https://deepractice.ai)
-
----
-
-## Links
-
-- **GitHub**: https://github.com/Deepractice/Lucid-UI
-- **Issues**: https://github.com/Deepractice/Lucid-UI/issues
-- **Deepractice**: https://deepractice.ai
-
----
-
-Made with ❤️ by Deepractice
