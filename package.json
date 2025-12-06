@@ -1,7 +1,7 @@
 {
   "name": "lucid-ui",
   "version": "0.0.1",
-  "description": "A Lucid Design System for AI Generation",
+  "description": "A Lucid Design System for AI Agent Platforms | 清晰明澈的智能体视觉语言",
   "private": true,
   "type": "module",
   "scripts": {

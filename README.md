@@ -1,10 +1,13 @@
 <div align="center">
-  <h1>Lucid UI · Design System for AI Generation</h1>
+  <h1>Lucid UI</h1>
   <p>
-    <strong>A clear and professional design system for the AI era</strong>
+    <strong>A Lucid Design System for AI Agent Platforms</strong>
   </p>
   <p>
-    <strong>Key Features:</strong> Dual Theme System | Based on shadcn/ui | White Foundation | No Purple, No Black
+    <strong>清晰明澈的智能体视觉语言</strong>
+  </p>
+  <p>
+    Design System for AI Agent Platforms | Chat Components | Dual Theme System | White Foundation
   </p>
 
   <hr/>
@@ -315,13 +318,30 @@ fontFamily.sans  // ['Inter', ...]
 
 ## Roadmap
 
+### Phase 1: AI Agent Core (Current)
 - [x] Design token system (colors, typography, spacing)
 - [x] Tailwind CSS integration
 - [x] Button component
+- [ ] ChatBubble - Message container with role support
+- [ ] StreamText - Streaming text with cursor
+- [ ] ThinkingIndicator - Agent thinking state
+- [ ] AgentAvatar - Avatar with status indicator
+
+### Phase 2: Chat Experience
+- [ ] ChatInput - Input with @mention support
+- [ ] ChatList - Conversation list sidebar
+- [ ] ChatWindow - Main chat area layout
+- [ ] MentionPopover - Agent mention selector
+
+### Phase 3: Foundation Components
 - [ ] Input component
 - [ ] Card component
-- [ ] AI-specific components (ChatBubble, StreamText, CodeBlock)
+- [ ] CodeBlock - Syntax highlighted code
+- [ ] Badge component
+
+### Phase 4: Documentation
 - [ ] Storybook documentation site
+- [ ] Visual design guidelines
 - [ ] npm package publication
 
 ---
@@ -357,5 +377,5 @@ MIT - see [LICENSE](LICENSE)
 <div align="center">
   <strong>Built with care by <a href="https://deepractice.ai">Deepractice</a></strong>
   <br/>
-  <em>Making AI Generation Beautiful</em>
+  <em>Clarity over complexity in the AI era</em>
 </div>
