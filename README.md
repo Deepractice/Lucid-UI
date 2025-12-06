@@ -318,7 +318,8 @@ fontFamily.sans  // ['Inter', ...]
 - [x] Design token system (colors, typography, spacing)
 - [x] Tailwind CSS integration
 - [x] Button component
-- [ ] AI Agent components (ChatBubble, StreamText, ThinkingIndicator)
+- [ ] Visual design guidelines (Agent identity, Chat bubbles, States)
+- [ ] AI Agent components (ChatBubble, StreamText, ThinkingIndicator, AgentAvatar)
 - [ ] Input component
 - [ ] Card component
 - [ ] Storybook documentation site
