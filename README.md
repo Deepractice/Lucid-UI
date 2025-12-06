@@ -34,11 +34,11 @@ Based on **shadcn/ui**, we provide a dual theme system for different scenarios:
 
 ### Dual Theme System
 
-**🔷 Rational Theme (理性蓝)** - Tech Blue `#3B82F6`
+**🔷 Rational Theme** - Tech Blue `#3B82F6`
 - Represents: Efficiency, Precision, Computation
 - Use for: Data analysis, Technical products, Productivity tools
 
-**🔶 Sentient Theme (感性金)** - Wisdom Gold `#D4A012`
+**🔶 Sentient Theme** - Wisdom Gold `#D4A012`
 - Represents: Wisdom, Thinking, Humanity, Probability
 - Use for: Creative tools, Human-centric products, Thinking aids
 
