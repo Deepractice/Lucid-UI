@@ -16,7 +16,7 @@ function App() {
           <div className="flex items-center gap-8">
             <h1 className="text-xl font-semibold">
               <span className="text-gray-900">Lucid</span>
-              <span className="text-sentient-500">UI</span>
+              <span className="text-sentient-500 animate-breathe-glow">UI</span>
             </h1>
             <span className="text-sm text-gray-500">Documentation</span>
           </div>
@@ -712,6 +712,32 @@ function PatternsSection() {
             </div>
             <Button className="w-full">Submit</Button>
           </form>
+        </div>
+      </div>
+
+      {/* AI Status Animations */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">AI Status Animations</h3>
+        <p className="text-gray-600 text-sm mb-4">
+          Single-color animations for AI thinking/running states. No purple gradients - just clean, branded motion.
+        </p>
+        <div className="space-y-6 p-6 bg-gray-50 rounded-lg">
+          {/* Breathing */}
+          <div>
+            <p className="text-sm text-gray-500 mb-2">Breathing (opacity pulse)</p>
+            <div className="flex gap-8">
+              <span className="text-xl font-semibold text-rational-500 animate-breathe-glow">AI Thinking...</span>
+              <span className="text-xl font-semibold text-sentient-500 animate-breathe-glow">Creating...</span>
+            </div>
+          </div>
+          {/* Shimmer */}
+          <div>
+            <p className="text-sm text-gray-500 mb-2">Shimmer (light sweep)</p>
+            <div className="flex gap-8">
+              <span className="text-xl font-semibold animate-shimmer-rational">Running task...</span>
+              <span className="text-xl font-semibold animate-shimmer-sentient">Generating...</span>
+            </div>
+          </div>
         </div>
       </div>
 
