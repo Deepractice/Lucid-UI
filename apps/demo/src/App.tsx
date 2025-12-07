@@ -2525,7 +2525,7 @@ function AppShellSection() {
         <h3 className="font-medium text-rational-900 mb-2">📱 移动端变体</h3>
         <ul className="text-sm text-rational-700 space-y-1">
           <li>• <strong>单栏切换</strong>：会话列表和聊天区各占全屏，通过导航切换</li>
-          <li>• <strong>底部 Tab Bar</strong>：替代侧边栏，包含会话、联系人、发现、我的</li>
+          <li>• <strong>底部 Tab Bar</strong>：替代侧边栏，包含会话、智能体、发现、我的</li>
           <li>• <strong>返回按钮</strong>：聊天区左上角显示返回箭头，点击回到会话列表</li>
           <li>• <strong>手势支持</strong>：边缘右滑返回上一页</li>
           <li>• <strong>断点</strong>：&lt;768px 启用移动端布局</li>
@@ -4045,7 +4045,7 @@ function BottomTabBarSection() {
           {/* Mock screen content */}
           <div className="h-64 bg-gray-50 flex items-center justify-center text-gray-400">
             {activeTab === 'chat' && '会话列表'}
-            {activeTab === 'contacts' && '联系人'}
+            {activeTab === 'contacts' && '智能体'}
             {activeTab === 'discover' && '发现'}
             {activeTab === 'me' && '我的'}
           </div>
@@ -4074,9 +4074,9 @@ function BottomTabBarSection() {
               }`}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span className="text-xs mt-1">联系人</span>
+              <span className="text-xs mt-1">智能体</span>
             </button>
 
             <button
@@ -4125,9 +4125,9 @@ function BottomTabBarSection() {
             </button>
             <button className="flex flex-col items-center justify-center flex-1 h-full text-gray-500">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span className="text-xs mt-1">联系人</span>
+              <span className="text-xs mt-1">智能体</span>
             </button>
             <button className="flex flex-col items-center justify-center flex-1 h-full text-gray-500">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
