@@ -95,3 +95,22 @@ body {
   -webkit-text-fill-color: transparent;
   animation: shimmer 2s infinite linear;
 }
+
+/* Slide up animation for Action Sheet */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* iOS Safe Area support */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
