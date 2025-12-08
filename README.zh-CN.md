@@ -315,12 +315,25 @@ fontFamily.sans  // ['Inter', ...]
 
 ## 路线图
 
+### 基础建设 ✅
 - [x] 设计 token 系统（颜色、字体、间距）
 - [x] Tailwind CSS 集成
+- [x] 双主题系统（理性蓝 + 感性金）
 - [x] Button 组件
+- [x] Demo 站点及完整设计指南
+
+### AI 优先增强 🚧
+- [ ] **AI 阅读指南** - 决策树、反模式、组件选择矩阵
+- [ ] **对话模式库** - 分析型、创意型、多智能体模式
+- [ ] **组件元数据** - 为大语言模型优化的结构化注释
+
+### 组件与模式
+- [ ] AI 智能体组件（ChatBubble、StreamText、ThinkingIndicator、AgentAvatar）
 - [ ] Input 组件
 - [ ] Card 组件
-- [ ] AI 专属组件（ChatBubble、StreamText、CodeBlock）
+- [ ] Form 表单模式
+
+### 文档与发布
 - [ ] Storybook 文档站
 - [ ] npm 包发布
 

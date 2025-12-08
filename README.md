@@ -315,13 +315,25 @@ fontFamily.sans  // ['Inter', ...]
 
 ## Roadmap
 
+### Foundation ✅
 - [x] Design token system (colors, typography, spacing)
 - [x] Tailwind CSS integration
+- [x] Dual theme system (Rational + Sentient)
 - [x] Button component
-- [ ] Visual design guidelines (Agent identity, Chat bubbles, States)
+- [x] Demo site with comprehensive guidelines
+
+### AI-First Enhancement 🚧
+- [ ] **AI Reading Guide** - Decision trees, anti-patterns, component selection matrix
+- [ ] **Conversation Pattern Library** - Analytical, Creative, Multi-Agent patterns
+- [ ] **Component Metadata** - Structured annotations for LLM comprehension
+
+### Components & Patterns
 - [ ] AI Agent components (ChatBubble, StreamText, ThinkingIndicator, AgentAvatar)
 - [ ] Input component
 - [ ] Card component
+- [ ] Form patterns
+
+### Documentation & Distribution
 - [ ] Storybook documentation site
 - [ ] npm package publication
 
