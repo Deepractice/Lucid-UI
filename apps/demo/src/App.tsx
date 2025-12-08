@@ -143,7 +143,10 @@ const navigation: NavGroup[] = [
 function App() {
   const [activeSection, setActiveSection] = useState<Section>('home')
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [collapsedGroups, setCollapsedGroups] = useState<Set<number>>(new Set())
+  // Default: all groups collapsed (按需展开)
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<number>>(
+    new Set(navigation.map((_, index) => index))
+  )
   const isDesktop = useMediaQuery(breakpoints.lg)
 
   // Close sidebar when switching to desktop
