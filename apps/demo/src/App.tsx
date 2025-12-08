@@ -143,9 +143,9 @@ const navigation: NavGroup[] = [
 function App() {
   const [activeSection, setActiveSection] = useState<Section>('home')
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  // Default: all groups collapsed (按需展开)
+  // Default: collapse all groups EXCEPT the first one (Home/About should be visible)
   const [collapsedGroups, setCollapsedGroups] = useState<Set<number>>(
-    new Set(navigation.map((_, index) => index))
+    new Set(navigation.map((_, index) => index).filter(i => i !== 0))
   )
   const isDesktop = useMediaQuery(breakpoints.lg)
 
