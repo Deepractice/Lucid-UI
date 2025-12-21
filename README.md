@@ -1,10 +1,10 @@
 <div align="center">
-  <h1>Lucid UI</h1>
+  <h1>Lucid A2UI</h1>
   <p>
-    <strong>AI-to-UI Protocol Layer for Agent Applications</strong>
+    <strong>The Last Mile from AI to Human</strong>
   </p>
   <p>
-    Lucid IR | Renderers | Design System
+    AI-to-UI Intermediate Representation (IR) Protocol Layer
   </p>
 
   <hr/>
@@ -24,34 +24,54 @@
 
 ---
 
-## What is Lucid UI?
+## The Last Mile Problem
 
-**Lucid UI** is an AI-to-UI protocol layer that enables AI agents to generate user interfaces through a standardized intermediate representation.
+```
+Human Intent → AI Understanding → AI Generation → ??? → Human Perception
+                                                   ↑
+                                            The gap is here
+```
+
+AI can understand human intent, reason, call tools, and generate content. But **how does AI output actually reach the human?** This "last mile" has been broken.
+
+**Lucid A2UI bridges this gap** — a protocol that both AI and UI understand.
+
+---
+
+## What is Lucid A2UI?
+
+**Lucid A2UI** is an Intermediate Representation (IR) protocol layer between AI and UI.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        Lucid UI                             │
-│         "The bridge between AI and UI"                      │
+│                      Lucid A2UI                             │
+│           "The Last Mile from AI to Human"                  │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  Layer 1: Lucid IR        JSON Schema for UI description    │
-│  Layer 2: Renderers       React, A2UI, MCP Apps (future)    │
-│  Layer 3: Design System   Tokens, Components, Patterns      │
+│  Human Intent                                               │
+│       ↓                                                     │
+│  AI Processing (thinking, tool calls, generation)          │
+│       ↓                                                     │
+│  Lucid IR ← Standardized format AI outputs                  │
+│       ↓                                                     │
+│  UI Rendering ← Components that understand IR               │
+│       ↓                                                     │
+│  Human Perception                                           │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Key Insight
+### Two Consumers, One Protocol
 
-> **The consumer is AI, not developers.**
+> **Lucid IR is consumed by both AI and UI.**
 
-Traditional component libraries: Developer writes code → Calls components → UI
-
-Lucid protocol: **AI generates Lucid IR → System renders → UI**
+- **For AI**: A standardized output format — AI generates Lucid IR directly
+- **For UI**: A standardized input format — UI renders Lucid IR directly
+- **Result**: AI speaks this format, UI understands this format — no translation needed
 
 ---
 
-## Why Lucid UI?
+## Why Lucid A2UI?
 
 ### The Problem
 
