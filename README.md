@@ -50,7 +50,7 @@ AI can understand human intent, reason, call tools, and generate content. But **
 │                                                             │
 │  Human Intent                                               │
 │       ↓                                                     │
-│  AI Processing (thinking, tool calls, generation)          │
+│  AI Processing (thinking, tool calls, generation)           │
 │       ↓                                                     │
 │  Lucid IR ← Standardized format AI outputs                  │
 │       ↓                                                     │
