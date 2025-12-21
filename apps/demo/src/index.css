@@ -114,3 +114,112 @@ body {
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
+/* === Lucid IR Protocol Demo Animations === */
+
+/* Fade in from bottom */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out forwards;
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Data flow animation - dots moving right */
+@keyframes flow-right {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-flow-right {
+  animation: flow-right 1.5s ease-in-out infinite;
+}
+
+/* Typing cursor blink */
+@keyframes cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* JSON highlight flash */
+@keyframes highlight-flash {
+  0% {
+    background-color: rgba(59, 130, 246, 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.animate-highlight {
+  animation: highlight-flash 0.5s ease-out;
+}
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Code block scrollbar styling */
+.code-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.code-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.code-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.code-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

@@ -10,6 +10,9 @@ importers:
 
   apps/demo:
     dependencies:
+      '@lucidui/ir':
+        specifier: workspace:*
+        version: link:../../packages/ir
       '@lucidui/react':
         specifier: workspace:*
         version: link:../../packages/react
