@@ -500,7 +500,7 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-2.5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 flex-shrink-0">
             <div className={`p-0.5 rounded-lg border shadow-sm ${isDark ? 'border-white/20 bg-white/5' : 'border-gray-200 bg-white'}`}>
-              <img src="/logo.png" alt="Lucid A2UI" className="w-7 h-7 rounded-md" />
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lucid A2UI" className="w-7 h-7 rounded-md" />
             </div>
             <div className="hidden sm:block">
               <h1 className={`text-lg font-semibold animate-breathe ${isDark ? 'text-white' : 'text-gray-900'}`}>Lucid A2UI</h1>
