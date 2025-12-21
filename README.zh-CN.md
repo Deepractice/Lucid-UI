@@ -112,6 +112,43 @@ Lucid IR (稳定的内部协议)
 
 ---
 
+## Lucid IR vs Design Tokens
+
+> **"Design Tokens 让开发者不用重复定义颜色，Lucid IR 让 AI 不用重复学习怎么描述 UI 结构。"**
+
+### 不同层次，不同问题
+
+```
+Lucid IR     = 剧本（演什么）
+React 组件   = 演员（怎么演）
+Design Tokens = 服装道具（穿什么）
+```
+
+| 维度 | Design Tokens | Lucid IR |
+|------|---------------|----------|
+| 解决的痛点 | 设计到代码的一致性 | AI 输出到界面的标准化 |
+| 消费者 | 人类开发者（理解 CSS） | AI（需要结构化、语义化描述） |
+| 目标市场 | 设计系统、组件库 | AI Agent 平台 |
+| 竞品 | Style Dictionary, Theo | 暂时没有（空白市场） |
+
+### 核心差异
+
+传统 UI 链路：
+```
+设计师 (Figma) → 开发者写代码 → 用户看到界面
+                 ↑ Design Tokens 解决这段
+```
+
+AI Agent 链路：
+```
+AI 推理 → Lucid IR → 渲染引擎 → 用户看到界面
+          ↑ Lucid IR 解决这段（之前没人做）
+```
+
+**Design Tokens 是"样式变量"，Lucid IR 是"AI 的 UI 表达语言"** —— 完全不同的层次和用途。
+
+---
+
 ## 架构
 
 ### 三层设计

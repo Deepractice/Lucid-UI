@@ -101,6 +101,43 @@ Lucid IR (stable internal protocol)
 
 ---
 
+## Lucid IR vs Design Tokens
+
+> **"Design Tokens let developers stop redefining colors. Lucid IR lets AI stop relearning how to describe UI structure."**
+
+### Different Layers, Different Problems
+
+```
+Lucid IR       = Script (what to perform)
+React Components = Actors (how to perform)
+Design Tokens  = Costumes & Props (what to wear)
+```
+
+| Dimension | Design Tokens | Lucid IR |
+|-----------|---------------|----------|
+| Problem Solved | Design-to-code consistency | AI-output-to-UI standardization |
+| Consumer | Human developers (understands CSS) | AI (needs structured, semantic description) |
+| Target Market | Design systems, component libraries | AI Agent platforms |
+| Competitors | Style Dictionary, Theo | None (greenfield market) |
+
+### The Key Insight
+
+Traditional UI pipeline:
+```
+Designer (Figma) → Developer writes code → User sees UI
+                   ↑ Design Tokens solve this
+```
+
+AI Agent pipeline:
+```
+AI reasoning → Lucid IR → Renderer → User sees UI
+               ↑ Lucid IR solves this (no one did before)
+```
+
+**Design Tokens is "style variables". Lucid IR is "AI's UI expression language"** — completely different layers and purposes.
+
+---
+
 ## Architecture
 
 ### Three-Layer Design
