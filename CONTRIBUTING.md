@@ -1,6 +1,29 @@
 # Contributing to Lucid UI
 
-Thanks for your interest in contributing! This guide will help you add new components or improve existing ones.
+Thanks for your interest in contributing! Lucid UI is an **AI-to-UI protocol layer**, not a traditional component library.
+
+## Core Concept
+
+> **The consumer is AI, not developers.**
+
+When contributing, remember:
+- We're building a protocol that AI can generate (Lucid IR)
+- Components are renderers for Lucid IR types
+- The focus is on AI-generatable JSON, not developer ergonomics
+
+## Package Structure
+
+| Package | Layer | Purpose |
+|---------|-------|---------|
+| `@lucidui/ir` | Protocol | Lucid IR JSON Schema & TypeScript types |
+| `@lucidui/react` | Renderer | React renderer & base components |
+| `@lucidui/stream` | Renderer | Streaming content (self-healing markdown) |
+| `@lucidui/agent` | Renderer | Conversation & block renderers |
+| `@lucidui/tokens` | Design System | Colors, typography, spacing |
+
+---
+
+This guide will help you add new components or improve existing ones.
 
 ## 📋 Component Development Checklist
 
@@ -232,27 +255,28 @@ Types:
 
 ---
 
-## 🎯 Component Priorities
+## 🎯 Contribution Priorities
 
-We're building components in this order:
+We're building in this order:
 
-### Phase 1: Foundations
-- [x] Button
-- [ ] Input
-- [ ] Card
-- [ ] Badge
+### Phase 1: Protocol Core (Current)
+- [ ] Lucid IR JSON Schema definition
+- [ ] TypeScript type definitions
+- [x] Design tokens system
+- [x] React base components
 
-### Phase 2: AI-Specific
-- [ ] ChatBubble
-- [ ] StreamText
-- [ ] ThinkingIndicator
-- [ ] CodeBlock
+### Phase 2: Block Renderers
+- [x] TextBlock → StreamMarkdown
+- [x] ToolBlock → ToolResult
+- [x] ThinkingBlock → ThinkingIndicator
+- [ ] ImageBlock → Image renderer
+- [ ] FileBlock → File renderer
 
-### Phase 3: Advanced
-- [ ] Dialog
-- [ ] Dropdown
-- [ ] Tabs
-- [ ] Table
+### Phase 3: Renderers & Adapters
+- [x] ReactRenderer (default)
+- [ ] AgentX adapter
+- [ ] A2UI adapter (when mature)
+- [ ] MCP Apps adapter (when mature)
 
 ---
 

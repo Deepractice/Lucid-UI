@@ -1,7 +1,7 @@
 {
   "name": "@lucidui/tokens",
   "version": "0.0.1",
-  "description": "Design tokens for Lucid UI",
+  "description": "Design tokens for Lucid UI - colors, typography, spacing for the design system layer",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -31,7 +31,9 @@
   "keywords": [
     "design-tokens",
     "lucid-ui",
-    "tailwind"
+    "tailwind",
+    "ai-to-ui",
+    "design-system"
   ],
   "license": "MIT",
   "repository": {

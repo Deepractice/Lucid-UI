@@ -1,10 +1,10 @@
 <div align="center">
   <h1>Lucid UI</h1>
   <p>
-    <strong>为智能体平台设计的 AI 原生设计语言</strong>
+    <strong>AI-to-UI 协议层：让 AI 生成用户界面</strong>
   </p>
   <p>
-    设计令牌 | 组件库 | 交互模式
+    Lucid IR | 渲染器 | 设计系统
   </p>
 
   <hr/>
@@ -22,359 +22,287 @@
   </p>
 </div>
 
-> 🤖 **给 AI 智能体：** 这是一份为大语言模型优化的 AI 原生设计规范。请阅读这些指南，按照 Lucid 设计语言原则生成 UI 代码。
+---
+
+## 什么是 Lucid UI？
+
+**Lucid UI** 是一个 AI-to-UI 协议层，通过标准化的中间表示（IR）让 AI 智能体能够生成用户界面。
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Lucid UI                             │
+│              "连接 AI 与 UI 的桥梁"                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  第一层: Lucid IR       UI 描述的 JSON Schema                 │
+│  第二层: 渲染器          React, A2UI, MCP Apps                │
+│  第三层: 设计系统        令牌、组件、模式                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 核心洞察
+
+> **消费者是 AI，不是开发者。**
+
+传统组件库：开发者写代码 → 调用组件 → UI
+
+Lucid 协议：**AI 生成 Lucid IR → 系统渲染 → UI**
 
 ---
 
-## 设计哲学 Philosophy
+## 为什么需要 Lucid UI？
 
-**Lucid** = 清晰、透明、易懂
+### 问题
 
-基于 **shadcn/ui**,我们提供双主题系统,适配不同使用场景:
+| 协议 | 状态 | 问题 |
+|------|------|------|
+| A2UI (Google) | v0.8 预览版 | 只支持 Android TV/Wear OS，**不支持 Web** |
+| MCP Apps (Anthropic) | SEP-1865 草案 | 还在设计中，**不能用** |
 
-### 双主题系统 Dual Theme System
+**今天没有一个生产可用的 AI-to-UI 协议。**
 
-**🔷 Rational 理性蓝** - 科技蓝 `#0284c7`
-- 代表:效率、精准、计算
-- 适用:数据分析、技术产品、效率工具
+### 解决方案
 
-**🔶 Sentient 感性金** - 智慧金 `#f59e0b`
-- 代表:智慧、思维、人文、概率
-- 适用:创意工具、人文产品、思考辅助
+Lucid UI 提供：
+1. **Lucid IR** - 今天就能用的稳定内部协议
+2. **适配器** - 未来兼容 A2UI、MCP Apps
+3. **参考实现** - React 渲染器作为默认实现
 
-### 设计原则 Design Principles
-
-1. **白色基底** - 为大众产品提供清晰的视觉基础
-2. **双模并存** - 理性科技 vs 感性创造
-3. **拒绝紫色和黑色** - 拒绝 AI 陈词滥调和小众深色主题
-4. **功能优先于装饰** - 清晰胜过繁复
-5. **无障碍默认** - 可访问性是标配而非可选
-
-### 色彩哲学 Color Philosophy
-
-- **白灰基底** - 所有产品的中性视觉基础
-- **理性蓝** - 默认主色,面向技术界面
-- **感性金** - 备选主色,面向创意界面
-- **拒绝 AI 紫** - 刻意避免泛滥的 AI 渐变风格
-- **拒绝深色模式** - 优先大众化的白色背景
-
----
-
-## Quick Start
-
-### 1. Installation
-
-```bash
-pnpm add @lucidui/react @lucidui/tokens
+```
+AI 智能体事件
+    ↓
+Lucid IR (稳定的内部协议)
+    ↓
+    ├── ReactRenderer (今天能用)
+    ├── A2UIRenderer (等 A2UI 成熟)
+    └── MCPAppsRenderer (等 MCP Apps 成熟)
 ```
 
-### 2. Setup Tailwind CSS
-
-Install Tailwind:
-```bash
-pnpm add -D tailwindcss autoprefixer postcss
-```
-
-Create `tailwind.config.ts`:
-```typescript
-import type { Config } from 'tailwindcss'
-import { lucidPreset } from '@lucidui/tokens/tailwind'
-
-export default {
-  presets: [lucidPreset],
-  content: [
-    './src/**/*.{ts,tsx}',
-    './node_modules/@lucidui/react/dist/**/*.js',
-  ],
-} satisfies Config
-```
-
-Create `postcss.config.js`:
-```javascript
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-```
-
-Add to your CSS file:
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-### 3. Use Components
-
-```tsx
-import { Button } from '@lucidui/react'
-
-export default function App() {
-  return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-2xl space-y-6">
-        <h1 className="text-2xl font-semibold text-foreground">
-          Hello Lucid UI
-        </h1>
-
-        <div className="flex gap-3">
-          <Button>Primary Action</Button>
-          <Button variant="outline">Secondary</Button>
-          <Button variant="ghost">Subtle</Button>
-        </div>
-      </div>
-    </div>
-  )
-}
-```
-
----
-
-## Component Usage
-
-### Button
-
-```tsx
-import { Button } from '@lucidui/react'
-
-// Variants
-<Button variant="default">Primary</Button>
-<Button variant="outline">Secondary</Button>
-<Button variant="ghost">Subtle</Button>
-<Button variant="destructive">Danger</Button>
-
-// Sizes
-<Button size="sm">Small</Button>
-<Button size="default">Normal</Button>
-<Button size="lg">Large</Button>
-
-// As a link
-<Button asChild>
-  <a href="/somewhere">Link Button</a>
-</Button>
-
-// Disabled
-<Button disabled>Disabled</Button>
-```
-
----
-
-## 设计令牌 Design Tokens
-
-所有设计令牌都可以从 `@lucidui/tokens` 获取:
-
-```typescript
-import { rational, sentient, colors } from '@lucidui/tokens'
-
-// 双主题颜色
-rational[600]   // '#0284c7' (理性蓝 - 默认主色,与 AgentX 一致)
-sentient[500]   // '#f59e0b' (感性金 - 创意主色)
-
-// 基础颜色
-colors.gray[100]     // '#F5F5F5' (浅灰)
-colors.white         // '#FFFFFF' (白色背景)
-colors.success[500]  // '#10B981' (成功绿)
-colors.error[500]    // '#EF4444' (错误红)
-
-// 间距 (基于 4px 网格)
-spacing[4]   // '1rem' (16px)
-spacing[8]   // '2rem' (32px)
-
-// 排版
-fontSize.base  // ['1rem', { lineHeight: '1.5rem' }]
-fontFamily.sans  // ['Inter', ...]
-```
-
-### 主题使用 Using Themes
-
-```tsx
-// 默认 - 理性主题 (科技蓝)
-<Button className="bg-primary-500">分析数据</Button>
-
-// 显式理性主题
-<Button className="bg-rational-500 hover:bg-rational-600">
-  计算
-</Button>
-
-// 感性主题 (智慧金)
-<Button className="bg-sentient-500 hover:bg-sentient-600">
-  创作想法
-</Button>
-```
-
-### 语义化颜色 Semantic Colors
-
-```tsx
-// Tailwind 类名 (推荐)
-<div className="bg-background text-foreground">
-  <p className="text-muted-foreground">次级文字</p>
-  <div className="border border-border">内容</div>
-</div>
-```
-
-| 令牌 Token | 值 Value | 用途 Usage |
-|-------|-------|-------|
-| `bg-background` | #FFFFFF | 主背景 |
-| `bg-muted` | #F5F5F5 | 次级背景 |
-| `text-foreground` | #171717 | 主文字 |
-| `text-muted-foreground` | #737373 | 次级文字 |
-| `border-border` | #E5E5E5 | 边框 |
-| `bg-primary-600` | #0284c7 | 理性蓝 (默认) |
-| `bg-rational-600` | #0284c7 | 技术/效率主题 |
-| `bg-sentient-500` | #f59e0b | 创意/智慧主题 |
-
----
-
-## Common Patterns
-
-### Page Layout
-
-```tsx
-<div className="min-h-screen bg-background">
-  {/* Header */}
-  <header className="border-b border-border">
-    <div className="container mx-auto px-4 py-4">
-      <h1 className="text-xl font-semibold">App Name</h1>
-    </div>
-  </header>
-
-  {/* Main */}
-  <main className="container mx-auto px-4 py-8">
-    <div className="max-w-2xl space-y-6">
-      {/* Content */}
-    </div>
-  </main>
-</div>
-```
-
-### Card Pattern
-
-```tsx
-<div className="rounded-lg border border-border bg-white p-6 shadow-sm">
-  <h3 className="font-medium text-foreground">Card Title</h3>
-  <p className="text-sm text-muted-foreground">Card description</p>
-</div>
-```
-
-### AI Chat Pattern
-
-```tsx
-<div className="max-w-2xl space-y-4">
-  {/* User message */}
-  <div className="ml-auto max-w-lg rounded-lg bg-primary-500 px-4 py-3 text-white">
-    What is Lucid UI?
-  </div>
-
-  {/* AI response */}
-  <div className="mr-auto max-w-lg rounded-lg border border-border bg-white px-4 py-3">
-    Lucid UI is a design system for AI generation...
-  </div>
-</div>
-```
-
-### Loading State
-
-```tsx
-<div className="flex items-center gap-2 text-muted-foreground">
-  <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-primary-500" />
-  <span>Thinking...</span>
-</div>
-```
-
----
-
-## Packages
-
-| Package | Description |
-|---------|-------------|
-| `@lucidui/tokens` | Design Tokens - 颜色、字体、间距等设计变量 |
-| `@lucidui/react` | React Components - 基础 UI 组件 |
-| `@lucidui/agent` | Agent Components - 对话、流式输出等（计划中） |
-
----
-
-## Tech Stack
-
-- **React 18** + TypeScript
-- **Radix UI Primitives** - 无障碍组件基础
-- **Tailwind CSS** - 样式系统
-- **class-variance-authority** - 变体管理
-- **Vite** + pnpm workspace
-
----
-
-## 文档
-
-- **[设计 Token 参考](packages/tokens/src/)** - 完整的 token 定义
-- **[组件 API](packages/react/src/)** - 所有组件源代码
-- **[贡献指南](CONTRIBUTING.md)** - 开发规范
-
----
-
-## 路线图
-
-### 基础建设 ✅
-- [x] 设计 token 系统（颜色、字体、间距）
-- [x] Tailwind CSS 集成
-- [x] 双主题系统（理性蓝 + 感性金）
-- [x] Button 组件
-- [x] Demo 站点及完整设计指南
-
-### AI 优先增强 🚧
-- [ ] **AI 阅读指南** - 决策树、反模式、组件选择矩阵
-- [ ] **对话模式库** - 分析型、创意型、多智能体模式
-- [ ] **组件元数据** - 为大语言模型优化的结构化注释
-
-### 组件与模式
-- [ ] AI 智能体组件（ChatBubble、StreamText、ThinkingIndicator、AgentAvatar）
-- [ ] Input 组件
-- [ ] Card 组件
-- [ ] Form 表单模式
-
-### 文档与发布
-- [ ] Storybook 文档站
-- [ ] npm 包发布
-
----
-
-## 开发
-
-```bash
-# 克隆并安装
-git clone https://github.com/Deepractice/Lucid-UI.git
-cd Lucid-UI
-pnpm install
-
-# 开发模式
-pnpm dev
-
-# 构建所有包
-pnpm build
-
-# 类型检查
-pnpm tsc --noEmit
-```
-
-查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解开发规范。
+### 为什么不等大厂标准成熟？
+
+> "A2UI 和 MCP Apps 是未来的目标，Lucid IR 是今天的桥梁。我们不是在重复造轮子，是在造一个可以适配任何轮子的适配器。"
+
+| 方案 | 风险 |
+|------|------|
+| 等标准成熟 | AgentX 没有 UI，产品停滞 |
+| 直接绑定 A2UI | A2UI 变了就要大改 |
+| 直接绑定 MCP Apps | 同样的问题 |
+| **Lucid IR + 适配器** | 内部稳定，外部灵活 |
 
 ---
 
 ## 架构
 
-Lucid UI 是 Deepractice 生态系统的设计基础：
+### 三层设计
 
 ```
-AgentX (产品 / 运行时)
-  ↓ 使用
-@agentxjs/ui (组件实现)
-  ↓ 引用
-Lucid UI (设计语言 / 规范)
+┌─────────────────────────────────────────────────────────────┐
+│  第一层: Lucid IR (核心)                                      │
+│  - JSON Schema 定义                                          │
+│  - Block 和 Conversation 标准                                │
+│  - AI 可生成的格式                                            │
+└─────────────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────────────┐
+│  第二层: 渲染器                                               │
+│  - ReactRenderer → Web                                      │
+│  - A2UIRenderer → 原生应用 (未来)                             │
+│  - MCPAppsRenderer → Claude Desktop (未来)                   │
+└─────────────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────────────┐
+│  第三层: 设计系统                                             │
+│  - @lucidui/tokens (设计令牌)                                │
+│  - @lucidui/react (基础组件)                                 │
+│  - @lucidui/stream (流式渲染)                                │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-- **AgentX** 定义"需要什么组件"（Studio、MessagePane、UserMessage...）—— 产品需求驱动
-- **Lucid UI** 回答"这些组件长什么样、怎么交互" —— 设计的 Source of Truth
+### 依赖倒置
+
+所有实现都依赖 Lucid IR 抽象：
+
+```
+        ┌─────────────────────┐
+        │     Lucid IR        │  ← 抽象协议
+        │   (JSON Schema)     │
+        └──────────┬──────────┘
+                   │
+     ┌─────────────┼─────────────┐
+     │             │             │
+     ▼             ▼             ▼
+┌─────────┐  ┌─────────┐  ┌─────────┐
+│ AgentX  │  │  其他    │  │  A2UI   │
+│   UI    │  │  框架    │  │  适配器  │
+└─────────┘  └─────────┘  └─────────┘
+```
+
+---
+
+## Lucid IR 规范
+
+### 核心类型
+
+```typescript
+interface LucidConversation {
+  id: string
+  role: 'user' | 'assistant' | 'system'
+  status: 'streaming' | 'completed' | 'error'
+  blocks: LucidBlock[]
+  timestamp: number
+}
+
+interface LucidBlock {
+  id: string
+  type: 'text' | 'tool' | 'thinking' | 'image' | 'file' | 'error'
+  status: 'streaming' | 'completed' | 'error'
+  content: unknown  // 根据 type 不同
+}
+
+// 渲染器接口
+interface LucidRenderer<T> {
+  render(conversations: LucidConversation[]): T
+}
+```
+
+### Block 类型
+
+| 类型 | 描述 | 内容 |
+|------|------|------|
+| `text` | 文本内容（支持流式） | `{ text: string }` |
+| `tool` | 工具/函数调用结果 | `{ name, input, output, status }` |
+| `thinking` | AI 推理过程 | `{ reasoning: string }` |
+| `image` | 图片内容 | `{ url, alt, width, height }` |
+| `file` | 文件附件 | `{ name, type, url }` |
+| `error` | 错误信息 | `{ code, message }` |
+
+---
+
+## 与 AgentX 的关系
+
+Lucid UI 从 [AgentX](https://github.com/Deepractice/AgentX) 实践中抽象而来：
+
+```
+AgentX UI (粗略实现，实验性)
+    ↓ 抽象提炼
+Lucid IR (协议规范)
+    ↓ 实现
+AgentX UI + 其他框架 (遵循规范)
+```
+
+### 事件流
+
+```
+AgentX 4层事件
+    │
+    │ Stream: text_delta, tool_use_start
+    │ State: conversation_thinking, tool_executing
+    │ Message: assistant_message, tool_result_message
+    │
+    ↓ 转换
+Lucid IR (LucidConversation[])
+    ↓ 渲染
+React 组件
+```
+
+---
+
+## 包结构
+
+| 包 | 层级 | 状态 | 描述 |
+|---|------|------|------|
+| `@lucidui/ir` | 协议 | 🚧 设计中 | Lucid IR JSON Schema 和 TypeScript 类型 |
+| `@lucidui/tokens` | 设计系统 | ✅ 就绪 | 设计令牌（颜色、字体、间距） |
+| `@lucidui/react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
+| `@lucidui/stream` | 渲染器 | 🚧 建设中 | 流式内容渲染器 |
+
+---
+
+## 快速开始
+
+### 给开发者 (React 渲染器)
+
+```bash
+pnpm add @lucidui/react @lucidui/tokens
+```
+
+```tsx
+import { Button } from '@lucidui/react'
+
+function App() {
+  return <Button>点击我</Button>
+}
+```
+
+### 给 AI 智能体 (Lucid IR)
+
+```json
+{
+  "conversations": [
+    {
+      "id": "conv-1",
+      "role": "user",
+      "status": "completed",
+      "blocks": [
+        { "id": "b1", "type": "text", "status": "completed", "content": { "text": "你好" } }
+      ]
+    },
+    {
+      "id": "conv-2",
+      "role": "assistant",
+      "status": "streaming",
+      "blocks": [
+        { "id": "b2", "type": "text", "status": "streaming", "content": { "text": "你好..." } },
+        { "id": "b3", "type": "tool", "status": "completed", "content": { "name": "search", "output": "..." } }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 设计哲学
+
+### 双主题系统
+
+**🔷 理性蓝** - 科技蓝 `#0284c7`
+- 适用：数据分析、技术产品、效率工具
+- 代表：效率、精准、计算
+
+**🔶 感性金** - 智慧金 `#f59e0b`
+- 适用：创意工具、人文产品、思考辅助
+- 代表：智慧、思维、人文
+
+### 设计原则
+
+1. **白色基底** - 清晰的视觉基础，无暗色模式
+2. **拒绝 AI 紫** - 拒绝泛滥的 AI 渐变风格
+3. **Block-Based** - 文本和工具并行渲染
+4. **流式优先** - 自修复不完整内容
+5. **无障碍默认** - 可访问性是标配
+
+---
+
+## 路线图
+
+### 第一阶段：基础建设（当前）
+- [x] 设计令牌系统
+- [x] React 基础组件
+- [x] 流式渲染器
+- [ ] Lucid IR Schema 定义
+
+### 第二阶段：协议
+- [ ] Lucid IR JSON Schema
+- [ ] TypeScript 类型定义
+- [ ] AgentX 适配器
+- [ ] 校验工具
+
+### 第三阶段：生态
+- [ ] A2UI 渲染器（等成熟后）
+- [ ] MCP Apps 渲染器（等成熟后）
+- [ ] 文档和示例
 
 ---
 
@@ -382,17 +310,22 @@ Lucid UI (设计语言 / 规范)
 
 **Deepractice AI 开发生态** 的一部分：
 
-| 项目 | 描述 | 关系 |
-|------|------|------|
-| **[AgentX](https://github.com/Deepractice/AgentX)** | AI 智能体开发框架与运行时 | **使用 Lucid UI** 作为组件设计规范 |
-| **[PromptX](https://github.com/Deepractice/PromptX)** | 提示词工程与管理框架 | 生态伙伴 |
-| **[DPML](https://github.com/Deepractice/dpml)** | Deepractice AI 工作流标记语言 | 生态伙伴 |
-| **[DARP](https://github.com/Deepractice/DARP)** | Deepractice 智能体运行时协议 | 生态伙伴 |
+| 项目 | 描述 |
+|------|------|
+| [AgentX](https://github.com/Deepractice/AgentX) | AI 智能体开发框架 |
+| [PromptX](https://github.com/Deepractice/PromptX) | 提示词工程平台 |
+| [DPML](https://github.com/Deepractice/dpml) | Deepractice 标记语言 |
 
-### 应用案例
+---
 
-- **[@agentxjs/ui](https://github.com/Deepractice/AgentX/tree/main/packages/ui)** - AgentX 的 React 组件库，实现 Lucid UI 设计规范
-- **[Portagent](https://github.com/Deepractice/AgentX/tree/main/apps/portagent)** - 基于 Lucid 设计语言构建的开箱即用 AI 智能体门户
+## 开发
+
+```bash
+git clone https://github.com/Deepractice/Lucid-UI.git
+cd Lucid-UI
+pnpm install
+pnpm dev
+```
 
 ---
 
@@ -404,6 +337,4 @@ MIT - 查看 [LICENSE](LICENSE)
 
 <div align="center">
   <strong>用心打造 by <a href="https://deepractice.ai">Deepractice</a></strong>
-  <br/>
-  <em>让 AI 时代更美好</em>
 </div>

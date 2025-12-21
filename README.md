@@ -1,10 +1,10 @@
 <div align="center">
   <h1>Lucid UI</h1>
   <p>
-    <strong>AI-Native Design Language for Agent Platforms</strong>
+    <strong>AI-to-UI Protocol Layer for Agent Applications</strong>
   </p>
   <p>
-    Design Tokens | Component Library | Interaction Patterns
+    Lucid IR | Renderers | Design System
   </p>
 
   <hr/>
@@ -22,359 +22,289 @@
   </p>
 </div>
 
-> 🤖 **For AI Agents:** This is an AI-native design specification optimized for LLM comprehension. Read these guidelines to generate UI following Lucid Design Language principles.
+---
+
+## What is Lucid UI?
+
+**Lucid UI** is an AI-to-UI protocol layer that enables AI agents to generate user interfaces through a standardized intermediate representation.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Lucid UI                             │
+│         "The bridge between AI and UI"                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Layer 1: Lucid IR        JSON Schema for UI description    │
+│  Layer 2: Renderers       React, A2UI, MCP Apps (future)    │
+│  Layer 3: Design System   Tokens, Components, Patterns      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Key Insight
+
+> **The consumer is AI, not developers.**
+
+Traditional component libraries: Developer writes code → Calls components → UI
+
+Lucid protocol: **AI generates Lucid IR → System renders → UI**
 
 ---
 
-## Philosophy
+## Why Lucid UI?
 
-**Lucid** = Clear, Transparent, Understandable
+### The Problem
 
-Based on **shadcn/ui**, we provide a dual theme system for different scenarios:
+| Protocol | Status | Issue |
+|----------|--------|-------|
+| A2UI (Google) | v0.8 Preview | Only Android TV/Wear OS, **no Web** |
+| MCP Apps (Anthropic) | SEP-1865 Draft | Still in design, **not usable** |
 
-### Dual Theme System
+**No production-ready AI-to-UI protocol exists today.**
 
-**🔷 Rational Theme** - Tech Blue `#0284c7`
-- Represents: Efficiency, Precision, Computation
-- Use for: Data analysis, Technical products, Productivity tools
+### The Solution
 
-**🔶 Sentient Theme** - Wisdom Gold `#f59e0b`
-- Represents: Wisdom, Thinking, Humanity, Probability
-- Use for: Creative tools, Human-centric products, Thinking aids
+Lucid UI provides:
+1. **Lucid IR** - A stable internal protocol that works today
+2. **Adapters** - Future compatibility with A2UI, MCP Apps when they mature
+3. **Reference implementation** - React renderer as default
 
-### Design Principles
-
-1. **White Foundation** - Clear visual base for mainstream products
-2. **Dual Modes** - Rational tech vs Sentient creativity
-3. **No Purple, No Black** - Reject AI clichés and niche dark themes
-4. **Clarity over decoration** - Function before form
-5. **Accessibility by default** - Not an afterthought
-
-### Color Philosophy
-
-- **White & Gray Foundation** - Neutral base for all products
-- **Rational Blue** - Default primary, for tech-focused interfaces
-- **Sentient Gold** - Alternative primary, for creative interfaces
-- **No AI Purple** - Deliberately avoiding overused AI gradients
-- **No Dark Mode** - Prioritize mainstream white-background clarity
+```
+AI Agent Events
+    ↓
+Lucid IR (stable internal protocol)
+    ↓
+    ├── ReactRenderer (works today)
+    ├── A2UIRenderer (when A2UI matures)
+    └── MCPAppsRenderer (when MCP Apps matures)
+```
 
 ---
 
-## Quick Start
+## Architecture
 
-### 1. Installation
+### Three-Layer Design
 
-```bash
-pnpm add @lucidui/react @lucidui/tokens
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 1: Lucid IR (Core)                                   │
+│  - JSON Schema definition                                   │
+│  - Block & Conversation standards                           │
+│  - AI-generatable format                                    │
+└─────────────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 2: Renderers                                         │
+│  - ReactRenderer → Web                                      │
+│  - A2UIRenderer → Native (future)                           │
+│  - MCPAppsRenderer → Claude Desktop (future)                │
+└─────────────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 3: Design System                                     │
+│  - @lucidui/tokens (design tokens)                          │
+│  - @lucidui/react (base components)                         │
+│  - @lucidui/stream (streaming renderer)                     │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 2. Setup Tailwind CSS
+### Dependency Inversion
 
-Install Tailwind:
-```bash
-pnpm add -D tailwindcss autoprefixer postcss
+All implementations depend on the Lucid IR abstraction:
+
+```
+        ┌─────────────────────┐
+        │     Lucid IR        │  ← Abstract protocol
+        │   (JSON Schema)     │
+        └──────────┬──────────┘
+                   │
+     ┌─────────────┼─────────────┐
+     │             │             │
+     ▼             ▼             ▼
+┌─────────┐  ┌──────────┐  ┌──────────┐
+│ AgentX  │  │  Other   │  │  A2UI    │
+│   UI    │  │Frameworks│  │ Adapter  │
+└─────────┘  └──────────┘  └──────────┘
 ```
 
-Create `tailwind.config.ts`:
+---
+
+## Lucid IR Specification
+
+### Core Types
+
 ```typescript
-import type { Config } from 'tailwindcss'
-import { lucidPreset } from '@lucidui/tokens/tailwind'
+interface LucidConversation {
+  id: string
+  role: 'user' | 'assistant' | 'system'
+  status: 'streaming' | 'completed' | 'error'
+  blocks: LucidBlock[]
+  timestamp: number
+}
 
-export default {
-  presets: [lucidPreset],
-  content: [
-    './src/**/*.{ts,tsx}',
-    './node_modules/@lucidui/react/dist/**/*.js',
-  ],
-} satisfies Config
-```
+interface LucidBlock {
+  id: string
+  type: 'text' | 'tool' | 'thinking' | 'image' | 'file' | 'error'
+  status: 'streaming' | 'completed' | 'error'
+  content: unknown  // varies by type
+}
 
-Create `postcss.config.js`:
-```javascript
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+// Renderer interface
+interface LucidRenderer<T> {
+  render(conversations: LucidConversation[]): T
 }
 ```
 
-Add to your CSS file:
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
+### Block Types
 
-### 3. Use Components
-
-```tsx
-import { Button } from '@lucidui/react'
-
-export default function App() {
-  return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-2xl space-y-6">
-        <h1 className="text-2xl font-semibold text-foreground">
-          Hello Lucid UI
-        </h1>
-
-        <div className="flex gap-3">
-          <Button>Primary Action</Button>
-          <Button variant="outline">Secondary</Button>
-          <Button variant="ghost">Subtle</Button>
-        </div>
-      </div>
-    </div>
-  )
-}
-```
+| Type | Description | Content |
+|------|-------------|---------|
+| `text` | Text content (supports streaming) | `{ text: string }` |
+| `tool` | Tool/function call result | `{ name, input, output, status }` |
+| `thinking` | AI reasoning process | `{ reasoning: string }` |
+| `image` | Image content | `{ url, alt, width, height }` |
+| `file` | File attachment | `{ name, type, url }` |
+| `error` | Error message | `{ code, message }` |
 
 ---
 
-## Component Usage
+## Relationship with AgentX
 
-### Button
+Lucid UI is abstracted from [AgentX](https://github.com/Deepractice/AgentX) practices:
 
-```tsx
-import { Button } from '@lucidui/react'
-
-// Variants
-<Button variant="default">Primary</Button>
-<Button variant="outline">Secondary</Button>
-<Button variant="ghost">Subtle</Button>
-<Button variant="destructive">Danger</Button>
-
-// Sizes
-<Button size="sm">Small</Button>
-<Button size="default">Normal</Button>
-<Button size="lg">Large</Button>
-
-// As a link
-<Button asChild>
-  <a href="/somewhere">Link Button</a>
-</Button>
-
-// Disabled
-<Button disabled>Disabled</Button>
+```
+AgentX UI (rough implementation, experimental)
+    ↓ abstract & refine
+Lucid IR (protocol specification)
+    ↓ implement
+AgentX UI + Other frameworks (follow the spec)
 ```
 
----
+### Event Flow
 
-## Design Tokens
-
-All design tokens are available in `@lucidui/tokens`:
-
-```typescript
-import { rational, sentient, colors } from '@lucidui/tokens'
-
-// Dual Theme Colors (aligned with AgentX UI)
-rational[600]   // '#0284c7' (Rational Blue - default primary)
-sentient[500]   // '#f59e0b' (Sentient Gold - creative primary)
-
-// Foundation Colors
-colors.gray[100]     // '#F5F5F5' (Light Gray)
-colors.white         // '#FFFFFF' (White background)
-colors.success[500]  // '#10B981' (Success Green)
-colors.error[500]    // '#EF4444' (Error Red)
-
-// Spacing (based on 4px grid)
-spacing[4]   // '1rem' (16px)
-spacing[8]   // '2rem' (32px)
-
-// Typography
-fontSize.base  // ['1rem', { lineHeight: '1.5rem' }]
-fontFamily.sans  // ['Inter', ...]
 ```
-
-### Using Themes
-
-```tsx
-// Default - Rational Theme (tech blue)
-<Button className="bg-primary-500">Analyze Data</Button>
-
-// Explicit Rational Theme
-<Button className="bg-rational-500 hover:bg-rational-600">
-  Calculate
-</Button>
-
-// Sentient Theme (wisdom gold)
-<Button className="bg-sentient-500 hover:bg-sentient-600">
-  Create Idea
-</Button>
-```
-
-### Semantic Colors
-
-```tsx
-// Tailwind classes (recommended)
-<div className="bg-background text-foreground">
-  <p className="text-muted-foreground">Secondary text</p>
-  <div className="border border-border">Content</div>
-</div>
-```
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `bg-background` | #FFFFFF | Main background |
-| `bg-muted` | #F5F5F5 | Subtle background |
-| `text-foreground` | #171717 | Primary text |
-| `text-muted-foreground` | #737373 | Secondary text |
-| `border-border` | #E5E5E5 | Borders |
-| `bg-primary-600` | #0284c7 | Rational blue (default) |
-| `bg-rational-600` | #0284c7 | Tech/efficiency theme |
-| `bg-sentient-500` | #f59e0b | Creative/wisdom theme |
-
----
-
-## Common Patterns
-
-### Page Layout
-
-```tsx
-<div className="min-h-screen bg-background">
-  {/* Header */}
-  <header className="border-b border-border">
-    <div className="container mx-auto px-4 py-4">
-      <h1 className="text-xl font-semibold">App Name</h1>
-    </div>
-  </header>
-
-  {/* Main */}
-  <main className="container mx-auto px-4 py-8">
-    <div className="max-w-2xl space-y-6">
-      {/* Content */}
-    </div>
-  </main>
-</div>
-```
-
-### Card Pattern
-
-```tsx
-<div className="rounded-lg border border-border bg-white p-6 shadow-sm">
-  <h3 className="font-medium text-foreground">Card Title</h3>
-  <p className="text-sm text-muted-foreground">Card description</p>
-</div>
-```
-
-### AI Chat Pattern
-
-```tsx
-<div className="max-w-2xl space-y-4">
-  {/* User message - Rational theme for analytical queries */}
-  <div className="ml-auto max-w-lg rounded-lg bg-rational-500 px-4 py-3 text-white">
-    Analyze this data set
-  </div>
-
-  {/* AI response - Sentient theme for creative suggestions */}
-  <div className="mr-auto max-w-lg rounded-lg bg-sentient-100 border border-sentient-300 px-4 py-3">
-    <p className="text-sentient-900">Let me help you explore the patterns...</p>
-  </div>
-</div>
-```
-
-### Loading State
-
-```tsx
-<div className="flex items-center gap-2 text-muted-foreground">
-  <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-primary-500" />
-  <span>Thinking...</span>
-</div>
+AgentX 4-Layer Events
+    │
+    │ Stream: text_delta, tool_use_start
+    │ State: conversation_thinking, tool_executing
+    │ Message: assistant_message, tool_result_message
+    │
+    ↓ Transform
+Lucid IR (LucidConversation[])
+    ↓ Render
+React Components
 ```
 
 ---
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| `@lucidui/tokens` | Design Tokens - Colors, typography, spacing, etc. |
-| `@lucidui/react` | React Components - Core UI components |
-| `@lucidui/agent` | Agent Components - Chat, streaming, code blocks (planned) |
+| Package | Layer | Status | Description |
+|---------|-------|--------|-------------|
+| `@lucidui/ir` | Protocol | 🚧 Designing | Lucid IR JSON Schema & TypeScript types |
+| `@lucidui/tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
+| `@lucidui/react` | Renderer | ✅ Ready | React renderer & base components |
+| `@lucidui/stream` | Renderer | 🚧 Building | Streaming content renderer |
 
 ---
 
-## Tech Stack
+## Quick Start
 
-- **React 18** + TypeScript
-- **Radix UI Primitives** - Accessible component foundation
-- **Tailwind CSS** - Styling system
-- **class-variance-authority** - Variant management
-- **Vite** + pnpm workspace
+### For Developers (React Renderer)
+
+```bash
+pnpm add @lucidui/react @lucidui/tokens
+```
+
+```tsx
+import { Button } from '@lucidui/react'
+
+function App() {
+  return <Button>Click me</Button>
+}
+```
+
+### For AI Agents (Lucid IR)
+
+```json
+{
+  "conversations": [
+    {
+      "id": "conv-1",
+      "role": "user",
+      "status": "completed",
+      "blocks": [
+        { "id": "b1", "type": "text", "status": "completed", "content": { "text": "Hello" } }
+      ]
+    },
+    {
+      "id": "conv-2",
+      "role": "assistant",
+      "status": "streaming",
+      "blocks": [
+        { "id": "b2", "type": "text", "status": "streaming", "content": { "text": "Hi there..." } },
+        { "id": "b3", "type": "tool", "status": "completed", "content": { "name": "search", "output": "..." } }
+      ]
+    }
+  ]
+}
+```
 
 ---
 
-## Documentation
+## Design Philosophy
 
-- **[Design Tokens Reference](packages/tokens/src/)** - Complete token definitions
-- **[Component API](packages/react/src/)** - All component source code
-- **[Contributing Guide](CONTRIBUTING.md)** - Development guidelines
+### Dual Theme System
+
+**Rational Theme** - Tech Blue `#0284c7`
+- For: Data analysis, Technical products, Productivity tools
+- Represents: Efficiency, Precision, Computation
+
+**Sentient Theme** - Wisdom Gold `#f59e0b`
+- For: Creative tools, Human-centric products, Thinking aids
+- Represents: Wisdom, Thinking, Humanity
+
+### Design Principles
+
+1. **White Foundation** - Clear visual base, no dark mode
+2. **No AI Purple** - Reject overused AI clichés
+3. **Block-Based** - Parallel rendering of text + tools
+4. **Streaming-First** - Self-healing incomplete content
+5. **Accessibility by Default** - Not an afterthought
 
 ---
 
 ## Roadmap
 
-### Foundation ✅
-- [x] Design token system (colors, typography, spacing)
-- [x] Tailwind CSS integration
-- [x] Dual theme system (Rational + Sentient)
-- [x] Button component
-- [x] Demo site with comprehensive guidelines
+### Phase 1: Foundation (Current)
+- [x] Design token system
+- [x] React base components
+- [x] Streaming renderer
+- [ ] Lucid IR schema definition
 
-### AI-First Enhancement 🚧
-- [ ] **AI Reading Guide** - Decision trees, anti-patterns, component selection matrix
-- [ ] **Conversation Pattern Library** - Analytical, Creative, Multi-Agent patterns
-- [ ] **Component Metadata** - Structured annotations for LLM comprehension
+### Phase 2: Protocol
+- [ ] Lucid IR JSON Schema
+- [ ] TypeScript type definitions
+- [ ] AgentX adapter
+- [ ] Validation tools
 
-### Components & Patterns
-- [ ] AI Agent components (ChatBubble, StreamText, ThinkingIndicator, AgentAvatar)
-- [ ] Input component
-- [ ] Card component
-- [ ] Form patterns
-
-### Documentation & Distribution
-- [ ] Storybook documentation site
-- [ ] npm package publication
+### Phase 3: Ecosystem
+- [ ] A2UI renderer (when mature)
+- [ ] MCP Apps renderer (when mature)
+- [ ] Documentation & examples
 
 ---
 
-## Development
+## Why Not Just Wait for A2UI / MCP Apps?
 
-```bash
-# Clone and install
-git clone https://github.com/Deepractice/Lucid-UI.git
-cd Lucid-UI
-pnpm install
+> "A2UI and MCP Apps are future targets. Lucid IR is today's bridge. We're not reinventing the wheel—we're building an adapter that can fit any wheel."
 
-# Development mode
-pnpm dev
-
-# Build all packages
-pnpm build
-
-# Type check
-pnpm tsc --noEmit
-```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
----
-
-## Architecture
-
-Lucid UI serves as the design foundation in the Deepractice ecosystem:
-
-```
-AgentX (Product / Runtime)
-  ↓ uses
-@agentxjs/ui (Component Implementation)
-  ↓ references
-Lucid UI (Design Language / Specification)
-```
-
-- **AgentX** defines "what components are needed" (Studio, MessagePane, UserMessage...) - product-driven
-- **Lucid UI** answers "how these components look and behave" - design Source of Truth
+| Approach | Risk |
+|----------|------|
+| Wait for standards | AgentX has no UI, product stalls |
+| Bind to A2UI directly | A2UI changes, major rewrite needed |
+| Bind to MCP Apps directly | Same problem |
+| **Lucid IR + Adapters** | Internal stability, external flexibility |
 
 ---
 
@@ -382,17 +312,22 @@ Lucid UI (Design Language / Specification)
 
 Part of the **Deepractice AI development ecosystem**:
 
-| Project | Description | Relationship |
-|---------|-------------|--------------|
-| **[AgentX](https://github.com/Deepractice/AgentX)** | AI agent development framework and runtime | **Uses Lucid UI** for component design specs |
-| **[PromptX](https://github.com/Deepractice/PromptX)** | Prompt engineering and management framework | Ecosystem partner |
-| **[DPML](https://github.com/Deepractice/dpml)** | Deepractice Markup Language for AI workflows | Ecosystem partner |
-| **[DARP](https://github.com/Deepractice/DARP)** | Deepractice Agent Runtime Protocol | Ecosystem partner |
+| Project | Description |
+|---------|-------------|
+| [AgentX](https://github.com/Deepractice/AgentX) | AI Agent development framework |
+| [PromptX](https://github.com/Deepractice/PromptX) | Prompt engineering platform |
+| [DPML](https://github.com/Deepractice/dpml) | Deepractice Markup Language |
 
-### Used By
+---
 
-- **[@agentxjs/ui](https://github.com/Deepractice/AgentX/tree/main/packages/ui)** - AgentX's React component library implements Lucid UI design specifications
-- **[Portagent](https://github.com/Deepractice/AgentX/tree/main/apps/portagent)** - Ready-to-use AI agent portal built with Lucid design language
+## Development
+
+```bash
+git clone https://github.com/Deepractice/Lucid-UI.git
+cd Lucid-UI
+pnpm install
+pnpm dev
+```
 
 ---
 
@@ -403,7 +338,5 @@ MIT - see [LICENSE](LICENSE)
 ---
 
 <div align="center">
-  <strong>Built with care by <a href="https://deepractice.ai">Deepractice</a></strong>
-  <br/>
-  <em>Clarity over complexity in the AI era</em>
+  <strong>Built with clarity by <a href="https://deepractice.ai">Deepractice</a></strong>
 </div>
