@@ -21,6 +21,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@lucidui/ir": "workspace:*",
     "@lucidui/tokens": "workspace:*",
     "@lucidui/stream": "workspace:*",
     "clsx": "^2.1.0",

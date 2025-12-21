@@ -71,6 +71,9 @@ importers:
 
   packages/agent:
     dependencies:
+      '@lucidui/ir':
+        specifier: workspace:*
+        version: link:../ir
       '@lucidui/stream':
         specifier: workspace:*
         version: link:../stream
@@ -96,6 +99,15 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+
+  packages/ir:
+    devDependencies:
       tsup:
         specifier: ^8.0.0
         version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(typescript@5.9.3)
@@ -151,6 +163,9 @@ importers:
 
   packages/stream:
     dependencies:
+      '@lucidui/ir':
+        specifier: workspace:*
+        version: link:../ir
       '@lucidui/tokens':
         specifier: workspace:*
         version: link:../tokens

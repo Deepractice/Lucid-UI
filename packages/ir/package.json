@@ -1,0 +1,41 @@
+{
+  "name": "@lucidui/ir",
+  "version": "0.0.1",
+  "description": "Lucid IR - The core protocol types for AI-to-UI generation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
+  "keywords": [
+    "lucid-ir",
+    "protocol",
+    "ai-to-ui",
+    "json-schema",
+    "typescript",
+    "intermediate-representation"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deepractice/Lucid-UI.git",
+    "directory": "packages/ir"
+  }
+}
