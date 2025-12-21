@@ -96,6 +96,23 @@ body {
   animation: shimmer 2s infinite linear;
 }
 
+/* Shimmer for Dark text (light theme) */
+.animate-shimmer-dark {
+  background: linear-gradient(
+    90deg,
+    #111827 0%,
+    #111827 40%,
+    #6b7280 50%,
+    #111827 60%,
+    #111827 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite linear;
+}
+
 /* Slide up animation for Action Sheet */
 @keyframes slide-up {
   from {

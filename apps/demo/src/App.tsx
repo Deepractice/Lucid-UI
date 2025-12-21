@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, createContext, useContext } from 'react'
 import type { LucidConversation, LucidBlock } from '@lucidui/ir'
+import { ComponentLibrary } from './App.components'
 
 // ============================================================================
 // Theme Context
@@ -13,13 +14,25 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
 
 const useTheme = () => useContext(ThemeContext)
 
+// ============================================================================
+// View Context
+// ============================================================================
+
+type View = 'protocol' | 'components'
+const ViewContext = createContext<{ view: View; setView: (v: View) => void }>({
+  view: 'protocol',
+  setView: () => {}
+})
+
+const useView = () => useContext(ViewContext)
+
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('lucid-theme') as Theme
-      return saved || 'light'
+      return saved || 'dark'
     }
-    return 'light'
+    return 'dark'
   })
 
   const toggle = useCallback(() => {
@@ -365,6 +378,7 @@ function ThemeToggle() {
 
 function AppContent() {
   const { theme } = useTheme()
+  const { view, setView } = useView()
   const isDark = theme === 'dark'
   const [events, setEvents] = useState<AIEvent[]>([])
   const [activeEventIndex, setActiveEventIndex] = useState(-1)
@@ -480,18 +494,45 @@ function AppContent() {
   }, [])
 
   return (
-    <div className={`min-h-screen transition-colors ${isDark ? 'bg-gray-950 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`min-h-screen transition-colors overflow-x-hidden ${isDark ? 'bg-gray-950 text-white' : 'bg-gray-50 text-gray-900'}`}>
       {/* Header */}
-      <header className={`border-b backdrop-blur-sm sticky top-0 z-10 ${isDark ? 'border-white/10 bg-gray-950/80' : 'border-gray-200 bg-white/80'}`}>
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Lucid A2UI" className="w-8 h-8" />
-            <div>
-              <h1 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lucid A2UI</h1>
-              <p className={`text-xs hidden sm:block ${isDark ? 'text-white/50' : 'text-gray-500'}`}>AI-to-UI Intermediate Representation</p>
+      <header className={`border-b backdrop-blur-sm fixed top-0 left-0 right-0 z-50 ${isDark ? 'border-white/10 bg-gray-950/80' : 'border-gray-200 bg-white/80'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-2.5 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className={`p-0.5 rounded-lg border shadow-sm ${isDark ? 'border-white/20 bg-white/5' : 'border-gray-200 bg-white'}`}>
+              <img src="/logo.png" alt="Lucid A2UI" className="w-7 h-7 rounded-md" />
+            </div>
+            <div className="hidden sm:block">
+              <h1 className={`text-lg font-semibold animate-breathe ${isDark ? 'text-white' : 'text-gray-900'}`}>Lucid A2UI</h1>
+              <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>AI-to-UI Intermediate Representation</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+
+          {/* Navigation Tabs */}
+          <nav className="flex items-center gap-6">
+            <button
+              onClick={() => setView('protocol')}
+              className={`text-sm font-medium transition-colors ${
+                view === 'protocol'
+                  ? isDark ? 'text-white' : 'text-gray-900'
+                  : isDark ? 'text-white/50 hover:text-white/80' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Protocol
+            </button>
+            <button
+              onClick={() => setView('components')}
+              className={`text-sm font-medium transition-colors ${
+                view === 'components'
+                  ? isDark ? 'text-white' : 'text-gray-900'
+                  : isDark ? 'text-white/50 hover:text-white/80' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Components
+            </button>
+          </nav>
+
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <a
               href="https://github.com/Deepractice/Lucid-UI"
               target="_blank"
@@ -504,186 +545,226 @@ function AppContent() {
               </svg>
             </a>
             <ThemeToggle />
-            <button
-              onClick={runSimulation}
-              disabled={isRunning}
-              className={`
-                px-4 py-2 rounded-lg text-sm font-medium transition-all
-                ${isRunning
-                  ? isDark ? 'bg-white/10 text-white/50 cursor-not-allowed' : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-500 text-white'}
-              `}
-            >
-              {isRunning ? 'Running...' : 'Run Demo'}
-            </button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-6">
-        {/* Introduction */}
-        <div className={`mb-6 p-5 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
-          <h2 className={`text-lg font-medium mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Lucid A2UI Protocol Demo
-          </h2>
-          <p className={`text-sm leading-relaxed ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
-            This demo shows how Lucid A2UI works: transforming raw AI Agent event streams into a structured
-            Intermediate Representation (IR), which is then rendered into a beautiful user interface.
-            Click "Run Demo" to see the real-time transformation process.
-          </p>
+      {/* View: Component Library - needs pt-16 for fixed header offset */}
+      {view === 'components' && (
+        <div className="pt-16">
+          <ComponentLibrary />
         </div>
+      )}
 
-        {/* Architecture Overview - Mobile Only */}
-        <div className={`lg:hidden mb-6 p-4 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
-          <div className="flex flex-col items-center gap-2 text-sm">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isDark ? 'bg-green-500/10' : 'bg-green-50'}`}>
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              <span className={isDark ? 'text-green-400' : 'text-green-700'}>AI Agent Events</span>
-            </div>
-            <span className={`text-lg ${isDark ? 'text-white/30' : 'text-gray-300'}`}>↓</span>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isDark ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-              <span className={isDark ? 'text-blue-400' : 'text-blue-700'}>Lucid IR</span>
-            </div>
-            <span className={`text-lg ${isDark ? 'text-white/30' : 'text-gray-300'}`}>↓</span>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isDark ? 'bg-purple-500/10' : 'bg-purple-50'}`}>
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-              <span className={isDark ? 'text-purple-400' : 'text-purple-700'}>Rendered UI</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Three Column Layout - Desktop */}
-        <div className="hidden lg:grid grid-cols-[1fr,auto,1.2fr,auto,1fr] gap-0 h-[600px]">
-          <div className={`rounded-l-xl border overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-            <EventPanel events={events} activeIndex={activeEventIndex} />
-          </div>
-          <FlowIndicator active={isRunning} />
-          <div className={`border-y overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-            <IRPanel conversation={conversation} />
-          </div>
-          <FlowIndicator active={isRunning} />
-          <div className={`rounded-r-xl border overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-            <RenderedPanel conversation={conversation} />
-          </div>
-        </div>
-
-        {/* Mobile Layout */}
-        <div className="lg:hidden space-y-4">
-          {/* Events Panel */}
-          <div className={`rounded-xl border overflow-hidden h-[300px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-            <EventPanel events={events} activeIndex={activeEventIndex} />
-          </div>
-
-          {/* Flow Arrow */}
-          <div className="flex justify-center">
-            <div className={`flex items-center gap-2 ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
-              <span>↓</span>
-              <span className="text-xs">transforms to</span>
-              <span>↓</span>
-            </div>
-          </div>
-
-          {/* IR Panel */}
-          <div className={`rounded-xl border overflow-hidden h-[350px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-            <IRPanel conversation={conversation} />
-          </div>
-
-          {/* Flow Arrow */}
-          <div className="flex justify-center">
-            <div className={`flex items-center gap-2 ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
-              <span>↓</span>
-              <span className="text-xs">renders as</span>
-              <span>↓</span>
-            </div>
-          </div>
-
-          {/* Rendered Panel */}
-          <div className={`rounded-xl border overflow-hidden h-[300px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-            <RenderedPanel conversation={conversation} />
-          </div>
-        </div>
-
-        {/* Related Packages */}
-        <div className={`mt-8 p-5 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
-          <h3 className={`text-sm font-medium mb-4 ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
-            Related Packages
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span>📦</span>
-                <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/ir</span>
+      {/* View: Protocol Demo */}
+      {view === 'protocol' && (
+        <div className="pt-14">
+            {/* Main Content */}
+            <main className="max-w-7xl mx-auto px-4 lg:px-6 pt-6 pb-2">
+            {/* Introduction */}
+            <div className={`mb-4 p-4 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h2 className={`text-base font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    Lucid A2UI Protocol Demo
+                  </h2>
+                  <p className={`text-sm ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                    See how it works: transforming streaming AI events into a structured Intermediate Representation, then rendering into the user interface.
+                  </p>
+                </div>
+                <button
+                  onClick={runSimulation}
+                  disabled={isRunning}
+                  className={`
+                    hidden sm:block flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all
+                    ${isRunning
+                      ? isDark ? 'bg-white/10 text-white/50 cursor-not-allowed' : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-500 text-white'}
+                  `}
+                >
+                  {isRunning ? 'Running...' : 'Run Demo'}
+                </button>
               </div>
-              <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
-                Core IR types and type guards
+              <button
+                onClick={runSimulation}
+                disabled={isRunning}
+                className={`
+                  sm:hidden w-full mt-4 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
+                  ${isRunning
+                    ? isDark ? 'bg-white/10 text-white/50 cursor-not-allowed' : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-blue-600 hover:bg-blue-500 text-white'}
+                `}
+              >
+                {isRunning ? 'Running...' : 'Run Demo'}
+              </button>
+            </div>
+
+            {/* Architecture Overview - Mobile Only */}
+            <div className={`lg:hidden mb-6 p-4 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
+              <div className="flex flex-col items-center gap-2 text-sm">
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isDark ? 'bg-green-500/10' : 'bg-green-50'}`}>
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                  <span className={isDark ? 'text-green-400' : 'text-green-700'}>AI Agent Events</span>
+                </div>
+                <span className={`text-lg ${isDark ? 'text-white/30' : 'text-gray-300'}`}>↓</span>
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isDark ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                  <span className={isDark ? 'text-blue-400' : 'text-blue-700'}>Lucid IR</span>
+                </div>
+                <span className={`text-lg ${isDark ? 'text-white/30' : 'text-gray-300'}`}>↓</span>
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isDark ? 'bg-purple-500/10' : 'bg-purple-50'}`}>
+                  <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                  <span className={isDark ? 'text-purple-400' : 'text-purple-700'}>Rendered UI</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Three Column Layout - Desktop */}
+            <div className="hidden lg:grid grid-cols-[1fr,auto,1.2fr,auto,1fr] gap-0 h-[calc(100vh-240px)] min-h-[300px]">
+              <div className={`rounded-l-xl border overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
+                <EventPanel events={events} activeIndex={activeEventIndex} />
+              </div>
+              <FlowIndicator active={isRunning} />
+              <div className={`border-y overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
+                <IRPanel conversation={conversation} />
+              </div>
+              <FlowIndicator active={isRunning} />
+              <div className={`rounded-r-xl border overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
+                <RenderedPanel conversation={conversation} />
+              </div>
+            </div>
+
+            {/* Mobile Layout */}
+            <div className="lg:hidden space-y-4">
+              {/* Events Panel */}
+              <div className={`rounded-xl border overflow-hidden h-[300px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
+                <EventPanel events={events} activeIndex={activeEventIndex} />
+              </div>
+
+              {/* Flow Arrow */}
+              <div className="flex justify-center">
+                <div className={`flex items-center gap-2 ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
+                  <span>↓</span>
+                  <span className="text-xs">transforms to</span>
+                  <span>↓</span>
+                </div>
+              </div>
+
+              {/* IR Panel */}
+              <div className={`rounded-xl border overflow-hidden h-[350px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
+                <IRPanel conversation={conversation} />
+              </div>
+
+              {/* Flow Arrow */}
+              <div className="flex justify-center">
+                <div className={`flex items-center gap-2 ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
+                  <span>↓</span>
+                  <span className="text-xs">renders as</span>
+                  <span>↓</span>
+                </div>
+              </div>
+
+              {/* Rendered Panel */}
+              <div className={`rounded-xl border overflow-hidden h-[300px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
+                <RenderedPanel conversation={conversation} />
+              </div>
+            </div>
+
+            {/* Related Packages - Hidden on desktop for compact view */}
+            <div className={`lg:hidden mt-6 p-4 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
+              <h3 className={`text-sm font-medium mb-4 ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
+                Related Packages
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span>📦</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/ir</span>
+                  </div>
+                  <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                    Core IR types and type guards
+                  </p>
+                </div>
+                <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span>📦</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/stream</span>
+                  </div>
+                  <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                    Streaming markdown renderer
+                  </p>
+                </div>
+                <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span>📦</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/react</span>
+                  </div>
+                  <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                    React components library
+                  </p>
+                </div>
+                <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span>📦</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/tokens</span>
+                  </div>
+                  <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                    Design tokens and themes
+                  </p>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          {/* Footer */}
+          <footer className={`border-t mt-2 py-2 ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
+            <div className={`max-w-7xl mx-auto px-6 text-center text-xs ${isDark ? 'text-white/40' : 'text-gray-400'}`}>
+              <p>
+                Powered by{' '}
+                <a href="https://deepractice.ai" target="_blank" rel="noopener noreferrer" className={`transition-colors ${isDark ? 'hover:text-white/60' : 'hover:text-gray-600'}`}>
+                  Deepractice
+                </a>
+                {' · '}
+                Author{' '}
+                <a href="https://github.com/deepracticexc" target="_blank" rel="noopener noreferrer" className={`transition-colors ${isDark ? 'hover:text-white/60' : 'hover:text-gray-600'}`}>
+                  Cliff Yang
+                </a>
+                {' · '}
+                <a href="https://github.com/Deepractice/Lucid-UI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className={`transition-colors ${isDark ? 'hover:text-white/60' : 'hover:text-gray-600'}`}>
+                  MIT License
+                </a>
               </p>
             </div>
-            <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span>📦</span>
-                <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/stream</span>
-              </div>
-              <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
-                Streaming markdown renderer
-              </p>
-            </div>
-            <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span>📦</span>
-                <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/react</span>
-              </div>
-              <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
-                React components library
-              </p>
-            </div>
-            <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span>📦</span>
-                <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@lucidui/tokens</span>
-              </div>
-              <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
-                Design tokens and themes
-              </p>
-            </div>
-          </div>
+          </footer>
         </div>
-      </main>
-
-      {/* Footer */}
-      <footer className={`border-t mt-12 py-6 ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
-        <div className={`max-w-7xl mx-auto px-6 text-center text-xs ${isDark ? 'text-white/40' : 'text-gray-400'}`}>
-          <p>Lucid A2UI - The bridge between AI and UI</p>
-          <p className="mt-1">
-            Powered by{' '}
-            <a href="https://deepractice.ai" target="_blank" rel="noopener noreferrer" className={`transition-colors ${isDark ? 'hover:text-white/60' : 'hover:text-gray-600'}`}>
-              Deepractice
-            </a>
-            {' · '}
-            Author{' '}
-            <a href="https://github.com/deepracticexc" target="_blank" rel="noopener noreferrer" className={`transition-colors ${isDark ? 'hover:text-white/60' : 'hover:text-gray-600'}`}>
-              Cliff Yang
-            </a>
-            {' · '}
-            <a href="https://github.com/Deepractice/Lucid-UI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className={`transition-colors ${isDark ? 'hover:text-white/60' : 'hover:text-gray-600'}`}>
-              MIT License
-            </a>
-          </p>
-        </div>
-      </footer>
+      )}
     </div>
   )
 }
 
 // ============================================================================
-// Main App Component (with Theme Provider)
+// View Provider
+// ============================================================================
+
+function ViewProvider({ children }: { children: React.ReactNode }) {
+  const [view, setView] = useState<View>('protocol')
+  return (
+    <ViewContext.Provider value={{ view, setView }}>
+      {children}
+    </ViewContext.Provider>
+  )
+}
+
+// ============================================================================
+// Main App Component (with Theme and View Providers)
 // ============================================================================
 
 export default function App() {
   return (
     <ThemeProvider>
-      <AppContent />
+      <ViewProvider>
+        <AppContent />
+      </ViewProvider>
     </ThemeProvider>
   )
 }
