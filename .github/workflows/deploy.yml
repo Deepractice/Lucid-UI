@@ -36,7 +36,9 @@ jobs:
 
       - name: Build packages
         run: |
+          pnpm -F @lucidui/ir build
           pnpm -F @lucidui/tokens build
+          pnpm -F @lucidui/stream build
           pnpm -F @lucidui/react build
 
       - name: Build demo
