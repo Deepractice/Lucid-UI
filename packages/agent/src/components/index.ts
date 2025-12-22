@@ -10,9 +10,14 @@ export * from './MessageAvatar'
 // Chat components
 export * from './ChatBubble'
 export * from './ChatInput'
+export * from './ChatMessage'
+export * from './MentionPopover'
+
+// Streaming & AI status
+export * from './StreamText'
+export * from './ThinkingIndicator'
 
 // Message components
-export * from './ThinkingIndicator'
 export * from './ToolResult'
 export * from './MessageList'
 export * from './SourceBlock'

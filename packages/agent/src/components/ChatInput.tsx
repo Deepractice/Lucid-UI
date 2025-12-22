@@ -42,12 +42,18 @@ import { cn } from '../utils'
 
 export type ChatStatus = 'idle' | 'submitted' | 'streaming' | 'error'
 
-export interface MentionItem {
+/**
+ * @deprecated Use MentionAgent from MentionPopover instead
+ */
+export interface ChatInputMentionItem {
   id: string
   name: string
   avatar?: string
   description?: string
 }
+
+// Internal alias for backward compatibility
+type MentionItem = ChatInputMentionItem
 
 // ============================================================================
 // ChatInput (Container)
@@ -317,7 +323,7 @@ export const ChatInputTextarea = React.forwardRef<
 
         {/* Mention popup */}
         {showMentions && filteredMentions.length > 0 && mentionPosition && (
-          <MentionPopover
+          <InternalMentionPopover
             items={filteredMentions}
             selectedIndex={mentionIndex}
             onSelect={selectMention}
@@ -466,10 +472,11 @@ export const ChatInputSubmit = React.forwardRef<HTMLButtonElement, ChatInputSubm
 ChatInputSubmit.displayName = 'ChatInputSubmit'
 
 // ============================================================================
-// MentionPopover
+// Internal MentionPopover (simple version for ChatInput)
+// For full-featured MentionPopover, use the standalone component
 // ============================================================================
 
-interface MentionPopoverProps {
+interface InternalMentionPopoverProps {
   items: MentionItem[]
   selectedIndex: number
   onSelect: (item: MentionItem) => void
@@ -478,15 +485,16 @@ interface MentionPopoverProps {
 }
 
 /**
- * Popup for @mention selection.
+ * Internal popup for @mention selection.
+ * @internal
  */
-export function MentionPopover({
+function InternalMentionPopover({
   items,
   selectedIndex,
   onSelect,
   style,
   className,
-}: MentionPopoverProps) {
+}: InternalMentionPopoverProps) {
   return (
     <div
       className={cn(
