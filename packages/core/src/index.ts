@@ -53,7 +53,7 @@ export type ContentStatus = 'streaming' | 'completed' | 'error'
 /**
  * Block types supported by Lucid IR
  */
-export type BlockType = 'text' | 'tool' | 'thinking' | 'image' | 'file' | 'error'
+export type BlockType = 'text' | 'tool' | 'thinking' | 'image' | 'file' | 'error' | 'source'
 
 // ============================================================================
 // Block Content Types
@@ -68,8 +68,40 @@ export interface TextBlockContent {
 
 /**
  * Status for tool execution
+ *
+ * Extended status model inspired by Vercel AI SDK for fine-grained control:
+ * - `pending`: Tool call queued, not yet started
+ * - `streaming`: Tool input parameters are being streamed
+ * - `ready`: Input parameters complete, ready to execute
+ * - `running`: Tool is executing
+ * - `approval-required`: Waiting for user approval before execution
+ * - `approved`: User approved, proceeding with execution
+ * - `denied`: User denied the tool execution
+ * - `success`: Tool executed successfully
+ * - `error`: Tool execution failed
  */
-export type ToolStatus = 'pending' | 'running' | 'success' | 'error'
+export type ToolStatus =
+  | 'pending'
+  | 'streaming'
+  | 'ready'
+  | 'running'
+  | 'approval-required'
+  | 'approved'
+  | 'denied'
+  | 'success'
+  | 'error'
+
+/**
+ * User approval response for tool execution
+ */
+export interface ToolApproval {
+  /** Unique identifier for this approval request */
+  id: string
+  /** Whether the user approved the execution */
+  approved?: boolean
+  /** Optional reason provided by user */
+  reason?: string
+}
 
 /**
  * Content for tool/function call blocks
@@ -77,7 +109,7 @@ export type ToolStatus = 'pending' | 'running' | 'success' | 'error'
 export interface ToolBlockContent {
   /** Tool/function name */
   name: string
-  /** Input parameters */
+  /** Input parameters (may be partial during streaming) */
   input: unknown
   /** Output result (when completed) */
   output?: unknown
@@ -85,6 +117,8 @@ export interface ToolBlockContent {
   status: ToolStatus
   /** Error message (when status is 'error') */
   error?: string
+  /** User approval information (for approval-required, approved, denied states) */
+  approval?: ToolApproval
 }
 
 /**
@@ -125,6 +159,34 @@ export interface ErrorBlockContent {
 }
 
 /**
+ * Source type for RAG applications
+ */
+export type SourceType = 'url' | 'document'
+
+/**
+ * Content for source/citation blocks (used in RAG applications)
+ *
+ * Sources indicate where information was retrieved from, useful for
+ * showing citations and references in AI-generated responses.
+ */
+export interface SourceBlockContent {
+  /** Unique identifier for this source */
+  sourceId: string
+  /** Type of source */
+  sourceType: SourceType
+  /** Title of the source */
+  title: string
+  /** URL (for url type) or document location */
+  url?: string
+  /** MIME type (for document type) */
+  mediaType?: string
+  /** Original filename (for document type) */
+  filename?: string
+  /** Relevant excerpt or snippet from the source */
+  excerpt?: string
+}
+
+/**
  * Union type for all block content types
  */
 export type BlockContent =
@@ -134,6 +196,7 @@ export type BlockContent =
   | ImageBlockContent
   | FileBlockContent
   | ErrorBlockContent
+  | SourceBlockContent
 
 // ============================================================================
 // Main Types
@@ -149,6 +212,7 @@ export type BlockContent =
  * - `image`: Image content
  * - `file`: File attachment
  * - `error`: Error message
+ * - `source`: Citation/reference from RAG
  *
  * @example
  * ```typescript
@@ -168,6 +232,18 @@ export type BlockContent =
  *     input: { query: 'weather' },
  *     output: { results: [...] },
  *     status: 'success'
+ *   }
+ * }
+ *
+ * const sourceBlock: LucidBlock = {
+ *   id: 'block-3',
+ *   type: 'source',
+ *   status: 'completed',
+ *   content: {
+ *     sourceId: 'src-1',
+ *     sourceType: 'url',
+ *     title: 'Weather API Documentation',
+ *     url: 'https://api.weather.com/docs'
  *   }
  * }
  * ```
@@ -192,7 +268,9 @@ export interface LucidBlock<T extends BlockType = BlockType> {
             ? FileBlockContent
             : T extends 'error'
               ? ErrorBlockContent
-              : BlockContent
+              : T extends 'source'
+                ? SourceBlockContent
+                : BlockContent
 }
 
 /**
@@ -313,6 +391,42 @@ export function isFileBlock(block: LucidBlock): block is LucidBlock<'file'> {
 export function isErrorBlock(block: LucidBlock): block is LucidBlock<'error'> {
   return block.type === 'error'
 }
+
+/**
+ * Type guard to check if a block is a source block
+ */
+export function isSourceBlock(block: LucidBlock): block is LucidBlock<'source'> {
+  return block.type === 'source'
+}
+
+// ============================================================================
+// Tool Status Helpers
+// ============================================================================
+
+/**
+ * Check if tool requires user approval
+ */
+export function isToolAwaitingApproval(block: LucidBlock<'tool'>): boolean {
+  return block.content.status === 'approval-required'
+}
+
+/**
+ * Check if tool is in a terminal state (success, error, or denied)
+ */
+export function isToolTerminal(block: LucidBlock<'tool'>): boolean {
+  return ['success', 'error', 'denied'].includes(block.content.status)
+}
+
+/**
+ * Check if tool is currently executing
+ */
+export function isToolExecuting(block: LucidBlock<'tool'>): boolean {
+  return ['running', 'approved'].includes(block.content.status)
+}
+
+// ============================================================================
+// Status Guards
+// ============================================================================
 
 /**
  * Type guard to check if content is streaming

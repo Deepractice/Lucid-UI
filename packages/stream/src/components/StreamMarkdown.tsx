@@ -1,8 +1,6 @@
 import * as React from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { cn, healMarkdown } from '../utils'
-import { CodeBlock } from './CodeBlock'
+import { Streamdown } from 'streamdown'
+import { cn } from '../utils'
 
 export interface StreamMarkdownProps {
   /**
@@ -10,7 +8,8 @@ export interface StreamMarkdownProps {
    */
   content: string
   /**
-   * Whether content is still streaming (applies self-healing)
+   * Whether content is still streaming
+   * Note: Streamdown handles streaming automatically via Remend
    */
   isStreaming?: boolean
   /**
@@ -22,13 +21,17 @@ export interface StreamMarkdownProps {
 /**
  * StreamMarkdown Component
  *
- * Renders markdown content with support for streaming scenarios.
- * Automatically heals incomplete markdown when streaming.
+ * Renders markdown content with full streaming support.
+ * Powered by Vercel Streamdown for optimal AI streaming scenarios.
  *
  * Features:
  * - GitHub Flavored Markdown (tables, task lists, strikethrough)
- * - Syntax highlighted code blocks
- * - Self-healing for incomplete markdown during streaming
+ * - Syntax highlighted code blocks (Shiki)
+ * - LaTeX math equations (KaTeX)
+ * - Mermaid diagrams
+ * - Automatic self-healing for incomplete markdown (Remend)
+ * - Memoized rendering for performance
+ * - Security hardening (rehype-harden)
  *
  * @example
  * ```tsx
@@ -43,9 +46,6 @@ export function StreamMarkdown({
   isStreaming = false,
   className,
 }: StreamMarkdownProps) {
-  // Apply self-healing if streaming
-  const processedContent = isStreaming ? healMarkdown(content) : content
-
   return (
     <div
       className={cn(
@@ -66,46 +66,12 @@ export function StreamMarkdown({
         className
       )}
     >
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={{
-          // Custom code block rendering
-          code({ node, className: codeClassName, children, ...props }) {
-            const match = /language-(\w+)/.exec(codeClassName || '')
-            const isInline = !match
-
-            if (isInline) {
-              return (
-                <code className={codeClassName} {...props}>
-                  {children}
-                </code>
-              )
-            }
-
-            return (
-              <CodeBlock language={match[1]}>
-                {String(children).replace(/\n$/, '')}
-              </CodeBlock>
-            )
-          },
-          // Custom link rendering (open in new tab for external links)
-          a({ href, children, ...props }) {
-            const isExternal = href?.startsWith('http')
-            return (
-              <a
-                href={href}
-                target={isExternal ? '_blank' : undefined}
-                rel={isExternal ? 'noopener noreferrer' : undefined}
-                {...props}
-              >
-                {children}
-              </a>
-            )
-          },
-        }}
-      >
-        {processedContent}
-      </ReactMarkdown>
+      <Streamdown mode={isStreaming ? 'streaming' : 'static'}>{content}</Streamdown>
     </div>
   )
 }
+
+/**
+ * Re-export Streamdown component for advanced usage
+ */
+export { Streamdown } from 'streamdown'

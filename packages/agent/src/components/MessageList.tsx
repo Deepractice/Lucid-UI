@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { cn } from '../utils'
+import { cn, throttle } from '../utils'
 
 export interface Message {
   id: string
@@ -24,6 +24,13 @@ export interface MessageListProps {
    */
   autoScroll?: boolean
   /**
+   * Throttle interval in milliseconds for scroll updates during streaming.
+   * Reduces re-renders when messages update frequently.
+   * Set to 0 or undefined to disable throttling.
+   * @default undefined (no throttling)
+   */
+  throttleMs?: number
+  /**
    * Additional CSS classes
    */
   className?: string
@@ -33,12 +40,21 @@ export interface MessageListProps {
  * MessageList Component
  *
  * Container for displaying a list of chat messages.
+ * Supports throttled scroll updates for better performance during streaming.
  *
  * @example
  * ```tsx
+ * // Basic usage
  * <MessageList
  *   messages={messages}
  *   autoScroll
+ * />
+ *
+ * // With throttle for streaming (recommended: 50-100ms)
+ * <MessageList
+ *   messages={messages}
+ *   autoScroll
+ *   throttleMs={50}
  * />
  * ```
  */
@@ -46,16 +62,32 @@ export function MessageList({
   messages,
   renderMessage,
   autoScroll = true,
+  throttleMs,
   className,
 }: MessageListProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const bottomRef = React.useRef<HTMLDivElement>(null)
 
-  React.useEffect(() => {
-    if (autoScroll && bottomRef.current) {
+  // Create throttled scroll function
+  const scrollToBottom = React.useCallback(() => {
+    if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [messages, autoScroll])
+  }, [])
+
+  const throttledScroll = React.useMemo(
+    () =>
+      throttleMs && throttleMs > 0
+        ? throttle(scrollToBottom, throttleMs)
+        : scrollToBottom,
+    [scrollToBottom, throttleMs]
+  )
+
+  React.useEffect(() => {
+    if (autoScroll) {
+      throttledScroll()
+    }
+  }, [messages, autoScroll, throttledScroll])
 
   return (
     <div

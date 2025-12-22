@@ -54,6 +54,7 @@ type Section =
   // Capability
   | 'tool-call'
   | 'code-block'
+  | 'source-block'
   // Interaction
   | 'feedback'
   // Mobile
@@ -127,8 +128,9 @@ const navigation: NavGroup[] = [
   {
     title: 'Capability',
     items: [
-      { id: 'tool-call', label: 'Tool Call', keywords: ['工具调用', 'tool', 'function', 'api'], description: 'Tool calling display' },
+      { id: 'tool-call', label: 'Tool Call', keywords: ['工具调用', 'tool', 'function', 'api', 'approval', '审批'], description: 'Tool calling with approval workflow' },
       { id: 'code-block', label: 'Code Block', keywords: ['代码块', 'code', '代码', 'syntax'], description: 'Code block component' },
+      { id: 'source-block', label: 'Source Block', keywords: ['来源', 'source', 'citation', 'reference', 'RAG', '引用'], description: 'RAG source citations' },
     ]
   },
   {
@@ -313,6 +315,7 @@ function App() {
           {/* Capability */}
           {activeSection === 'tool-call' && <ToolCallSection />}
           {activeSection === 'code-block' && <CodeBlockSection />}
+          {activeSection === 'source-block' && <SourceBlockSection />}
           {/* Interaction */}
           {activeSection === 'feedback' && <FeedbackSection />}
           {/* Foundation - Responsive */}
@@ -1999,82 +2002,187 @@ function AgentCardSection() {
 // ============================================
 
 function ToolCallSection() {
-  const toolCallCode = `{/* Tool Call Indicator */}
-<div className="flex justify-start gap-3">
-  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
-    AI
-  </div>
-  <div className="bg-gray-100 border border-gray-200 rounded-xl px-4 py-3">
-    <div className="flex items-center gap-2 text-sm text-gray-600">
-      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-      </svg>
-      <span>Calling <code className="px-1.5 py-0.5 bg-gray-200 rounded text-gray-700">search_web</code></span>
-    </div>
-  </div>
-</div>`
-
-  const toolCallCompletedCode = `{/* Tool Call Completed */}
-<div className="flex justify-start gap-3">
-  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
-    AI
-  </div>
-  <div className="bg-success-50 border border-success-200 rounded-xl px-4 py-3">
-    <div className="flex items-center gap-2 text-sm text-success-700">
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-      </svg>
-      <span>Completed <code className="px-1.5 py-0.5 bg-success-100 rounded">search_web</code></span>
-    </div>
-  </div>
-</div>`
-
-  const toolCallExpandedCode = `{/* Tool Call with Details */}
-<div className="flex justify-start gap-3">
-  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
-    AI
-  </div>
-  <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden max-w-md">
-    <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
-      <div className="flex items-center gap-2 text-sm text-gray-600">
-        <svg className="w-4 h-4 text-success-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-        </svg>
-        <code className="text-gray-700">read_file</code>
-      </div>
-      <button className="text-xs text-gray-500 hover:text-gray-700">Show details</button>
-    </div>
-    <div className="px-4 py-3 bg-white">
-      <pre className="text-xs text-gray-600 overflow-x-auto">{"path": "/src/app.tsx"}</pre>
-    </div>
-  </div>
-</div>`
-
   return (
     <div className="space-y-8">
       <div>
         <div className="text-sm text-gray-500 mb-2">Capability</div>
         <h2 className="text-2xl font-semibold text-gray-900 mb-2">Tool Call</h2>
         <p className="text-gray-600">
-          Tool Call 组件用于显示 AI 正在调用外部工具或 API 的状态。
+          Tool Call 组件用于显示 AI 正在调用外部工具或 API 的状态，支持完整的审批工作流。
         </p>
       </div>
 
       <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
         <h3 className="font-medium text-gray-900 mb-2">设计原则</h3>
         <ul className="text-sm text-gray-600 space-y-1">
-          <li>• <strong>状态清晰</strong>：运行中使用 spinner，完成使用 checkmark</li>
+          <li>• <strong>9种状态</strong>：pending → streaming → ready → approval-required → approved/denied → running → success/error</li>
+          <li>• <strong>审批工作流</strong>：敏感工具调用需用户批准后才能执行</li>
           <li>• <strong>工具名称</strong>：使用 monospace 字体显示工具名</li>
           <li>• <strong>可展开详情</strong>：复杂调用可展开查看参数和结果</li>
-          <li>• <strong>视觉低调</strong>：使用灰色背景，不抢夺消息内容的注意力</li>
         </ul>
+      </div>
+
+      {/* Tool Status Overview */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Tool Status Overview (9 States)</h3>
+        <div className="grid grid-cols-3 gap-3 p-4 bg-gray-50 rounded-lg">
+          {/* Pending */}
+          <div className="p-3 bg-white border border-gray-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-gray-300" />
+              <span className="text-xs font-mono text-gray-600">pending</span>
+            </div>
+            <p className="text-xs text-gray-500">等待开始</p>
+          </div>
+          {/* Streaming */}
+          <div className="p-3 bg-white border border-gray-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+              <span className="text-xs font-mono text-gray-600">streaming</span>
+            </div>
+            <p className="text-xs text-gray-500">参数流式传入</p>
+          </div>
+          {/* Ready */}
+          <div className="p-3 bg-white border border-gray-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="text-xs font-mono text-gray-600">ready</span>
+            </div>
+            <p className="text-xs text-gray-500">参数完整</p>
+          </div>
+          {/* Approval Required */}
+          <div className="p-3 bg-warning-50 border border-warning-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-warning-500" />
+              <span className="text-xs font-mono text-warning-700">approval-required</span>
+            </div>
+            <p className="text-xs text-warning-600">等待用户批准</p>
+          </div>
+          {/* Approved */}
+          <div className="p-3 bg-success-50 border border-success-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-success-500" />
+              <span className="text-xs font-mono text-success-700">approved</span>
+            </div>
+            <p className="text-xs text-success-600">用户已批准</p>
+          </div>
+          {/* Denied */}
+          <div className="p-3 bg-error-50 border border-error-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-error-500" />
+              <span className="text-xs font-mono text-error-700">denied</span>
+            </div>
+            <p className="text-xs text-error-600">用户已拒绝</p>
+          </div>
+          {/* Running */}
+          <div className="p-3 bg-white border border-gray-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <svg className="w-3 h-3 animate-spin text-blue-500" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              <span className="text-xs font-mono text-gray-600">running</span>
+            </div>
+            <p className="text-xs text-gray-500">正在执行</p>
+          </div>
+          {/* Success */}
+          <div className="p-3 bg-success-50 border border-success-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <svg className="w-3 h-3 text-success-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-xs font-mono text-success-700">success</span>
+            </div>
+            <p className="text-xs text-success-600">执行成功</p>
+          </div>
+          {/* Error */}
+          <div className="p-3 bg-error-50 border border-error-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <svg className="w-3 h-3 text-error-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <span className="text-xs font-mono text-error-700">error</span>
+            </div>
+            <p className="text-xs text-error-600">执行出错</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Streaming State */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Streaming State</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
+              <div className="flex items-center gap-2 text-sm text-blue-700">
+                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                <span>Receiving <code className="px-1.5 py-0.5 bg-blue-100 rounded">search_web</code></span>
+                <span className="text-blue-500 animate-pulse">...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Approval Required State */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Approval Required State</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="bg-warning-50 border border-warning-200 rounded-xl overflow-hidden max-w-md">
+              <div className="px-4 py-3">
+                <div className="flex items-center gap-2 text-sm text-warning-700 mb-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span>Approval required for <code className="px-1.5 py-0.5 bg-warning-100 rounded">delete_file</code></span>
+                </div>
+                <pre className="text-xs text-warning-600 bg-warning-100/50 p-2 rounded mb-3 overflow-x-auto">{`{"path": "/important/data.json"}`}</pre>
+                <div className="flex gap-2">
+                  <button className="px-3 py-1.5 bg-success-500 text-white rounded-md hover:bg-success-600 text-sm font-medium">
+                    Approve
+                  </button>
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm">
+                    Deny
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Denied State */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Denied State</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="bg-error-50 border border-error-200 rounded-xl px-4 py-3">
+              <div className="flex items-center gap-2 text-sm text-error-700">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                </svg>
+                <span>Denied <code className="px-1.5 py-0.5 bg-error-100 rounded">delete_file</code></span>
+              </div>
+              <p className="text-xs text-error-600 mt-1">User denied: "This file is critical"</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Running State */}
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-4">Running State</h3>
-        <div className="p-6 bg-gray-50 rounded-lg mb-4">
+        <div className="p-6 bg-gray-50 rounded-lg">
           <div className="flex justify-start gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
               AI
@@ -2085,26 +2193,17 @@ function ToolCallSection() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                <span>Calling <code className="px-1.5 py-0.5 bg-gray-200 rounded text-gray-700">search_web</code></span>
+                <span>Running <code className="px-1.5 py-0.5 bg-gray-200 rounded text-gray-700">search_web</code></span>
               </div>
             </div>
           </div>
         </div>
-        <div className="relative">
-          <pre className="p-4 bg-gray-900 rounded-lg text-sm text-gray-300 overflow-x-auto"><code>{toolCallCode}</code></pre>
-          <button
-            onClick={() => navigator.clipboard.writeText(toolCallCode)}
-            className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-gray-300 rounded hover:bg-gray-600"
-          >
-            Copy
-          </button>
-        </div>
       </div>
 
-      {/* Completed State */}
+      {/* Success State */}
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Completed State</h3>
-        <div className="p-6 bg-gray-50 rounded-lg mb-4">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Success State</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
           <div className="flex justify-start gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
               AI
@@ -2119,21 +2218,33 @@ function ToolCallSection() {
             </div>
           </div>
         </div>
-        <div className="relative">
-          <pre className="p-4 bg-gray-900 rounded-lg text-sm text-gray-300 overflow-x-auto"><code>{toolCallCompletedCode}</code></pre>
-          <button
-            onClick={() => navigator.clipboard.writeText(toolCallCompletedCode)}
-            className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-gray-300 rounded hover:bg-gray-600"
-          >
-            Copy
-          </button>
+      </div>
+
+      {/* Error State */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Error State</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="bg-error-50 border border-error-200 rounded-xl px-4 py-3">
+              <div className="flex items-center gap-2 text-sm text-error-700">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span>Failed <code className="px-1.5 py-0.5 bg-error-100 rounded">search_web</code></span>
+              </div>
+              <p className="text-xs text-error-600 mt-1">Network timeout</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* With Details */}
+      {/* With Expandable Details */}
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-4">With Expandable Details</h3>
-        <div className="p-6 bg-gray-50 rounded-lg mb-4">
+        <div className="p-6 bg-gray-50 rounded-lg">
           <div className="flex justify-start gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
               AI
@@ -2153,15 +2264,6 @@ function ToolCallSection() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="relative">
-          <pre className="p-4 bg-gray-900 rounded-lg text-sm text-gray-300 overflow-x-auto"><code>{toolCallExpandedCode}</code></pre>
-          <button
-            onClick={() => navigator.clipboard.writeText(toolCallExpandedCode)}
-            className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-gray-300 rounded hover:bg-gray-600"
-          >
-            Copy
-          </button>
         </div>
       </div>
     </div>
@@ -2274,6 +2376,191 @@ function CodeBlockSection() {
           >
             Copy
           </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function SourceBlockSection() {
+  return (
+    <div className="space-y-8">
+      <div>
+        <div className="text-sm text-gray-500 mb-2">Capability</div>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-2">Source Block</h2>
+        <p className="text-gray-600">
+          Source Block 用于在 RAG (检索增强生成) 场景中展示 AI 回答的引用来源。
+        </p>
+      </div>
+
+      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+        <h3 className="font-medium text-gray-900 mb-2">设计原则</h3>
+        <ul className="text-sm text-gray-600 space-y-1">
+          <li>• <strong>两种类型</strong>：URL 来源 (网页链接) 和 Document 来源 (本地文档)</li>
+          <li>• <strong>可选摘录</strong>：可展示引用的具体内容片段</li>
+          <li>• <strong>编号引用</strong>：支持脚注式引用 [1], [2], [3]</li>
+          <li>• <strong>视觉层次</strong>：使用背景色区分，不抢夺主要内容的注意力</li>
+        </ul>
+      </div>
+
+      {/* URL Source */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">URL Source</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="max-w-[80%] space-y-2">
+              <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md px-4 py-3">
+                <p className="text-gray-700">According to the documentation, React 18 introduces automatic batching for better performance.<sup className="text-primary-600">[1]</sup></p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                  </svg>
+                  <div className="min-w-0">
+                    <span className="text-xs text-blue-500 font-medium">[1]</span>
+                    <a href="#" className="text-sm text-blue-700 hover:underline ml-1 truncate block">React 18 Release Notes</a>
+                    <span className="text-xs text-blue-500">reactjs.org</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Document Source */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Document Source</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="max-w-[80%] space-y-2">
+              <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md px-4 py-3">
+                <p className="text-gray-700">The quarterly report shows a 15% increase in revenue.<sup className="text-primary-600">[1]</sup></p>
+              </div>
+              <div className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <div className="min-w-0">
+                    <span className="text-xs text-gray-500 font-medium">[1]</span>
+                    <span className="text-sm text-gray-700 ml-1 truncate block">Q4-2024-Financial-Report.pdf</span>
+                    <span className="text-xs text-gray-500">application/pdf</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Source with Excerpt */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Source with Excerpt</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="max-w-[80%] space-y-2">
+              <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md px-4 py-3">
+                <p className="text-gray-700">TypeScript 5.0 introduces decorators that conform to the TC39 standard.<sup className="text-primary-600">[1]</sup></p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg overflow-hidden">
+                <div className="flex items-center gap-2 px-3 py-2 border-b border-blue-100">
+                  <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                  </svg>
+                  <div className="min-w-0">
+                    <span className="text-xs text-blue-500 font-medium">[1]</span>
+                    <a href="#" className="text-sm text-blue-700 hover:underline ml-1 truncate block">TypeScript 5.0 Announcement</a>
+                  </div>
+                </div>
+                <div className="px-3 py-2 bg-blue-50/50">
+                  <p className="text-xs text-blue-600 italic">"Decorators are a stage 3 ECMAScript proposal that allows you to modify classes and their members at design time..."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Source List */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Source List (Multiple Sources)</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex justify-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+              AI
+            </div>
+            <div className="max-w-[80%] space-y-2">
+              <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md px-4 py-3">
+                <p className="text-gray-700">Based on multiple sources, the best practice is to use TypeScript with React for type safety.<sup className="text-primary-600">[1][2][3]</sup></p>
+              </div>
+              <div className="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
+                <div className="px-3 py-2 border-b border-gray-200 bg-gray-100">
+                  <span className="text-xs font-medium text-gray-600">Sources</span>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  <div className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                    <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    <span className="text-xs text-gray-500 font-medium">[1]</span>
+                    <a href="#" className="text-sm text-blue-600 hover:underline truncate">React TypeScript Cheatsheet</a>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                    <svg className="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span className="text-xs text-gray-500 font-medium">[2]</span>
+                    <span className="text-sm text-gray-700 truncate">internal-docs.pdf</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                    <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    <span className="text-xs text-gray-500 font-medium">[3]</span>
+                    <a href="#" className="text-sm text-blue-600 hover:underline truncate">Official TypeScript Handbook</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Inline Citations */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Inline Citation Badges</h3>
+        <div className="p-6 bg-gray-50 rounded-lg">
+          <div className="flex flex-wrap gap-2">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+              [1] reactjs.org
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              [2] report.pdf
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+              [3] typescript.org
+            </span>
+          </div>
         </div>
       </div>
     </div>

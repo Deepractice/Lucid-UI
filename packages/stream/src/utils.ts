@@ -12,7 +12,8 @@ export function cn(...inputs: ClassValue[]) {
  * Fix incomplete markdown for streaming scenarios
  * Handles unclosed code blocks, bold, italic, etc.
  *
- * Based on the concept from Vercel's remend library
+ * @deprecated Streamdown now handles this automatically via Remend.
+ * This function is kept for backward compatibility.
  */
 export function healMarkdown(content: string): string {
   let result = content

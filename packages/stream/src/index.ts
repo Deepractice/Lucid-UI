@@ -2,17 +2,24 @@
  * @uix/stream
  *
  * Streaming content renderer for AI Agent applications.
+ * Powered by Vercel Streamdown for optimal streaming performance.
  *
  * Features:
- * - StreamMarkdown: Markdown rendering with self-healing for streaming
+ * - StreamMarkdown: Full-featured markdown with streaming support
+ *   - GitHub Flavored Markdown (tables, task lists, strikethrough)
+ *   - Syntax highlighted code blocks (Shiki)
+ *   - LaTeX math equations (KaTeX)
+ *   - Mermaid diagrams
+ *   - Automatic self-healing (Remend)
+ *   - Security hardening (rehype-harden)
  * - StreamText: Simple text with typing cursor
- * - CodeBlock: Syntax highlighted code blocks
+ * - CodeBlock: Standalone syntax highlighted code blocks
  *
  * @example
  * ```tsx
  * import { StreamMarkdown, StreamText, CodeBlock } from '@uix/stream'
  *
- * // Streaming markdown
+ * // Streaming markdown (auto-heals incomplete content)
  * <StreamMarkdown content={response} isStreaming={true} />
  *
  * // Simple text with cursor
