@@ -11,6 +11,13 @@
  * <MessageAvatar role="tool" />
  * ```
  *
+ * @example With AI status animation
+ * ```tsx
+ * <MessageAvatar role="assistant" status="thinking" />
+ * <MessageAvatar role="assistant" status="responding" />
+ * <MessageAvatar role="tool" status="tool-calling" />
+ * ```
+ *
  * @example With custom image
  * ```tsx
  * <MessageAvatar role="assistant" src="/claude.png" name="Claude" />
@@ -34,11 +41,25 @@ import { cn } from '../utils'
  */
 export type MessageRole = 'user' | 'assistant' | 'system' | 'tool' | 'error'
 
+/**
+ * AI-specific dynamic status for avatar animations
+ * - idle: No animation (default)
+ * - thinking: Pulsing animation - AI is processing
+ * - responding: Breathing effect - AI is streaming response
+ * - tool-calling: Spinning indicator - AI is calling tools
+ */
+export type AvatarStatus = 'idle' | 'thinking' | 'responding' | 'tool-calling'
+
 export interface MessageAvatarProps {
   /**
    * Message role - determines color and default symbol
    */
   role: MessageRole
+  /**
+   * AI dynamic status - triggers animations
+   * @default "idle"
+   */
+  status?: AvatarStatus
   /**
    * Custom avatar image URL (overrides default symbol)
    */
@@ -102,6 +123,19 @@ const sizeClasses: Record<'sm' | 'md' | 'lg', string> = {
   lg: 'w-10 h-10 text-base',
 }
 
+/**
+ * AI status animation classes
+ * - thinking: pulse animation (scale + opacity)
+ * - responding: breathing glow effect
+ * - tool-calling: spinning ring indicator
+ */
+const statusAnimations: Record<AvatarStatus, string> = {
+  idle: '',
+  thinking: 'animate-pulse',
+  responding: 'animate-breath',
+  'tool-calling': '',
+}
+
 // ============================================================================
 // Component
 // ============================================================================
@@ -117,12 +151,18 @@ const sizeClasses: Record<'sm' | 'md' | 'lg', string> = {
  * - Assistant messages use secondary color (sentient gold) - generative thinking
  * - System/tool messages use neutral colors
  * - Error messages use destructive red
+ *
+ * AI Status animations:
+ * - thinking: Pulsing effect indicating AI is processing
+ * - responding: Breathing glow effect during streaming
+ * - tool-calling: Spinning ring indicator for tool execution
  */
 export const MessageAvatar = React.forwardRef<HTMLDivElement, MessageAvatarProps>(
-  ({ role, src, name, icon, size = 'md', className }, ref) => {
+  ({ role, status = 'idle', src, name, icon, size = 'md', className }, ref) => {
     // Determine display content priority: image > icon > name initials > role symbol
     const symbol = roleSymbols[role]
     const displayText = name ? name.charAt(0).toUpperCase() : symbol
+    const isToolCalling = status === 'tool-calling'
 
     return (
       <div
@@ -131,10 +171,12 @@ export const MessageAvatar = React.forwardRef<HTMLDivElement, MessageAvatarProps
           'relative inline-flex items-center justify-center rounded-full font-medium shrink-0',
           roleColors[role],
           sizeClasses[size],
+          statusAnimations[status],
           className
         )}
         role="img"
         aria-label={name || role}
+        aria-busy={status !== 'idle'}
       >
         {src ? (
           <img
@@ -147,6 +189,29 @@ export const MessageAvatar = React.forwardRef<HTMLDivElement, MessageAvatarProps
         ) : (
           <span>{displayText}</span>
         )}
+
+        {/* Tool-calling spinning ring indicator */}
+        {isToolCalling && (
+          <span
+            className={cn(
+              'absolute inset-0 rounded-full border-2 border-transparent',
+              'border-t-white/80 animate-spin'
+            )}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Responding glow effect */}
+        {status === 'responding' && (
+          <span
+            className={cn(
+              'absolute inset-0 rounded-full',
+              'animate-ping opacity-30',
+              roleColors[role]
+            )}
+            aria-hidden="true"
+          />
+        )}
       </div>
     )
   }
@@ -157,4 +222,4 @@ MessageAvatar.displayName = 'MessageAvatar'
 // Utility exports
 // ============================================================================
 
-export { roleSymbols, roleColors, sizeClasses as avatarSizeClasses }
+export { roleSymbols, roleColors, sizeClasses as avatarSizeClasses, statusAnimations }

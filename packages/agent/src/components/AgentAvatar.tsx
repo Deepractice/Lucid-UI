@@ -15,6 +15,16 @@
  * <AgentAvatar name="AI" variant="primary" />
  * <AgentAvatar name="User" variant="secondary" />
  * ```
+ *
+ * @example With loading status callback (Radix-style)
+ * ```tsx
+ * <AgentAvatar
+ *   src="/avatar.png"
+ *   name="Claude"
+ *   onLoadingStatusChange={(status) => console.log(status)}
+ *   fallbackDelayMs={600}
+ * />
+ * ```
  */
 
 import * as React from 'react'
@@ -35,6 +45,11 @@ export type AvatarVariant =
   | 'error'      // Red
   | 'info'       // Blue (alias)
   | 'neutral'    // Gray (default)
+
+/**
+ * Image loading status (Radix-style)
+ */
+export type ImageLoadingStatus = 'idle' | 'loading' | 'loaded' | 'error'
 
 export interface AgentAvatarProps {
   /**
@@ -63,6 +78,15 @@ export interface AgentAvatarProps {
    * @default "md"
    */
   size?: 'sm' | 'md' | 'lg'
+  /**
+   * Callback when image loading status changes (Radix-style)
+   */
+  onLoadingStatusChange?: (status: ImageLoadingStatus) => void
+  /**
+   * Delay in ms before showing fallback (gives image time to load)
+   * @default 0
+   */
+  fallbackDelayMs?: number
   /**
    * Additional CSS classes
    */
@@ -102,6 +126,52 @@ const statusSizes = {
 }
 
 // ============================================================================
+// Hooks
+// ============================================================================
+
+/**
+ * Hook to track image loading status (Radix-style)
+ */
+function useImageLoadingStatus(
+  src: string | undefined,
+  onStatusChange?: (status: ImageLoadingStatus) => void
+): ImageLoadingStatus {
+  const [status, setStatus] = React.useState<ImageLoadingStatus>('idle')
+
+  React.useEffect(() => {
+    if (!src) {
+      setStatus('idle')
+      onStatusChange?.('idle')
+      return
+    }
+
+    setStatus('loading')
+    onStatusChange?.('loading')
+
+    const img = new Image()
+
+    img.onload = () => {
+      setStatus('loaded')
+      onStatusChange?.('loaded')
+    }
+
+    img.onerror = () => {
+      setStatus('error')
+      onStatusChange?.('error')
+    }
+
+    img.src = src
+
+    return () => {
+      img.onload = null
+      img.onerror = null
+    }
+  }, [src, onStatusChange])
+
+  return status
+}
+
+// ============================================================================
 // Component
 // ============================================================================
 
@@ -111,9 +181,62 @@ const statusSizes = {
  * Flexible avatar component for displaying agents and users.
  * Supports images, custom icons, and fallback initials with
  * multiple color variants and status indicators.
+ *
+ * Features:
+ * - Image loading status tracking (Radix-style)
+ * - Automatic fallback with optional delay
+ * - Multiple color variants
+ * - Online/offline/busy status indicators
  */
 export const AgentAvatar = React.forwardRef<HTMLDivElement, AgentAvatarProps>(
-  ({ src, name, icon, variant = 'neutral', status, size = 'md', className }, ref) => {
+  (
+    {
+      src,
+      name,
+      icon,
+      variant = 'neutral',
+      status,
+      size = 'md',
+      onLoadingStatusChange,
+      fallbackDelayMs = 0,
+      className,
+    },
+    ref
+  ) => {
+    const imageStatus = useImageLoadingStatus(src, onLoadingStatusChange)
+    const [showFallback, setShowFallback] = React.useState(!src)
+
+    // Handle fallback delay
+    React.useEffect(() => {
+      if (!src) {
+        setShowFallback(true)
+        return
+      }
+
+      if (imageStatus === 'loaded') {
+        setShowFallback(false)
+        return
+      }
+
+      if (imageStatus === 'error') {
+        setShowFallback(true)
+        return
+      }
+
+      // During loading, optionally delay showing fallback
+      if (fallbackDelayMs > 0) {
+        setShowFallback(false)
+        const timer = setTimeout(() => {
+          if (imageStatus === 'loading') {
+            setShowFallback(true)
+          }
+        }, fallbackDelayMs)
+        return () => clearTimeout(timer)
+      } else {
+        setShowFallback(true)
+      }
+    }, [src, imageStatus, fallbackDelayMs])
+
     const initials = name
       .split(' ')
       .map((n) => n[0])
@@ -121,15 +244,25 @@ export const AgentAvatar = React.forwardRef<HTMLDivElement, AgentAvatarProps>(
       .toUpperCase()
       .slice(0, 2)
 
+    const showImage = src && imageStatus === 'loaded'
+
     return (
       <div ref={ref} className={cn('relative inline-block shrink-0', className)}>
-        {src ? (
+        {/* Image layer */}
+        {src && (
           <img
             src={src}
             alt={name}
-            className={cn('rounded-full object-cover', sizeClasses[size])}
+            className={cn(
+              'rounded-full object-cover',
+              sizeClasses[size],
+              showImage ? 'opacity-100' : 'opacity-0 absolute inset-0'
+            )}
           />
-        ) : (
+        )}
+
+        {/* Fallback layer */}
+        {(!src || showFallback) && !showImage && (
           <div
             className={cn(
               'rounded-full flex items-center justify-center font-medium',
@@ -142,6 +275,8 @@ export const AgentAvatar = React.forwardRef<HTMLDivElement, AgentAvatarProps>(
             {icon || initials}
           </div>
         )}
+
+        {/* Status indicator */}
         {status && (
           <span
             className={cn(
@@ -162,4 +297,4 @@ AgentAvatar.displayName = 'AgentAvatar'
 // Utility exports
 // ============================================================================
 
-export { variantClasses as avatarVariantClasses }
+export { variantClasses as avatarVariantClasses, useImageLoadingStatus }

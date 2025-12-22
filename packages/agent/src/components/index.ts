@@ -1,4 +1,5 @@
 export * from './AgentAvatar'
+export * from './AgentAvatarGroup'
 export * from './ChatBubble'
 export * from './ChatInput'
 export * from './MessageAvatar'
