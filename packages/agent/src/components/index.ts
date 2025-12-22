@@ -1,5 +1,7 @@
 export * from './AgentAvatar'
 export * from './ChatBubble'
+export * from './ChatInput'
+export * from './MessageAvatar'
 export * from './ThinkingIndicator'
 export * from './ToolResult'
 export * from './MessageList'
