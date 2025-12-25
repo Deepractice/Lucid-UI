@@ -259,7 +259,8 @@ React Components
 | `@uix/core` | Protocol | 🚧 Designing | UIX IR JSON Schema & TypeScript types |
 | `@uix/lucid-tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
 | `@uix/lucid-react` | Renderer | ✅ Ready | React renderer & base components |
-| `@uix/stream` | Renderer | 🚧 Building | Streaming content renderer |
+| `@uix/stream` | Renderer | ✅ Ready | Streaming markdown renderer (Streamdown) |
+| `@uix/agent` | Components | ✅ Ready | AI Agent conversation components |
 
 ---
 
@@ -331,13 +332,16 @@ function App() {
 
 ## Roadmap
 
-### Phase 1: Foundation (Current)
-- [x] Design token system
-- [x] React base components
-- [x] Streaming renderer
-- [ ] UIX IR schema definition
+### Phase 1: Foundation ✅
+- [x] Design token system (`@uix/lucid-tokens`)
+- [x] React base components (`@uix/lucid-react`)
+- [x] Streaming markdown renderer (`@uix/stream`)
+- [x] AI Agent components (`@uix/agent`)
+  - [x] ChatMessage, ChatInput, Avatar system
+  - [x] StreamText, ThinkingIndicator, ToolResult
+  - [x] ChatList, ChatWindow layout components
 
-### Phase 2: Protocol
+### Phase 2: Protocol (Current)
 - [ ] UIX IR JSON Schema
 - [ ] TypeScript type definitions
 - [ ] AgentX adapter

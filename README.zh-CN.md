@@ -270,7 +270,8 @@ React 组件
 | `@uix/core` | 协议 | 🚧 设计中 | UIX IR JSON Schema 和 TypeScript 类型 |
 | `@uix/lucid-tokens` | 设计系统 | ✅ 就绪 | 设计令牌（颜色、字体、间距） |
 | `@uix/lucid-react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
-| `@uix/stream` | 渲染器 | 🚧 建设中 | 流式内容渲染器 |
+| `@uix/stream` | 渲染器 | ✅ 就绪 | 流式 Markdown 渲染器 (Streamdown) |
+| `@uix/agent` | 组件 | ✅ 就绪 | AI Agent 对话组件 |
 
 ---
 
@@ -342,13 +343,16 @@ function App() {
 
 ## 路线图
 
-### 第一阶段：基础建设（当前）
-- [x] 设计令牌系统
-- [x] React 基础组件
-- [x] 流式渲染器
-- [ ] UIX IR Schema 定义
+### 第一阶段：基础建设 ✅
+- [x] 设计令牌系统 (`@uix/lucid-tokens`)
+- [x] React 基础组件 (`@uix/lucid-react`)
+- [x] 流式 Markdown 渲染器 (`@uix/stream`)
+- [x] AI Agent 组件 (`@uix/agent`)
+  - [x] ChatMessage, ChatInput, Avatar 系统
+  - [x] StreamText, ThinkingIndicator, ToolResult
+  - [x] ChatList, ChatWindow 布局组件
 
-### 第二阶段：协议
+### 第二阶段：协议（当前）
 - [ ] UIX IR JSON Schema
 - [ ] TypeScript 类型定义
 - [ ] AgentX 适配器
