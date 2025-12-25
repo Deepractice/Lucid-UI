@@ -32,6 +32,7 @@ jobs:
         run: |
           pnpm -F @uix/core build
           pnpm -F @uix/lucid-tokens build
+          pnpm -F @uix/stream build
           pnpm -F @uix/agent build
 
       - name: Build Web
