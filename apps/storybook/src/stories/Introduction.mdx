@@ -1,0 +1,117 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { ProtocolDemo } from './ProtocolDemo'
+
+<Meta title="Introduction" />
+
+# UIX
+
+**AI Agent 应用的 React 组件库**
+
+UIX 是专为构建 AI Agent 交互界面设计的组件库，基于 **UIX Protocol** 实现 AI 输出到 UI 渲染的标准化转换。
+
+<ProtocolDemo />
+
+## 核心理念
+
+UIX Protocol 定义了 AI Agent 输出的中间表示（IR），使得：
+- **AI Events** → 流式事件（thinking, tool_use, text）
+- **UIX IR** → 结构化数据（LucidConversation, LucidBlock）
+- **Rendered UI** → React 组件渲染
+
+## 特性
+
+- 🎨 **双主题系统** - Rational（理性蓝）& Sentient（感性金）
+- 🧩 **组合式 API** - 灵活组合，按需定制
+- ⚡ **流式支持** - 原生支持 AI 流式响应
+- 🔧 **工具展示** - 内置 Tool Use 状态展示组件
+- 📱 **响应式** - 适配桌面和移动端
+
+## 安装
+
+```bash
+pnpm add @uix/agent
+```
+
+## 快速开始
+
+```tsx
+import {
+  ChatMessage,
+  ChatMessageAvatar,
+  ChatMessageContent,
+  ChatInput,
+  ChatInputTextarea,
+  ChatInputSubmit,
+} from '@uix/agent'
+
+function Chat() {
+  return (
+    <div>
+      {/* 消息 */}
+      <ChatMessage role="assistant">
+        <ChatMessageAvatar name="Claude" />
+        <ChatMessageContent>Hello! How can I help you?</ChatMessageContent>
+      </ChatMessage>
+
+      {/* 输入框 */}
+      <ChatInput onSubmit={handleSubmit}>
+        <ChatInputTextarea placeholder="Type a message..." />
+        <ChatInputSubmit />
+      </ChatInput>
+    </div>
+  )
+}
+```
+
+## 设计原则
+
+<table>
+  <thead>
+    <tr>
+      <th>原则</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>白底为主</strong></td>
+      <td>大众化设计，专业克制</td>
+    </tr>
+    <tr>
+      <td><strong>双色调</strong></td>
+      <td>理性蓝 + 感性金，拒绝紫色和黑色主题</td>
+    </tr>
+    <tr>
+      <td><strong>组合优先</strong></td>
+      <td>提供原子组件，支持灵活组合</td>
+    </tr>
+    <tr>
+      <td><strong>预设可用</strong></td>
+      <td>同时提供 Simple 版本快速上手</td>
+    </tr>
+  </tbody>
+</table>
+
+## 组件分类
+
+### 聊天核心
+- **ChatMessage** - 消息气泡（组合式）
+- **ChatInput** - 输入框（组合式）
+- **MessageList** - 消息列表容器
+
+### AI 状态
+- **StreamText** - 流式文本渲染
+- **ThinkingIndicator** - 思考指示器
+- **Avatar** - 头像（支持动画状态）
+
+### 工具 & 来源
+- **ToolResult** - 工具执行结果
+- **SourceBlock** - RAG 来源引用
+
+### 辅助组件
+- **MentionPopover** - @提及弹窗
+
+## 浏览文档
+
+- 📐 [Foundation](/docs/foundation-colors--docs) - 色彩、字体、动画
+- 🧩 [Components](/docs/components-avatar--docs) - 所有组件

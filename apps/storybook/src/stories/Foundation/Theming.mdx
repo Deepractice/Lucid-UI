@@ -1,0 +1,117 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Foundation/Theming" />
+
+# Theming
+
+UIX 提供双主题系统：**Rational（理性）** 和 **Sentient（感性）**。
+
+## 主题理念
+
+<table>
+  <thead>
+    <tr>
+      <th>主题</th>
+      <th>色调</th>
+      <th>适用场景</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Rational</strong></td>
+      <td>科技蓝</td>
+      <td>效率工具、数据分析、代码助手</td>
+    </tr>
+    <tr>
+      <td><strong>Sentient</strong></td>
+      <td>智慧金</td>
+      <td>创意写作、情感对话、人文关怀</td>
+    </tr>
+  </tbody>
+</table>
+
+## 主色对比
+
+<div style={{ display: 'flex', gap: '2rem', marginTop: '1rem' }}>
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ width: 80, height: 80, borderRadius: 8, background: '#0284c7' }} />
+    <p style={{ marginTop: 8, fontSize: 14 }}>Rational</p>
+    <code style={{ fontSize: 12 }}>#0284c7</code>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ width: 80, height: 80, borderRadius: 8, background: '#f59e0b' }} />
+    <p style={{ marginTop: 8, fontSize: 14 }}>Sentient</p>
+    <code style={{ fontSize: 12 }}>#f59e0b</code>
+  </div>
+</div>
+
+## 使用方式
+
+### Tailwind 类名
+
+```tsx
+// Rational 主题（默认）
+<button className="bg-primary-600 text-white">
+  Primary Button
+</button>
+
+// Sentient 主题
+<button className="bg-secondary-500 text-white">
+  Secondary Button
+</button>
+```
+
+### CSS 变量
+
+```css
+:root {
+  /* Rational Theme */
+  --color-primary: #0284c7;
+  --color-ring: #0284c7;
+}
+
+.theme-sentient {
+  /* Sentient Theme */
+  --color-primary: #f59e0b;
+  --color-ring: #f59e0b;
+}
+```
+
+### 动态切换
+
+```tsx
+function ThemeSwitcher() {
+  const [theme, setTheme] = useState<'rational' | 'sentient'>('rational')
+
+  return (
+    <div className={theme === 'sentient' ? 'theme-sentient' : ''}>
+      <button onClick={() => setTheme(theme === 'rational' ? 'sentient' : 'rational')}>
+        切换主题
+      </button>
+    </div>
+  )
+}
+```
+
+## 组件主题支持
+
+大多数组件通过 `variant` 属性支持主题切换：
+
+```tsx
+// 使用 primary（Rational 蓝）
+<Avatar>
+  <AvatarFallback variant="primary">AI</AvatarFallback>
+</Avatar>
+
+// 使用 secondary（Sentient 金）
+<Avatar>
+  <AvatarFallback variant="secondary">AI</AvatarFallback>
+</Avatar>
+```
+
+## 设计原则
+
+1. **白底为主** - 两个主题都基于白色背景
+2. **单色强调** - 每个主题只用一个主色调
+3. **语义色通用** - success/warning/error 在两个主题中保持一致
+4. **拒绝黑暗模式** - 保持专业克制，不提供 dark mode

@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Breathing animation - single color pulse */
+@keyframes breathe-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.7;
+    filter: brightness(1.2);
+  }
+}
+
+.animate-breathe-glow {
+  animation: breathe-glow 3s ease-in-out infinite;
+}
+
+/* Shimmer / Sweep effect - light sweeping left to right */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Shimmer for Rational Blue */
+.animate-shimmer-rational {
+  background: linear-gradient(
+    90deg,
+    #3B82F6 0%,
+    #3B82F6 40%,
+    #93C5FD 50%,
+    #3B82F6 60%,
+    #3B82F6 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite linear;
+}
+
+/* Shimmer for Sentient Gold */
+.animate-shimmer-sentient {
+  background: linear-gradient(
+    90deg,
+    #D4A012 0%,
+    #D4A012 40%,
+    #FDE68A 50%,
+    #D4A012 60%,
+    #D4A012 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite linear;
+}

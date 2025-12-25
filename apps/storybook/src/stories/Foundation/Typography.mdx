@@ -1,0 +1,176 @@
+{/* @jsxImportSource react */}
+import { Meta, Typeset } from '@storybook/addon-docs/blocks'
+
+<Meta title="Foundation/Typography" />
+
+# Typography
+
+Lucid UI 字体系统。
+
+## 字体家族
+
+<table>
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>字体栈</th>
+      <th>Tailwind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Sans</strong></td>
+      <td>Inter, -apple-system, BlinkMacSystemFont, sans-serif</td>
+      <td><code>font-sans</code></td>
+    </tr>
+    <tr>
+      <td><strong>Mono</strong></td>
+      <td>JetBrains Mono, Fira Code, SF Mono, monospace</td>
+      <td><code>font-mono</code></td>
+    </tr>
+  </tbody>
+</table>
+
+## 字号
+
+<Typeset
+  fontSizes={['0.75rem', '0.875rem', '1rem', '1.125rem', '1.25rem', '1.5rem', '1.875rem', '2.25rem']}
+  fontWeight={400}
+  sampleText="The quick brown fox jumps over the lazy dog"
+  fontFamily="Inter, sans-serif"
+/>
+
+<table>
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th>大小</th>
+      <th>行高</th>
+      <th>Tailwind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>xs</td>
+      <td>0.75rem</td>
+      <td>1rem</td>
+      <td><code>text-xs</code></td>
+    </tr>
+    <tr>
+      <td>sm</td>
+      <td>0.875rem</td>
+      <td>1.25rem</td>
+      <td><code>text-sm</code></td>
+    </tr>
+    <tr>
+      <td>base</td>
+      <td>1rem</td>
+      <td>1.5rem</td>
+      <td><code>text-base</code></td>
+    </tr>
+    <tr>
+      <td>lg</td>
+      <td>1.125rem</td>
+      <td>1.75rem</td>
+      <td><code>text-lg</code></td>
+    </tr>
+    <tr>
+      <td>xl</td>
+      <td>1.25rem</td>
+      <td>1.75rem</td>
+      <td><code>text-xl</code></td>
+    </tr>
+    <tr>
+      <td>2xl</td>
+      <td>1.5rem</td>
+      <td>2rem</td>
+      <td><code>text-2xl</code></td>
+    </tr>
+    <tr>
+      <td>3xl</td>
+      <td>1.875rem</td>
+      <td>2.25rem</td>
+      <td><code>text-3xl</code></td>
+    </tr>
+    <tr>
+      <td>4xl</td>
+      <td>2.25rem</td>
+      <td>2.5rem</td>
+      <td><code>text-4xl</code></td>
+    </tr>
+  </tbody>
+</table>
+
+## 字重
+
+<table>
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th>值</th>
+      <th>Tailwind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Normal</td>
+      <td>400</td>
+      <td><code>font-normal</code></td>
+    </tr>
+    <tr>
+      <td>Medium</td>
+      <td>500</td>
+      <td><code>font-medium</code></td>
+    </tr>
+    <tr>
+      <td>Semibold</td>
+      <td>600</td>
+      <td><code>font-semibold</code></td>
+    </tr>
+    <tr>
+      <td>Bold</td>
+      <td>700</td>
+      <td><code>font-bold</code></td>
+    </tr>
+  </tbody>
+</table>
+
+## 标题层级
+
+```
+H1: text-4xl font-bold tracking-tight
+H2: text-3xl font-semibold
+H3: text-2xl font-semibold
+H4: text-xl font-medium
+H5: text-lg font-medium
+H6: text-base font-medium
+```
+
+## 正文样式
+
+<table>
+  <thead>
+    <tr>
+      <th>用途</th>
+      <th>样式</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>正文</td>
+      <td><code>text-base text-gray-900</code></td>
+    </tr>
+    <tr>
+      <td>次要文本</td>
+      <td><code>text-sm text-gray-600</code></td>
+    </tr>
+    <tr>
+      <td>辅助文本</td>
+      <td><code>text-xs text-gray-500</code></td>
+    </tr>
+    <tr>
+      <td>代码</td>
+      <td><code>font-mono text-sm</code></td>
+    </tr>
+  </tbody>
+</table>

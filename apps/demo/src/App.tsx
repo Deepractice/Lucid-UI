@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext } from 'react'
 import type { LucidConversation, LucidBlock } from '@uix/core'
-import { ComponentLibrary } from './App.components'
 
 // ============================================================================
 // Theme Context
@@ -13,18 +12,6 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
 })
 
 const useTheme = () => useContext(ThemeContext)
-
-// ============================================================================
-// View Context
-// ============================================================================
-
-type View = 'protocol' | 'components'
-const ViewContext = createContext<{ view: View; setView: (v: View) => void }>({
-  view: 'protocol',
-  setView: () => {}
-})
-
-const useView = () => useContext(ViewContext)
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -378,7 +365,6 @@ function ThemeToggle() {
 
 function AppContent() {
   const { theme } = useTheme()
-  const { view, setView } = useView()
   const isDark = theme === 'dark'
   const [events, setEvents] = useState<AIEvent[]>([])
   const [activeEventIndex, setActiveEventIndex] = useState(-1)
@@ -508,29 +494,15 @@ function AppContent() {
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <nav className="flex items-center gap-6">
-            <button
-              onClick={() => setView('protocol')}
-              className={`text-sm font-medium transition-colors ${
-                view === 'protocol'
-                  ? isDark ? 'text-white' : 'text-gray-900'
-                  : isDark ? 'text-white/50 hover:text-white/80' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Protocol
-            </button>
-            <button
-              onClick={() => setView('components')}
-              className={`text-sm font-medium transition-colors ${
-                view === 'components'
-                  ? isDark ? 'text-white' : 'text-gray-900'
-                  : isDark ? 'text-white/50 hover:text-white/80' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Components
-            </button>
-          </nav>
+          {/* Storybook Link */}
+          <a
+            href="https://uix.deepractice.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-sm font-medium transition-colors ${isDark ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
+          >
+            Components →
+          </a>
 
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <a
@@ -549,16 +521,8 @@ function AppContent() {
         </div>
       </header>
 
-      {/* View: Component Library - needs pt-16 for fixed header offset */}
-      {view === 'components' && (
-        <div className="pt-16">
-          <ComponentLibrary />
-        </div>
-      )}
-
-      {/* View: Protocol Demo */}
-      {view === 'protocol' && (
-        <div className="pt-14">
+      {/* Protocol Demo */}
+      <div className="pt-14">
             {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 lg:px-6 pt-6 pb-2">
             {/* Introduction */}
@@ -737,34 +701,18 @@ function AppContent() {
             </div>
           </footer>
         </div>
-      )}
     </div>
   )
 }
 
 // ============================================================================
-// View Provider
-// ============================================================================
-
-function ViewProvider({ children }: { children: React.ReactNode }) {
-  const [view, setView] = useState<View>('protocol')
-  return (
-    <ViewContext.Provider value={{ view, setView }}>
-      {children}
-    </ViewContext.Provider>
-  )
-}
-
-// ============================================================================
-// Main App Component (with Theme and View Providers)
+// Main App Component
 // ============================================================================
 
 export default function App() {
   return (
     <ThemeProvider>
-      <ViewProvider>
-        <AppContent />
-      </ViewProvider>
+      <AppContent />
     </ThemeProvider>
   )
 }

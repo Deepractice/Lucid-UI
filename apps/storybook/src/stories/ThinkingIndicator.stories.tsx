@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ThinkingIndicator } from '@uix/agent'
 
 const meta: Meta<typeof ThinkingIndicator> = {
@@ -103,8 +103,8 @@ export const Colors: Story = {
         <p className="text-xs mt-2 text-gray-500">secondary</p>
       </div>
       <div className="text-center">
-        <ThinkingIndicator color="muted" />
-        <p className="text-xs mt-2 text-gray-500">muted</p>
+        <ThinkingIndicator color="neutral" />
+        <p className="text-xs mt-2 text-gray-500">neutral</p>
       </div>
     </div>
   ),

@@ -32,17 +32,25 @@ export interface ChatBubbleProps {
 /**
  * ChatBubble Component
  *
- * Message container supporting multiple roles.
+ * @deprecated Use `ChatMessageSimple` instead. ChatBubble will be removed in a future version.
  *
- * @example
+ * ChatMessageSimple provides the same functionality but is built on the composable
+ * ChatMessage primitives, ensuring consistent styling and behavior.
+ *
+ * @example Migration
  * ```tsx
+ * // Before (deprecated)
  * <ChatBubble role="assistant" avatar="/claude.png" name="Claude">
- *   Hello! How can I help you today?
+ *   Hello!
  * </ChatBubble>
  *
- * <ChatBubble role="user">
- *   What's the weather like?
- * </ChatBubble>
+ * // After (recommended)
+ * <ChatMessageSimple
+ *   role="assistant"
+ *   avatar="/claude.png"
+ *   name="Claude"
+ *   content="Hello!"
+ * />
  * ```
  */
 export function ChatBubble({

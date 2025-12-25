@@ -1,0 +1,72 @@
+{/* @jsxImportSource react */}
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as MotionStories from './Motion.stories'
+
+<Meta of={MotionStories} />
+
+# Motion
+
+Lucid UI 动画系统。所有动画基于实际业务状态设计，保持克制不引起视觉疲劳。
+
+## Avatar 动画状态
+
+`AvatarAnimationStatus`: idle | thinking | planning | responding | tool-calling
+
+<Canvas of={MotionStories.AvatarStatus} />
+
+## Thinking 指示器
+
+`ThinkingVariant`: dots | pulse | bounce | wave | spinner
+
+<Canvas of={MotionStories.ThinkingVariants} />
+
+## 消息状态流转
+
+`MessageStatus`: idle → thinking → streaming → complete | error
+
+<Canvas of={MotionStories.MessageFlow} />
+
+## 在线状态
+
+`PresenceStatus`: online | offline | busy
+
+<Canvas of={MotionStories.Presence} />
+
+## 动画时间规范
+
+<table>
+  <thead>
+    <tr>
+      <th>用途</th>
+      <th>时长</th>
+      <th>缓动</th>
+      <th>示例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>微交互</td>
+      <td>150-200ms</td>
+      <td>ease-out</td>
+      <td>按钮悬停</td>
+    </tr>
+    <tr>
+      <td>状态切换</td>
+      <td>200-300ms</td>
+      <td>ease-in-out</td>
+      <td>展开/收起</td>
+    </tr>
+    <tr>
+      <td>思考动画</td>
+      <td>1000-1500ms</td>
+      <td>ease-in-out</td>
+      <td>脉冲效果</td>
+    </tr>
+    <tr>
+      <td>循环动画</td>
+      <td>2000-3000ms</td>
+      <td>linear</td>
+      <td>旋转/涟漪</td>
+    </tr>
+  </tbody>
+</table>

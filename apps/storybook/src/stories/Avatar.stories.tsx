@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
   Avatar,
   AvatarImage,
@@ -28,6 +28,21 @@ const meta: Meta<typeof Avatar> = {
 
 export default meta
 type Story = StoryObj<typeof Avatar>
+
+/**
+ * 交互式 Playground - 使用 Controls 面板调整属性
+ */
+export const Playground: Story = {
+  args: {
+    size: 'md',
+    status: 'idle',
+  },
+  render: (args) => (
+    <Avatar {...args}>
+      <AvatarFallback variant="primary">AI</AvatarFallback>
+    </Avatar>
+  ),
+}
 
 /**
  * 基础头像 - 带图片和 fallback
@@ -95,6 +110,10 @@ export const Variants: Story = {
  * AI 状态动画
  */
 export const AIStatus: Story = {
+  args: {
+    size: "md"
+  },
+
   render: () => (
     <div className="flex items-center gap-6">
       <div className="text-center">
@@ -122,7 +141,7 @@ export const AIStatus: Story = {
         <p className="text-xs mt-2 text-gray-500">tool-calling</p>
       </div>
     </div>
-  ),
+  )
 }
 
 /**
