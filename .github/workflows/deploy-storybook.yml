@@ -1,4 +1,4 @@
-name: Deploy Storybook to Cloudflare Pages
+name: Deploy to Cloudflare Pages
 
 on:
   push:
@@ -34,15 +34,25 @@ jobs:
           pnpm -F @uix/lucid-tokens build
           pnpm -F @uix/agent build
 
+      - name: Build Demo
+        run: pnpm -F demo build
+
       - name: Build Storybook
         run: pnpm -F @uix/storybook build
+
+      - name: Merge builds
+        run: |
+          mkdir -p dist
+          # Copy Demo to root
+          cp -r apps/demo/dist/* dist/
+          # Copy Storybook to /storybook/
+          mkdir -p dist/storybook
+          cp -r apps/storybook/storybook-static/* dist/storybook/
 
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          # Create project if not exists (ignore error if already exists)
           npx wrangler pages project create uix --production-branch=main 2>/dev/null || true
-          # Deploy
-          npx wrangler pages deploy apps/storybook/storybook-static --project-name=uix
+          npx wrangler pages deploy dist --project-name=uix

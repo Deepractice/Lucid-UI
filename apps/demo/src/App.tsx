@@ -496,9 +496,7 @@ function AppContent() {
 
           {/* Storybook Link */}
           <a
-            href="https://uix.deepractice.org"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/storybook/"
             className={`text-sm font-medium transition-colors ${isDark ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
           >
             Components →

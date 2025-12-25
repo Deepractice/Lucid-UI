@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/addon-docs/blocks'
-import { ProtocolDemo } from './ProtocolDemo'
 
 <Meta title="Introduction" />
 
@@ -9,14 +8,7 @@ import { ProtocolDemo } from './ProtocolDemo'
 
 UIX 是专为构建 AI Agent 交互界面设计的组件库，基于 **UIX Protocol** 实现 AI 输出到 UI 渲染的标准化转换。
 
-<ProtocolDemo />
-
-## 核心理念
-
-UIX Protocol 定义了 AI Agent 输出的中间表示（IR），使得：
-- **AI Events** → 流式事件（thinking, tool_use, text）
-- **UIX IR** → 结构化数据（LucidConversation, LucidBlock）
-- **Rendered UI** → React 组件渲染
+> 💡 查看 [Protocol Demo](/) 了解 UIX 的核心工作原理
 
 ## 特性
 
@@ -47,13 +39,11 @@ import {
 function Chat() {
   return (
     <div>
-      {/* 消息 */}
       <ChatMessage role="assistant">
         <ChatMessageAvatar name="Claude" />
         <ChatMessageContent>Hello! How can I help you?</ChatMessageContent>
       </ChatMessage>
 
-      {/* 输入框 */}
       <ChatInput onSubmit={handleSubmit}>
         <ChatInputTextarea placeholder="Type a message..." />
         <ChatInputSubmit />
@@ -62,35 +52,6 @@ function Chat() {
   )
 }
 ```
-
-## 设计原则
-
-<table>
-  <thead>
-    <tr>
-      <th>原则</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>白底为主</strong></td>
-      <td>大众化设计，专业克制</td>
-    </tr>
-    <tr>
-      <td><strong>双色调</strong></td>
-      <td>理性蓝 + 感性金，拒绝紫色和黑色主题</td>
-    </tr>
-    <tr>
-      <td><strong>组合优先</strong></td>
-      <td>提供原子组件，支持灵活组合</td>
-    </tr>
-    <tr>
-      <td><strong>预设可用</strong></td>
-      <td>同时提供 Simple 版本快速上手</td>
-    </tr>
-  </tbody>
-</table>
 
 ## 组件分类
 

@@ -43,6 +43,8 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     config.plugins = config.plugins || []
     config.plugins.push(pnpmFileProtocolFix())
+    // Set base path for deployment
+    config.base = '/storybook/'
     return config
   },
 }
