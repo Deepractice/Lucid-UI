@@ -25,3 +25,6 @@ export * from './SourceBlock'
 // Layout components
 export * from './ChatWindow'
 export * from './ChatList'
+
+// High-level composed components
+export * from './AgentChat'
