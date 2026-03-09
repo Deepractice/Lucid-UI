@@ -41,18 +41,30 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
 // Types
 // ============================================================================
 
+type ProtocolSource = 'anthropic' | 'ag-ui' | 'vercel'
+
 interface AIEvent {
   id: string
-  type: 'message_start' | 'content_block_start' | 'content_block_delta' | 'content_block_stop' | 'message_stop'
+  type: string
   data: Record<string, unknown>
   timestamp: number
 }
 
+interface ProtocolConfig {
+  name: string
+  label: string
+  adapter: string
+  color: string
+  description: string
+  mockEvents: Omit<AIEvent, 'id' | 'timestamp'>[]
+  processEvent: (event: AIEvent, prev: LucidConversation | null) => LucidConversation | null
+}
+
 // ============================================================================
-// Mock Data - Simulated AI Events
+// Mock Data - Anthropic Events
 // ============================================================================
 
-const mockEvents: Omit<AIEvent, 'id' | 'timestamp'>[] = [
+const anthropicEvents: Omit<AIEvent, 'id' | 'timestamp'>[] = [
   { type: 'message_start', data: { role: 'assistant' } },
   { type: 'content_block_start', data: { type: 'thinking', index: 0 } },
   { type: 'content_block_delta', data: { type: 'thinking_delta', thinking: 'Let me analyze this request...' } },
@@ -69,16 +81,247 @@ const mockEvents: Omit<AIEvent, 'id' | 'timestamp'>[] = [
 ]
 
 // ============================================================================
+// Mock Data - AG-UI Protocol Events
+// ============================================================================
+
+const agUIEvents: Omit<AIEvent, 'id' | 'timestamp'>[] = [
+  { type: 'RunStarted', data: { threadId: 'thread-1', runId: 'run-1' } },
+  { type: 'TextMessageStart', data: { messageId: 'msg-1', role: 'assistant' } },
+  { type: 'ToolCallStart', data: { toolCallId: 'tc-1', toolCallName: 'search', parentMessageId: 'msg-1' } },
+  { type: 'ToolCallArgs', data: { toolCallId: 'tc-1', delta: '{"query": "UIX protocol"}' } },
+  { type: 'ToolCallEnd', data: { toolCallId: 'tc-1' } },
+  { type: 'TextMessageContent', data: { messageId: 'msg-1', delta: 'Based on my research, ' } },
+  { type: 'TextMessageContent', data: { messageId: 'msg-1', delta: '**UIX IR** is an intermediate representation ' } },
+  { type: 'TextMessageContent', data: { messageId: 'msg-1', delta: 'that bridges AI output and UI rendering.' } },
+  { type: 'TextMessageEnd', data: { messageId: 'msg-1' } },
+  { type: 'RunFinished', data: { threadId: 'thread-1', runId: 'run-1', outcome: 'success' } },
+]
+
+// ============================================================================
+// Mock Data - Vercel AI SDK Messages (parts-based)
+// ============================================================================
+
+const vercelEvents: Omit<AIEvent, 'id' | 'timestamp'>[] = [
+  { type: 'message', data: { role: 'assistant', status: 'streaming' } },
+  { type: 'part', data: { type: 'reasoning', text: 'Let me analyze this request...', state: 'streaming' } },
+  { type: 'part', data: { type: 'reasoning', text: 'Let me analyze this request...', state: 'done' } },
+  { type: 'part', data: { type: 'tool-search', toolCallId: 'tc-1', state: 'input-available', input: { query: 'UIX IR' } } },
+  { type: 'part', data: { type: 'tool-search', toolCallId: 'tc-1', state: 'output-available', input: { query: 'UIX IR' }, output: '3 results found' } },
+  { type: 'part', data: { type: 'text', text: 'Based on my research, ', state: 'streaming' } },
+  { type: 'part', data: { type: 'text', text: 'Based on my research, **UIX IR** is an intermediate representation ', state: 'streaming' } },
+  { type: 'part', data: { type: 'text', text: 'Based on my research, **UIX IR** is an intermediate representation that bridges AI output and UI rendering.', state: 'done' } },
+  { type: 'message', data: { role: 'assistant', status: 'done' } },
+]
+
+// ============================================================================
+// Event Processors
+// ============================================================================
+
+function processAnthropicEvent(event: AIEvent, prev: LucidConversation | null): LucidConversation | null {
+  if (!prev) {
+    if (event.type === 'message_start') {
+      return { id: `conv-${Date.now()}`, role: 'assistant', status: 'streaming', blocks: [], timestamp: Date.now() }
+    }
+    return null
+  }
+  const updated = { ...prev, blocks: [...prev.blocks] }
+  switch (event.type) {
+    case 'content_block_start': {
+      const blockType = event.data.type as string
+      const newBlock: LucidBlock = {
+        id: `block-${event.data.index}`,
+        type: blockType === 'thinking' ? 'thinking' : blockType === 'tool_use' ? 'tool' : 'text',
+        status: 'streaming',
+        content: blockType === 'thinking' ? { reasoning: '' } :
+                 blockType === 'tool_use' ? { name: event.data.name as string, input: {}, status: 'running' } :
+                 { text: '' }
+      } as LucidBlock
+      updated.blocks.push(newBlock)
+      break
+    }
+    case 'content_block_delta': {
+      const lastBlock = updated.blocks[updated.blocks.length - 1]
+      if (lastBlock) {
+        if (event.data.type === 'thinking_delta') (lastBlock.content as { reasoning: string }).reasoning += event.data.thinking
+        else if (event.data.type === 'text_delta') (lastBlock.content as { text: string }).text += event.data.text
+        else if (event.data.type === 'input_json_delta') {
+          try { (lastBlock.content as { input: unknown }).input = JSON.parse(event.data.partial_json as string) } catch {}
+        }
+      }
+      break
+    }
+    case 'content_block_stop': {
+      const blockIndex = event.data.index as number
+      if (updated.blocks[blockIndex]) {
+        updated.blocks[blockIndex] = { ...updated.blocks[blockIndex], status: 'completed' }
+        if (updated.blocks[blockIndex].type === 'tool') (updated.blocks[blockIndex].content as { status: string }).status = 'success'
+      }
+      break
+    }
+    case 'message_stop':
+      updated.status = 'completed'
+      break
+  }
+  return updated
+}
+
+function processAGUIEvent(event: AIEvent, prev: LucidConversation | null): LucidConversation | null {
+  if (event.type === 'RunStarted') return null
+  if (event.type === 'TextMessageStart') {
+    return { id: event.data.messageId as string, role: 'assistant', status: 'streaming', blocks: [
+      { id: `text-${Date.now()}`, type: 'text', status: 'streaming', content: { text: '' } }
+    ], timestamp: Date.now() }
+  }
+  if (!prev) return null
+  const updated = { ...prev, blocks: [...prev.blocks] }
+
+  switch (event.type) {
+    case 'ToolCallStart': {
+      updated.blocks.push({
+        id: event.data.toolCallId as string,
+        type: 'tool',
+        status: 'streaming',
+        content: { name: event.data.toolCallName as string, input: {}, status: 'running' }
+      } as LucidBlock)
+      break
+    }
+    case 'ToolCallArgs': {
+      const tool = updated.blocks.find(b => b.id === event.data.toolCallId)
+      if (tool) {
+        try { (tool.content as { input: unknown }).input = JSON.parse(event.data.delta as string) } catch {}
+      }
+      break
+    }
+    case 'ToolCallEnd': {
+      const tool = updated.blocks.find(b => b.id === event.data.toolCallId)
+      if (tool) {
+        tool.status = 'completed';
+        (tool.content as { status: string }).status = 'success'
+      }
+      break
+    }
+    case 'TextMessageContent': {
+      const textBlock = updated.blocks.find(b => b.type === 'text')
+      if (textBlock) (textBlock.content as { text: string }).text += event.data.delta as string
+      break
+    }
+    case 'TextMessageEnd': {
+      const textBlock = updated.blocks.find(b => b.type === 'text')
+      if (textBlock) textBlock.status = 'completed'
+      updated.status = 'completed'
+      break
+    }
+    case 'RunFinished':
+      updated.status = 'completed'
+      break
+  }
+  return updated
+}
+
+function processVercelEvent(event: AIEvent, prev: LucidConversation | null): LucidConversation | null {
+  if (event.type === 'message' && !prev) {
+    return { id: `conv-${Date.now()}`, role: 'assistant', status: 'streaming', blocks: [], timestamp: Date.now() }
+  }
+  if (event.type === 'message' && prev && event.data.status === 'done') {
+    return { ...prev, status: 'completed' }
+  }
+  if (!prev) return null
+  const updated = { ...prev, blocks: [...prev.blocks] }
+
+  if (event.type === 'part') {
+    const partType = event.data.type as string
+    if (partType === 'reasoning') {
+      const existing = updated.blocks.find(b => b.type === 'thinking')
+      if (existing) {
+        (existing.content as { reasoning: string }).reasoning = event.data.text as string
+        existing.status = event.data.state === 'done' ? 'completed' : 'streaming'
+      } else {
+        updated.blocks.push({
+          id: `thinking-${Date.now()}`, type: 'thinking',
+          status: event.data.state === 'done' ? 'completed' : 'streaming',
+          content: { reasoning: event.data.text as string }
+        } as LucidBlock)
+      }
+    } else if (partType === 'text') {
+      const existing = updated.blocks.find(b => b.type === 'text')
+      if (existing) {
+        (existing.content as { text: string }).text = event.data.text as string
+        existing.status = event.data.state === 'done' ? 'completed' : 'streaming'
+      } else {
+        updated.blocks.push({
+          id: `text-${Date.now()}`, type: 'text',
+          status: event.data.state === 'done' ? 'completed' : 'streaming',
+          content: { text: event.data.text as string }
+        } as LucidBlock)
+      }
+    } else if (partType.startsWith('tool-')) {
+      const toolName = partType.replace('tool-', '')
+      const existing = updated.blocks.find(b => b.type === 'tool' && (b.content as { name: string }).name === toolName)
+      const state = event.data.state as string
+      const toolStatus = state === 'output-available' ? 'success' : state === 'output-error' ? 'error' : 'running'
+      if (existing) {
+        (existing.content as { status: string }).status = toolStatus
+        if (event.data.input) (existing.content as { input: unknown }).input = event.data.input
+        if (event.data.output) (existing.content as { output: unknown }).output = event.data.output
+        existing.status = state.includes('output') ? 'completed' : 'streaming'
+      } else {
+        updated.blocks.push({
+          id: event.data.toolCallId as string, type: 'tool', status: 'streaming',
+          content: { name: toolName, input: event.data.input ?? {}, status: toolStatus }
+        } as LucidBlock)
+      }
+    }
+  }
+  return updated
+}
+
+// ============================================================================
+// Protocol Configurations
+// ============================================================================
+
+const protocols: Record<ProtocolSource, ProtocolConfig> = {
+  anthropic: {
+    name: 'Anthropic',
+    label: 'Anthropic Events',
+    adapter: '@uix/core (direct)',
+    color: 'amber',
+    description: 'Claude API streaming events',
+    mockEvents: anthropicEvents,
+    processEvent: processAnthropicEvent,
+  },
+  'ag-ui': {
+    name: 'AG-UI',
+    label: 'AG-UI Protocol',
+    adapter: '@uix/adapter-agui',
+    color: 'green',
+    description: 'Agent-User Interaction Protocol (CopilotKit / Google / Microsoft)',
+    mockEvents: agUIEvents,
+    processEvent: processAGUIEvent,
+  },
+  vercel: {
+    name: 'Vercel AI SDK',
+    label: 'Vercel AI SDK',
+    adapter: '@uix/adapter-vercel',
+    color: 'blue',
+    description: 'Vercel AI SDK 4.x / 6.x message parts',
+    mockEvents: vercelEvents,
+    processEvent: processVercelEvent,
+  },
+}
+
+// ============================================================================
 // Event Panel Component
 // ============================================================================
 
 function EventPanel({
   events,
   activeIndex,
+  protocol,
   showHeader = true
 }: {
   events: AIEvent[]
   activeIndex: number
+  protocol: ProtocolConfig
   showHeader?: boolean
 }) {
   const { theme } = useTheme()
@@ -89,7 +332,10 @@ function EventPanel({
       {showHeader && (
         <div className={`flex items-center gap-2 px-4 py-3 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <h2 className={`text-sm font-medium ${isDark ? 'text-white/90' : 'text-gray-800'}`}>AI Events Stream</h2>
+          <h2 className={`text-sm font-medium ${isDark ? 'text-white/90' : 'text-gray-800'}`}>{protocol.label}</h2>
+          <span className={`text-xs ml-auto font-mono ${isDark ? 'text-white/40' : 'text-gray-400'}`}>
+            → {protocol.adapter}
+          </span>
         </div>
       )}
       <div className="flex-1 overflow-y-auto p-4 space-y-2 code-scrollbar">
@@ -370,108 +616,46 @@ function AppContent() {
   const [activeEventIndex, setActiveEventIndex] = useState(-1)
   const [conversation, setConversation] = useState<LucidConversation | null>(null)
   const [isRunning, setIsRunning] = useState(false)
+  const [activeProtocol, setActiveProtocol] = useState<ProtocolSource>('anthropic')
 
-  // Process event and update UIX IR
-  const processEvent = useCallback((event: AIEvent) => {
-    setConversation(prev => {
-      if (!prev) {
-        if (event.type === 'message_start') {
-          return {
-            id: `conv-${Date.now()}`,
-            role: 'assistant',
-            status: 'streaming',
-            blocks: [],
-            timestamp: Date.now()
-          }
-        }
-        return null
-      }
-
-      const updated = { ...prev, blocks: [...prev.blocks] }
-
-      switch (event.type) {
-        case 'content_block_start': {
-          const blockType = event.data.type as string
-          const newBlock: LucidBlock = {
-            id: `block-${event.data.index}`,
-            type: blockType === 'thinking' ? 'thinking' :
-                  blockType === 'tool_use' ? 'tool' : 'text',
-            status: 'streaming',
-            content: blockType === 'thinking' ? { reasoning: '' } :
-                     blockType === 'tool_use' ? {
-                       name: event.data.name as string,
-                       input: {},
-                       status: 'running'
-                     } :
-                     { text: '' }
-          } as LucidBlock
-          updated.blocks.push(newBlock)
-          break
-        }
-
-        case 'content_block_delta': {
-          const lastBlock = updated.blocks[updated.blocks.length - 1]
-          if (lastBlock) {
-            if (event.data.type === 'thinking_delta') {
-              (lastBlock.content as { reasoning: string }).reasoning += event.data.thinking
-            } else if (event.data.type === 'text_delta') {
-              (lastBlock.content as { text: string }).text += event.data.text
-            } else if (event.data.type === 'input_json_delta') {
-              try {
-                (lastBlock.content as { input: unknown }).input = JSON.parse(event.data.partial_json as string)
-              } catch {}
-            }
-          }
-          break
-        }
-
-        case 'content_block_stop': {
-          const blockIndex = event.data.index as number
-          if (updated.blocks[blockIndex]) {
-            updated.blocks[blockIndex] = {
-              ...updated.blocks[blockIndex],
-              status: 'completed'
-            }
-            // Update tool status
-            if (updated.blocks[blockIndex].type === 'tool') {
-              (updated.blocks[blockIndex].content as { status: string }).status = 'success'
-            }
-          }
-          break
-        }
-
-        case 'message_stop':
-          updated.status = 'completed'
-          break
-      }
-
-      return updated
-    })
-  }, [])
+  const protocol = protocols[activeProtocol]
 
   // Run simulation
-  const runSimulation = useCallback(async () => {
+  const runSimulation = useCallback(async (proto?: ProtocolSource) => {
+    const config = protocols[proto ?? activeProtocol]
     setIsRunning(true)
     setEvents([])
     setConversation(null)
     setActiveEventIndex(-1)
 
-    for (let i = 0; i < mockEvents.length; i++) {
+    let conv: LucidConversation | null = null
+    for (let i = 0; i < config.mockEvents.length; i++) {
       await new Promise(resolve => setTimeout(resolve, 600))
 
       const event: AIEvent = {
-        ...mockEvents[i],
+        ...config.mockEvents[i],
         id: `event-${i}`,
         timestamp: Date.now()
       }
 
       setEvents(prev => [...prev, event])
       setActiveEventIndex(i)
-      processEvent(event)
+      conv = config.processEvent(event, conv)
+      setConversation(conv ? { ...conv } : null)
     }
 
     setIsRunning(false)
-  }, [processEvent])
+  }, [activeProtocol])
+
+  const switchProtocol = useCallback((proto: ProtocolSource) => {
+    if (isRunning) return
+    setActiveProtocol(proto)
+    setEvents([])
+    setConversation(null)
+    setActiveEventIndex(-1)
+    // Auto-run after switching
+    setTimeout(() => runSimulation(proto), 300)
+  }, [isRunning, runSimulation])
 
   // Auto-run on mount
   useEffect(() => {
@@ -528,14 +712,14 @@ function AppContent() {
               <div className="flex items-center justify-between gap-4">
                 <div className="flex-1">
                   <h2 className={`text-base font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    UIX Protocol Demo
+                    UIX Protocol Playground
                   </h2>
                   <p className={`text-sm ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
-                    See how it works: transforming streaming AI events into a structured Intermediate Representation, then rendering into the user interface.
+                    One IR, multiple protocols — switch between Anthropic, AG-UI, and Vercel AI SDK to see how UIX unifies them all.
                   </p>
                 </div>
                 <button
-                  onClick={runSimulation}
+                  onClick={() => runSimulation()}
                   disabled={isRunning}
                   className={`
                     hidden sm:block flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all
@@ -547,8 +731,41 @@ function AppContent() {
                   {isRunning ? 'Running...' : 'Run Demo'}
                 </button>
               </div>
+
+              {/* Protocol Selector Tabs */}
+              <div className="flex gap-2 mt-3 flex-wrap">
+                {(Object.keys(protocols) as ProtocolSource[]).map((key) => {
+                  const p = protocols[key]
+                  const isActive = activeProtocol === key
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => switchProtocol(key)}
+                      disabled={isRunning}
+                      className={`
+                        px-3 py-1.5 rounded-lg text-xs font-medium transition-all border
+                        ${isActive
+                          ? isDark
+                            ? 'bg-blue-500/20 border-blue-500/50 text-blue-400'
+                            : 'bg-blue-50 border-blue-200 text-blue-700'
+                          : isDark
+                            ? 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white/70'
+                            : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                        }
+                        ${isRunning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
+                      `}
+                    >
+                      {p.name}
+                    </button>
+                  )
+                })}
+              </div>
+              <p className={`text-xs mt-2 ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
+                {protocol.description} → {protocol.adapter} → UIX IR → Rendered UI
+              </p>
+
               <button
-                onClick={runSimulation}
+                onClick={() => runSimulation()}
                 disabled={isRunning}
                 className={`
                   sm:hidden w-full mt-4 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
@@ -584,7 +801,7 @@ function AppContent() {
             {/* Three Column Layout - Desktop */}
             <div className="hidden lg:grid grid-cols-[1fr,auto,1.2fr,auto,1fr] gap-0 h-[calc(100vh-240px)] min-h-[300px]">
               <div className={`rounded-l-xl border overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-                <EventPanel events={events} activeIndex={activeEventIndex} />
+                <EventPanel events={events} activeIndex={activeEventIndex} protocol={protocol} />
               </div>
               <FlowIndicator active={isRunning} />
               <div className={`border-y overflow-hidden ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
@@ -600,7 +817,7 @@ function AppContent() {
             <div className="lg:hidden space-y-4">
               {/* Events Panel */}
               <div className={`rounded-xl border overflow-hidden h-[300px] ${isDark ? 'border-white/10 bg-gray-900/50' : 'border-gray-200 bg-white'}`}>
-                <EventPanel events={events} activeIndex={activeEventIndex} />
+                <EventPanel events={events} activeIndex={activeEventIndex} protocol={protocol} />
               </div>
 
               {/* Flow Arrow */}
@@ -668,10 +885,19 @@ function AppContent() {
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/lucid-tokens</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/adapter-agui</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
-                    Design tokens and themes
+                    AG-UI protocol adapter
+                  </p>
+                </div>
+                <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span>📦</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/adapter-vercel</span>
+                  </div>
+                  <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                    Vercel AI SDK 4.x / 6.x adapter
                   </p>
                 </div>
               </div>
