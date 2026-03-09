@@ -26,13 +26,16 @@ jobs:
           version: 9
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build packages
         run: |
           pnpm -F @uix/core build
           pnpm -F @uix/lucid-tokens build
           pnpm -F @uix/stream build
+          pnpm -F @uix/adapter-vercel build
+          pnpm -F @uix/adapter-agui build
+          pnpm -F @uix/adapter-a2ui build
           pnpm -F @uix/agent build
 
       - name: Build Web
