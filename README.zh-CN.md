@@ -75,20 +75,21 @@ AI 已经能理解人类意图、进行推理、调用工具、生成内容。�
 
 | 协议 | 状态 | 问题 |
 |------|------|------|
-| A2UI (Google) | v0.8 预览版 | 只支持 Android TV/Wear OS，**不支持 Web** |
+| A2UI (Google) | v0.8+ | 声明式 UI 载荷，多平台 (React/Flutter/SwiftUI) |
+| AG-UI (CopilotKit) | v0.1+ | 事件驱动的 Agent-前端协议，Google/Microsoft/AWS 已采纳 |
 | MCP Apps (Anthropic) | SEP-1865 草案 | 还在设计中，**不能用** |
 
-**今天没有一个生产可用的 AI-to-UI 协议。**
+**多个协议正在涌现，但没有一个提供统一的 IR 层来桥接它们。**
 
 ### 解决方案
 
 UIX 提供：
 1. **UIX IR** - 今天就能用的稳定内部协议
-2. **适配器** - 未来兼容 A2UI、MCP Apps
+2. **适配器** - 兼容 Vercel AI SDK、AG-UI、A2UI 及未来协议
 3. **参考实现** - React 渲染器作为默认实现
 
 ```
-AI 智能体事件
+AI 智能体事件 (Vercel AI SDK / AG-UI / AgentX / ...)
     ↓
 UIX IR (稳定的内部协议)
     ↓
@@ -97,15 +98,16 @@ UIX IR (稳定的内部协议)
     └── MCPAppsRenderer (等 MCP Apps 成熟)
 ```
 
-### 为什么不等大厂标准成熟？
+### 为什么不直接用 A2UI / AG-UI / MCP Apps？
 
-> "A2UI 和 MCP Apps 是未来的目标，UIX IR 是今天的桥梁。我们不是在重复造轮子，是在造一个可以适配任何轮子的适配器。"
+> "协议在不断涌现 —— AG-UI、A2UI、MCP Apps、Vercel AI SDK —— 每个都有自己的消息格式。UIX IR 是统一的抽象层，能适配所有协议。"
 
 | 方案 | 风险 |
 |------|------|
-| 等标准成熟 | AgentX 没有 UI，产品停滞 |
+| 等一个标准胜出 | 产品停滞，可能押错宝 |
+| 直接绑定 AG-UI | 锁定在一个协议的事件模型上 |
 | 直接绑定 A2UI | A2UI 变了就要大改 |
-| 直接绑定 MCP Apps | 同样的问题 |
+| 直接绑定 MCP Apps | 还在草案阶段，可能大改 |
 | **UIX IR + 适配器** | 内部稳定，外部灵活 |
 
 ---
@@ -127,7 +129,7 @@ Design Tokens = 服装道具（穿什么）
 | 解决的痛点 | 设计到代码的一致性 | AI 输出到界面的标准化 |
 | 消费者 | 人类开发者（理解 CSS） | AI（需要结构化、语义化描述） |
 | 目标市场 | 设计系统、组件库 | AI Agent 平台 |
-| 竞品 | Style Dictionary, Theo | 暂时没有（空白市场） |
+| 竞品 | Style Dictionary, Theo | AG-UI、A2UI（协议层，非统一 IR） |
 
 ### 核心差异
 
@@ -184,13 +186,13 @@ AI 推理 → UIX IR → 渲染引擎 → 用户看到界面
         │    (JSON Schema)    │
         └──────────┬──────────┘
                    │
-     ┌─────────────┼─────────────┐
-     │             │             │
-     ▼             ▼             ▼
-┌─────────┐  ┌─────────┐  ┌─────────┐
-│ AgentX  │  │  其他    │  │  A2UI   │
-│   UI    │  │  框架    │  │  适配器  │
-└─────────┘  └─────────┘  └──────────┘
+     ┌─────────┬───┴───┬─────────┐
+     │         │       │         │
+     ▼         ▼       ▼         ▼
+┌─────────┐ ┌──────┐ ┌──────┐ ┌──────┐
+│ Vercel  │ │AG-UI │ │A2UI  │ │AgentX│
+│ AI SDK  │ │适配器│ │适配器│ │  UI  │
+└─────────┘ └──────┘ └──────┘ └──────┘
 ```
 
 ---
@@ -272,6 +274,8 @@ React 组件
 | `@uix/lucid-react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
 | `@uix/stream` | 渲染器 | ✅ 就绪 | 流式 Markdown 渲染器 (Streamdown) |
 | `@uix/agent` | 组件 | ✅ 就绪 | AI Agent 对话组件 |
+| `@uix/adapter-vercel` | 适配器 | ✅ 就绪 | Vercel AI SDK 4.x / 6.x ↔ UIX IR 转换器 |
+| `@uix/adapter-agui` | 适配器 | 🚧 Alpha | AG-UI 协议事件 → UIX IR 转换器 |
 
 ---
 
@@ -352,15 +356,18 @@ function App() {
   - [x] StreamText, ThinkingIndicator, ToolResult
   - [x] ChatList, ChatWindow 布局组件
 
-### 第二阶段：协议（当前）
+### 第二阶段：协议与适配器（当前）
 - [ ] UIX IR JSON Schema
 - [ ] TypeScript 类型定义
+- [x] Vercel AI SDK 适配器（`@uix/adapter-vercel`，支持 SDK 4.x 和 6.x）
+- [x] AG-UI 协议适配器（`@uix/adapter-agui`）
 - [ ] AgentX 适配器
 - [ ] 校验工具
 
 ### 第三阶段：生态
 - [ ] A2UI 渲染器（等成熟后）
 - [ ] MCP Apps 渲染器（等成熟后）
+- [ ] 更多适配器集成（LangChain、CrewAI 等）
 - [ ] 文档和示例
 
 ---
@@ -373,7 +380,7 @@ function App() {
 |------|------|
 | [AgentX](https://github.com/Deepractice/AgentX) | AI 智能体开发框架 |
 | [PromptX](https://github.com/Deepractice/PromptX) | 提示词工程平台 |
-| [DPML](https://github.com/Deepractice/dpml) | Deepractice 标记语言 |
+| [PromptML](https://github.com/Deepractice/PromptML) | Deepractice 提示词标记语言 |
 
 ---
 

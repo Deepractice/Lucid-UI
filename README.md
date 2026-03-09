@@ -75,20 +75,21 @@ AI can understand human intent, reason, call tools, and generate content. But **
 
 | Protocol | Status | Issue |
 |----------|--------|-------|
-| A2UI (Google) | v0.8 Preview | Only Android TV/Wear OS, **no Web** |
+| A2UI (Google) | v0.8+ | Declarative UI payload, multi-platform (React/Flutter/SwiftUI) |
+| AG-UI (CopilotKit) | v0.1+ | Event-based agent-to-frontend protocol, adopted by Google/Microsoft/AWS |
 | MCP Apps (Anthropic) | SEP-1865 Draft | Still in design, **not usable** |
 
-**No production-ready AI-to-UI protocol exists today.**
+**Multiple protocols are emerging, but none provides a unified IR layer that bridges them all.**
 
 ### The Solution
 
 UIX provides:
 1. **UIX IR** - A stable internal protocol that works today
-2. **Adapters** - Future compatibility with A2UI, MCP Apps when they mature
+2. **Adapters** - Compatibility with Vercel AI SDK, AG-UI, A2UI, and future protocols
 3. **Reference implementation** - React renderer as default
 
 ```
-AI Agent Events
+AI Agent Events (Vercel AI SDK / AG-UI / AgentX / ...)
     ↓
 UIX IR (stable internal protocol)
     ↓
@@ -116,7 +117,7 @@ Design Tokens  = Costumes & Props (what to wear)
 | Problem Solved | Design-to-code consistency | AI-output-to-UI standardization |
 | Consumer | Human developers (understands CSS) | AI (needs structured, semantic description) |
 | Target Market | Design systems, component libraries | AI Agent platforms |
-| Competitors | Style Dictionary, Theo | None (greenfield market) |
+| Competitors | Style Dictionary, Theo | AG-UI, A2UI (protocol layer, not unified IR) |
 
 ### The Key Insight
 
@@ -173,13 +174,13 @@ All implementations depend on the UIX IR abstraction:
         │    (JSON Schema)    │
         └──────────┬──────────┘
                    │
-     ┌─────────────┼─────────────┐
-     │             │             │
-     ▼             ▼             ▼
-┌─────────┐  ┌──────────┐  ┌──────────┐
-│ AgentX  │  │  Other   │  │  A2UI    │
-│   UI    │  │Frameworks│  │ Adapter  │
-└─────────┘  └──────────┘  └──────────┘
+     ┌─────────┬───┴───┬─────────┐
+     │         │       │         │
+     ▼         ▼       ▼         ▼
+┌─────────┐ ┌──────┐ ┌──────┐ ┌──────┐
+│ Vercel  │ │AG-UI │ │A2UI  │ │AgentX│
+│ AI SDK  │ │Adapt.│ │Adapt.│ │  UI  │
+└─────────┘ └──────┘ └──────┘ └──────┘
 ```
 
 ---
@@ -261,6 +262,8 @@ React Components
 | `@uix/lucid-react` | Renderer | ✅ Ready | React renderer & base components |
 | `@uix/stream` | Renderer | ✅ Ready | Streaming markdown renderer (Streamdown) |
 | `@uix/agent` | Components | ✅ Ready | AI Agent conversation components |
+| `@uix/adapter-vercel` | Adapter | ✅ Ready | Vercel AI SDK 4.x / 6.x ↔ UIX IR converter |
+| `@uix/adapter-agui` | Adapter | 🚧 Alpha | AG-UI protocol events → UIX IR converter |
 
 ---
 
@@ -341,28 +344,32 @@ function App() {
   - [x] StreamText, ThinkingIndicator, ToolResult
   - [x] ChatList, ChatWindow layout components
 
-### Phase 2: Protocol (Current)
+### Phase 2: Protocol & Adapters (Current)
 - [ ] UIX IR JSON Schema
 - [ ] TypeScript type definitions
+- [x] Vercel AI SDK adapter (`@uix/adapter-vercel`, supports SDK 4.x & 6.x)
+- [x] AG-UI protocol adapter (`@uix/adapter-agui`)
 - [ ] AgentX adapter
 - [ ] Validation tools
 
 ### Phase 3: Ecosystem
 - [ ] A2UI renderer (when mature)
 - [ ] MCP Apps renderer (when mature)
+- [ ] More adapter integrations (LangChain, CrewAI, etc.)
 - [ ] Documentation & examples
 
 ---
 
-## Why Not Just Wait for A2UI / MCP Apps?
+## Why Not Just Use A2UI / AG-UI / MCP Apps Directly?
 
-> "A2UI and MCP Apps are future targets. UIX IR is today's bridge. We're not reinventing the wheel—we're building an adapter that can fit any wheel."
+> "Protocols are multiplying — AG-UI, A2UI, MCP Apps, Vercel AI SDK — each with its own message format. UIX IR is the unified abstraction layer that adapts to all of them."
 
 | Approach | Risk |
 |----------|------|
-| Wait for standards | AgentX has no UI, product stalls |
+| Wait for one standard to win | Product stalls, bet on wrong horse |
+| Bind to AG-UI directly | Locked into one protocol's event model |
 | Bind to A2UI directly | A2UI changes, major rewrite needed |
-| Bind to MCP Apps directly | Same problem |
+| Bind to MCP Apps directly | Still in draft, may pivot |
 | **UIX IR + Adapters** | Internal stability, external flexibility |
 
 ---
@@ -375,7 +382,7 @@ Part of the **Deepractice AI development ecosystem**:
 |---------|-------------|
 | [AgentX](https://github.com/Deepractice/AgentX) | AI Agent development framework |
 | [PromptX](https://github.com/Deepractice/PromptX) | Prompt engineering platform |
-| [DPML](https://github.com/Deepractice/dpml) | Deepractice Markup Language |
+| [PromptML](https://github.com/Deepractice/PromptML) | Deepractice Prompt Markup Language |
 
 ---
 

@@ -1,7 +1,7 @@
 {
-  "name": "@uix/adapter-vercel",
+  "name": "@uix/adapter-agui",
   "version": "0.0.1",
-  "description": "Adapter to convert Vercel AI SDK messages to UIX Lucid IR format",
+  "description": "Adapter to convert AG-UI protocol events to UIX Lucid IR format",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -24,29 +24,29 @@
     "@uix/core": "workspace:*"
   },
   "peerDependencies": {
-    "ai": ">=4.0.0 || >=6.0.0"
+    "@ag-ui/core": ">=0.1.0"
   },
   "peerDependenciesMeta": {
-    "ai": {
+    "@ag-ui/core": {
       "optional": true
     }
   },
   "devDependencies": {
-    "ai": "^6.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.3.0"
   },
   "keywords": [
     "uix",
-    "vercel",
-    "ai-sdk",
+    "ag-ui",
+    "agent-ui",
     "adapter",
+    "protocol",
     "converter"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Deepractice/UIX.git",
-    "directory": "packages/adapter-vercel"
+    "directory": "packages/adapter-agui"
   }
 }

@@ -4,7 +4,9 @@
  * Adapter to convert Vercel AI SDK messages to UIX Lucid IR format.
  *
  * This package provides utilities to seamlessly integrate Vercel AI SDK
- * with UIX rendering components.
+ * with UIX rendering components. Compatible with Vercel AI SDK 4.x and 6.x.
+ *
+ * @see https://ai-sdk.dev/docs/migration-guides/migration-guide-6-0
  *
  * @example
  * ```typescript
@@ -75,6 +77,13 @@ export interface VercelSourceDocumentPart {
   filename?: string
 }
 
+/**
+ * Step boundary part (new in AI SDK 6 for agent tool loops)
+ */
+export interface VercelStepStartPart {
+  type: 'step-start'
+}
+
 export interface VercelToolPart {
   type: `tool-${string}` | 'dynamic-tool'
   toolName?: string
@@ -103,6 +112,7 @@ export type VercelMessagePart =
   | VercelFilePart
   | VercelSourceUrlPart
   | VercelSourceDocumentPart
+  | VercelStepStartPart
   | VercelToolPart
   | { type: string; [key: string]: unknown }
 
@@ -277,6 +287,11 @@ export function convertPartToBlock(
         filename: sourcePart.filename,
       } as SourceBlockContent,
     }
+  }
+
+  // Step boundary part (AI SDK 6 agent tool loops) - skip as structural marker
+  if (part.type === 'step-start') {
+    return null
   }
 
   // Tool parts (tool-* or dynamic-tool)
