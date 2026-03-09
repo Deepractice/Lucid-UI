@@ -703,8 +703,79 @@ function AppContent() {
         </div>
       </header>
 
-      {/* Protocol Demo */}
+      {/* Hero + Protocol Demo */}
       <div className="pt-14">
+            {/* Hero Section */}
+            <section className={`py-12 sm:py-16 ${isDark ? 'bg-gradient-to-b from-gray-950 to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
+              <div className="max-w-7xl mx-auto px-4 lg:px-6 text-center">
+                <h1 className={`text-3xl sm:text-5xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  The Last Mile from{' '}
+                  <span className="text-blue-600">AI</span> to{' '}
+                  <span className="text-blue-600">Human</span>
+                </h1>
+                <p className={`mt-4 text-lg sm:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
+                  One IR, multiple protocols. UIX unifies Anthropic, AG-UI, Vercel AI SDK into a single rendering layer.
+                </p>
+
+                {/* Install Command */}
+                <div className={`mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-xl border font-mono text-sm ${isDark ? 'bg-white/5 border-white/10 text-white/80' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
+                  <span className={isDark ? 'text-blue-400' : 'text-blue-600'}>$</span>
+                  <code>pnpm add @uix/agent @uix/adapter-agui</code>
+                  <button
+                    onClick={() => navigator.clipboard.writeText('pnpm add @uix/agent @uix/adapter-agui')}
+                    className={`p-1 rounded hover:bg-white/10 transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-gray-400 hover:text-gray-600'}`}
+                    title="Copy"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Code Example */}
+                <div className={`mt-8 max-w-xl mx-auto text-left rounded-xl border overflow-hidden ${isDark ? 'bg-gray-900 border-white/10' : 'bg-gray-900 border-gray-700'}`}>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border-b border-white/10">
+                    <div className="w-3 h-3 rounded-full bg-red-500/60" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                    <span className="text-xs text-white/40 ml-2 font-mono">App.tsx</span>
+                  </div>
+                  <pre className="p-4 text-sm font-mono leading-relaxed overflow-x-auto"><code className="text-white/80">{
+`import { `}<span className="text-blue-400">AgentChat</span>{` } from '@uix/agent'
+import { `}<span className="text-green-400">useAGUI</span>{` } from '@uix/adapter-agui/react'
+
+function `}<span className="text-yellow-400">App</span>{`() {
+  const { conversations, status, send } = `}<span className="text-green-400">useAGUI</span>{`({
+    url: `}<span className="text-amber-400">'/api/agent'</span>{`
+  })
+  return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="text-purple-400">{`conversations={conversations} status={status} onSend={send}`}</span>{` />
+}`}
+                  </code></pre>
+                </div>
+                <p className={`mt-3 text-xs ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
+                  3 lines of code. Any protocol. Full chat UI.
+                </p>
+
+                {/* Protocol Badges */}
+                <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
+                  {['Anthropic', 'AG-UI', 'Vercel AI SDK', 'A2UI', 'MCP Apps'].map((name, i) => (
+                    <span
+                      key={name}
+                      className={`
+                        px-3 py-1 rounded-full text-xs font-medium border
+                        ${i < 3
+                          ? isDark ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-700'
+                          : isDark ? 'bg-white/5 border-white/10 text-white/30' : 'bg-gray-50 border-gray-200 text-gray-400'
+                        }
+                      `}
+                    >
+                      {name} {i >= 3 && '(soon)'}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 lg:px-6 pt-6 pb-2">
             {/* Introduction */}

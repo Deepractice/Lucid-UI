@@ -1,7 +1,7 @@
 {
-  "name": "@uix/core",
+  "name": "@uix/adapter-a2ui",
   "version": "0.0.1",
-  "description": "UIX Core - The protocol types for declarative UI generation",
+  "description": "Adapter to convert Google A2UI protocol payloads to UIX Lucid IR format",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -10,21 +10,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./schema": {
-      "types": "./dist/schema.d.ts",
-      "import": "./dist/schema.js"
-    },
-    "./schema/uix-ir.schema.json": "./schema/uix-ir.schema.json"
+    }
   },
   "files": [
-    "dist",
-    "schema"
+    "dist"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@uix/core": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
@@ -32,16 +29,17 @@
   },
   "keywords": [
     "uix",
+    "a2ui",
+    "agent-ui",
+    "adapter",
     "protocol",
-    "declarative-ui",
-    "json-schema",
-    "typescript",
-    "intermediate-representation"
+    "converter",
+    "google"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Deepractice/UIX.git",
-    "directory": "packages/core"
+    "directory": "packages/adapter-a2ui"
   }
 }

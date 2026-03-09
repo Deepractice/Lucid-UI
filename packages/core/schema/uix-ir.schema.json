@@ -1,0 +1,357 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uix.deepractice.org/schema/uix-ir.schema.json",
+  "title": "UIX Intermediate Representation",
+  "description": "JSON Schema for the UIX IR protocol. Defines the structure of AI-to-UI messages including conversations, content blocks, and their associated types.",
+  "$defs": {
+    "ConversationRole": {
+      "type": "string",
+      "enum": ["user", "assistant", "system"],
+      "description": "The role of the message sender in a conversation."
+    },
+    "ContentStatus": {
+      "type": "string",
+      "enum": ["streaming", "completed", "error"],
+      "description": "Status for conversations and blocks."
+    },
+    "BlockType": {
+      "type": "string",
+      "enum": ["text", "tool", "thinking", "image", "file", "error", "source"],
+      "description": "Block types supported by the UIX IR protocol."
+    },
+    "ToolStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "streaming",
+        "ready",
+        "running",
+        "approval-required",
+        "approved",
+        "denied",
+        "success",
+        "error"
+      ],
+      "description": "Fine-grained status for tool execution lifecycle. Inspired by Vercel AI SDK."
+    },
+    "SourceType": {
+      "type": "string",
+      "enum": ["url", "document"],
+      "description": "Source type for RAG applications."
+    },
+    "ToolApproval": {
+      "type": "object",
+      "description": "User approval response for tool execution.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this approval request."
+        },
+        "approved": {
+          "type": "boolean",
+          "description": "Whether the user approved the execution."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Optional reason provided by user."
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    },
+    "TextBlockContent": {
+      "type": "object",
+      "description": "Content for text blocks. Contains markdown text.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The text content, typically in Markdown format."
+        }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    },
+    "ToolBlockContent": {
+      "type": "object",
+      "description": "Content for tool/function call blocks.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Tool/function name."
+        },
+        "input": {
+          "description": "Input parameters (may be partial during streaming)."
+        },
+        "output": {
+          "description": "Output result (when completed)."
+        },
+        "status": {
+          "$ref": "#/$defs/ToolStatus",
+          "description": "Execution status of the tool."
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message (when status is 'error')."
+        },
+        "approval": {
+          "$ref": "#/$defs/ToolApproval",
+          "description": "User approval information (for approval-required, approved, denied states)."
+        }
+      },
+      "required": ["name", "input", "status"],
+      "additionalProperties": false
+    },
+    "ThinkingBlockContent": {
+      "type": "object",
+      "description": "Content for thinking/reasoning blocks.",
+      "properties": {
+        "reasoning": {
+          "type": "string",
+          "description": "The AI reasoning/thinking text."
+        }
+      },
+      "required": ["reasoning"],
+      "additionalProperties": false
+    },
+    "ImageBlockContent": {
+      "type": "object",
+      "description": "Content for image blocks.",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the image."
+        },
+        "alt": {
+          "type": "string",
+          "description": "Alternative text for the image."
+        },
+        "width": {
+          "type": "number",
+          "description": "Image width in pixels."
+        },
+        "height": {
+          "type": "number",
+          "description": "Image height in pixels."
+        }
+      },
+      "required": ["url"],
+      "additionalProperties": false
+    },
+    "FileBlockContent": {
+      "type": "object",
+      "description": "Content for file attachment blocks.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Filename."
+        },
+        "type": {
+          "type": "string",
+          "description": "MIME type of the file."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to access the file."
+        },
+        "size": {
+          "type": "number",
+          "description": "File size in bytes."
+        }
+      },
+      "required": ["name", "type", "url"],
+      "additionalProperties": false
+    },
+    "ErrorBlockContent": {
+      "type": "object",
+      "description": "Content for error blocks.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error message."
+        },
+        "details": {
+          "description": "Additional error details."
+        }
+      },
+      "required": ["code", "message"],
+      "additionalProperties": false
+    },
+    "SourceBlockContent": {
+      "type": "object",
+      "description": "Content for source/citation blocks used in RAG applications.",
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "description": "Unique identifier for this source."
+        },
+        "sourceType": {
+          "$ref": "#/$defs/SourceType",
+          "description": "Type of source."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the source."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL (for url type) or document location."
+        },
+        "mediaType": {
+          "type": "string",
+          "description": "MIME type (for document type)."
+        },
+        "filename": {
+          "type": "string",
+          "description": "Original filename (for document type)."
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Relevant excerpt or snippet from the source."
+        }
+      },
+      "required": ["sourceId", "sourceType", "title"],
+      "additionalProperties": false
+    },
+    "LucidBlock": {
+      "type": "object",
+      "description": "A content block within a conversation. Blocks represent different types of content (text, tool calls, thinking, images, files, errors, sources).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the block."
+        },
+        "type": {
+          "$ref": "#/$defs/BlockType",
+          "description": "Block type discriminator."
+        },
+        "status": {
+          "$ref": "#/$defs/ContentStatus",
+          "description": "Current status (streaming, completed, error)."
+        },
+        "content": {
+          "description": "Block content (varies by type)."
+        }
+      },
+      "required": ["id", "type", "status", "content"],
+      "allOf": [
+        {
+          "if": {
+            "properties": { "type": { "const": "text" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/TextBlockContent" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "tool" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/ToolBlockContent" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "thinking" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/ThinkingBlockContent" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "image" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/ImageBlockContent" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "file" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/FileBlockContent" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "error" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/ErrorBlockContent" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "source" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "content": { "$ref": "#/$defs/SourceBlockContent" }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "LucidConversation": {
+      "type": "object",
+      "description": "A conversation message containing blocks. Represents a single message in the conversation which can contain multiple blocks of different types.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the conversation."
+        },
+        "role": {
+          "$ref": "#/$defs/ConversationRole",
+          "description": "Role of the message sender."
+        },
+        "status": {
+          "$ref": "#/$defs/ContentStatus",
+          "description": "Current status of the conversation."
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LucidBlock"
+          },
+          "description": "Content blocks within this conversation message."
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Unix timestamp in milliseconds."
+        }
+      },
+      "required": ["id", "role", "status", "blocks", "timestamp"],
+      "additionalProperties": false
+    }
+  },
+  "$ref": "#/$defs/LucidConversation"
+}
