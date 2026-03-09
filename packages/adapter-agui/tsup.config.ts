@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   clean: true,
   sourcemap: true,
-  external: ['ai', 'react'],
+  external: ['@ag-ui/core', 'react'],
 })
