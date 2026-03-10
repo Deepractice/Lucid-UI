@@ -723,10 +723,10 @@ function AppContent() {
                 {/* Install Command */}
                 <div className={`mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl border font-mono text-sm ${isDark ? 'bg-white/5 border-white/10 text-white/80' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
                   <span className={isDark ? 'text-blue-400' : 'text-blue-600'}>$</span>
-                  <code>pnpm add @uix-ai/agent @uix-ai/core</code>
+                  <code>pnpm add @uix-ai/agent</code>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText('pnpm add @uix-ai/agent @uix-ai/core')
+                      navigator.clipboard.writeText('pnpm add @uix-ai/agent')
                       const btn = document.getElementById('copy-btn')
                       if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = '' }, 1500) }
                     }}
