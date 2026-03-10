@@ -709,8 +709,11 @@ function AppContent() {
             <section className={`py-16 sm:py-24 ${isDark ? 'bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950' : 'bg-gradient-to-b from-white via-gray-50 to-white'}`}>
               <div className="max-w-5xl mx-auto px-4 lg:px-6 text-center">
                 <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                  The Last Mile from{' '}
-                  <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">AI</span> to{' '}
+                  The Last Mile
+                  <br />
+                  <span className={isDark ? 'text-white/80' : 'text-gray-700'}>from </span>
+                  <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">AI</span>
+                  <span className={isDark ? 'text-white/80' : 'text-gray-700'}> to </span>
                   <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">Human</span>
                 </h1>
                 <p className={`mt-6 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
