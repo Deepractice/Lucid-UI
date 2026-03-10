@@ -158,9 +158,9 @@ AI reasoning → UIX IR → Renderer → User sees UI
                         ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Design System                                     │
-│  - @uix-ai/lucid-tokens (design tokens)                        │
-│  - @uix-ai/lucid-react (base components)                       │
-│  - @uix-ai/stream (streaming renderer)                         │
+│  - @uix-ai/lucid-tokens (design tokens)                     │
+│  - @uix-ai/lucid-react (base components)                    │
+│  - @uix-ai/stream (streaming renderer)                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
