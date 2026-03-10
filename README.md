@@ -264,6 +264,7 @@ React Components
 | `@uix/agent` | Components | ✅ Ready | AI Agent conversation components |
 | `@uix/adapter-vercel` | Adapter | ✅ Ready | Vercel AI SDK 4.x / 6.x ↔ UIX IR converter |
 | `@uix/adapter-agui` | Adapter | 🚧 Alpha | AG-UI protocol events → UIX IR converter |
+| `@uix/adapter-a2ui` | Adapter | 🧪 Experimental | Google A2UI declarative UI → UIX IR converter |
 
 ---
 

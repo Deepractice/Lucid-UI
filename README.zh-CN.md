@@ -276,6 +276,7 @@ React 组件
 | `@uix/agent` | 组件 | ✅ 就绪 | AI Agent 对话组件 |
 | `@uix/adapter-vercel` | 适配器 | ✅ 就绪 | Vercel AI SDK 4.x / 6.x ↔ UIX IR 转换器 |
 | `@uix/adapter-agui` | 适配器 | 🚧 Alpha | AG-UI 协议事件 → UIX IR 转换器 |
+| `@uix/adapter-a2ui` | 适配器 | 🧪 实验性 | Google A2UI 声明式 UI → UIX IR 转换器 |
 
 ---
 

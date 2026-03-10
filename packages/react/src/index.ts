@@ -39,6 +39,10 @@
 
 // Components
 export * from './components/button'
+export * from './components/input'
+export * from './components/badge'
+export * from './components/card'
+export * from './components/skeleton'
 
 // Utils
 export { cn } from './lib/utils'

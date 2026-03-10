@@ -7,9 +7,10 @@
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
+    "test": "pnpm -r --if-present test",
     "lint": "eslint . --ext .ts,.tsx",
     "clean": "pnpm -r clean",
-    "storybook": "pnpm --filter @uix/docs storybook"
+    "storybook": "pnpm --filter @uix/storybook storybook"
   },
   "keywords": [
     "uix",

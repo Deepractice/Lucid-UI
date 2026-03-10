@@ -706,26 +706,31 @@ function AppContent() {
       {/* Hero + Protocol Demo */}
       <div className="pt-14">
             {/* Hero Section */}
-            <section className={`py-12 sm:py-16 ${isDark ? 'bg-gradient-to-b from-gray-950 to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
-              <div className="max-w-7xl mx-auto px-4 lg:px-6 text-center">
-                <h1 className={`text-3xl sm:text-5xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            <section className={`py-16 sm:py-24 ${isDark ? 'bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950' : 'bg-gradient-to-b from-white via-gray-50 to-white'}`}>
+              <div className="max-w-5xl mx-auto px-4 lg:px-6 text-center">
+                <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] ${isDark ? 'text-white' : 'text-gray-900'}`}>
                   The Last Mile from{' '}
-                  <span className="text-blue-600">AI</span> to{' '}
-                  <span className="text-blue-600">Human</span>
+                  <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">AI</span> to{' '}
+                  <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">Human</span>
                 </h1>
-                <p className={`mt-4 text-lg sm:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
-                  One IR, multiple protocols. UIX unifies Anthropic, AG-UI, Vercel AI SDK into a single rendering layer.
+                <p className={`mt-6 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
+                  AI-to-UI IR Protocol Layer — one protocol that bridges Vercel AI SDK, AG-UI, A2UI, and every future agent protocol
                 </p>
 
                 {/* Install Command */}
-                <div className={`mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-xl border font-mono text-sm ${isDark ? 'bg-white/5 border-white/10 text-white/80' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
+                <div className={`mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl border font-mono text-sm ${isDark ? 'bg-white/5 border-white/10 text-white/80' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
                   <span className={isDark ? 'text-blue-400' : 'text-blue-600'}>$</span>
-                  <code>pnpm add @uix/agent @uix/adapter-agui</code>
+                  <code>pnpm add @uix/agent @uix/core</code>
                   <button
-                    onClick={() => navigator.clipboard.writeText('pnpm add @uix/agent @uix/adapter-agui')}
-                    className={`p-1 rounded hover:bg-white/10 transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-gray-400 hover:text-gray-600'}`}
-                    title="Copy"
+                    onClick={() => {
+                      navigator.clipboard.writeText('pnpm add @uix/agent @uix/core')
+                      const btn = document.getElementById('copy-btn')
+                      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = '' }, 1500) }
+                    }}
+                    className={`p-1.5 rounded-lg hover:bg-white/10 transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-gray-400 hover:text-gray-600'}`}
+                    title="Copy to clipboard"
                   >
+                    <span id="copy-btn" className="text-xs"></span>
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -733,23 +738,19 @@ function AppContent() {
                 </div>
 
                 {/* Code Example */}
-                <div className={`mt-8 max-w-xl mx-auto text-left rounded-xl border overflow-hidden ${isDark ? 'bg-gray-900 border-white/10' : 'bg-gray-900 border-gray-700'}`}>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border-b border-white/10">
+                <div className={`mt-10 max-w-2xl mx-auto text-left rounded-xl border overflow-hidden shadow-2xl ${isDark ? 'bg-gray-900 border-white/10 shadow-blue-500/5' : 'bg-gray-900 border-gray-700 shadow-gray-400/20'}`}>
+                  <div className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border-b border-white/10">
                     <div className="w-3 h-3 rounded-full bg-red-500/60" />
                     <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
                     <div className="w-3 h-3 rounded-full bg-green-500/60" />
                     <span className="text-xs text-white/40 ml-2 font-mono">App.tsx</span>
                   </div>
-                  <pre className="p-4 text-sm font-mono leading-relaxed overflow-x-auto"><code className="text-white/80">{
+                  <pre className="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><code className="text-white/80">{
 `import { `}<span className="text-blue-400">AgentChat</span>{` } from '@uix/agent'
 import { `}<span className="text-green-400">useAGUI</span>{` } from '@uix/adapter-agui/react'
 
-function `}<span className="text-yellow-400">App</span>{`() {
-  const { conversations, status, send } = `}<span className="text-green-400">useAGUI</span>{`({
-    url: `}<span className="text-amber-400">'/api/agent'</span>{`
-  })
-  return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="text-purple-400">{`conversations={conversations} status={status} onSend={send}`}</span>{` />
-}`}
+const { conversations, send } = `}<span className="text-green-400">useAGUI</span>{`({ url: `}<span className="text-amber-400">'/api/agent'</span>{` })
+return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="text-purple-400">{`conversations={conversations} onSend={send}`}</span>{` />`}
                   </code></pre>
                 </div>
                 <p className={`mt-3 text-xs ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
@@ -757,20 +758,130 @@ function `}<span className="text-yellow-400">App</span>{`() {
                 </p>
 
                 {/* Protocol Badges */}
-                <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
-                  {['Anthropic', 'AG-UI', 'Vercel AI SDK', 'A2UI', 'MCP Apps'].map((name, i) => (
+                <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
+                  {[
+                    { name: 'Vercel AI SDK', active: true },
+                    { name: 'AG-UI', active: true },
+                    { name: 'A2UI', active: true },
+                    { name: 'Anthropic', active: true },
+                  ].map(({ name, active }) => (
                     <span
                       key={name}
                       className={`
-                        px-3 py-1 rounded-full text-xs font-medium border
-                        ${i < 3
+                        px-4 py-1.5 rounded-full text-xs font-medium border transition-colors
+                        ${active
                           ? isDark ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-700'
                           : isDark ? 'bg-white/5 border-white/10 text-white/30' : 'bg-gray-50 border-gray-200 text-gray-400'
                         }
                       `}
                     >
-                      {name} {i >= 3 && '(soon)'}
+                      {name}
                     </span>
+                  ))}
+                </div>
+
+                {/* GitHub + npm links */}
+                <div className="mt-8 flex items-center justify-center gap-4 flex-wrap">
+                  <a
+                    href="https://github.com/Deepractice/UIX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`
+                      inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all
+                      ${isDark
+                        ? 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20'
+                        : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-sm'}
+                    `}
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                    </svg>
+                    Star on GitHub
+                  </a>
+                  <a
+                    href="https://www.npmjs.com/package/@uix/core"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`
+                      inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all
+                      ${isDark
+                        ? 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20'
+                        : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-sm'}
+                    `}
+                  >
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z" />
+                    </svg>
+                    npm
+                  </a>
+                </div>
+              </div>
+            </section>
+
+            {/* Features Grid */}
+            <section className={`py-16 sm:py-20 ${isDark ? 'bg-gray-950' : 'bg-white'}`}>
+              <div className="max-w-5xl mx-auto px-4 lg:px-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    {
+                      title: 'One Component',
+                      description: '3 lines to a full AI chat UI',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      title: 'Multi-Protocol',
+                      description: 'Adapters for every major AI protocol',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      title: 'Type-Safe IR',
+                      description: 'JSON Schema validated intermediate representation',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      title: 'Streaming Native',
+                      description: 'Built for real-time AI responses',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      ),
+                    },
+                  ].map(({ title, description, icon }) => (
+                    <div
+                      key={title}
+                      className={`
+                        group p-6 rounded-xl border transition-all duration-200
+                        ${isDark
+                          ? 'bg-white/[0.02] border-white/10 hover:bg-white/[0.05] hover:border-white/20'
+                          : 'bg-gray-50 border-gray-200 hover:bg-white hover:border-gray-300 hover:shadow-md'}
+                      `}
+                    >
+                      <div className={`
+                        w-10 h-10 rounded-lg flex items-center justify-center mb-4
+                        ${isDark ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}
+                      `}>
+                        {icon}
+                      </div>
+                      <h3 className={`text-base font-semibold mb-1.5 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                        {title}
+                      </h3>
+                      <p className={`text-sm leading-relaxed ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                        {description}
+                      </p>
+                    </div>
                   ))}
                 </div>
               </div>

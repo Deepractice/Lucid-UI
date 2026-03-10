@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -37,6 +37,9 @@ jobs:
           pnpm -F @uix/adapter-agui build
           pnpm -F @uix/adapter-a2ui build
           pnpm -F @uix/agent build
+
+      - name: Run tests
+        run: pnpm test
 
       - name: Build Web
         run: pnpm -F web build
