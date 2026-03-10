@@ -678,15 +678,13 @@ function AppContent() {
             </div>
           </div>
 
-          {/* Storybook Link */}
-          <a
-            href="/storybook/"
-            className={`text-sm font-medium transition-colors ${isDark ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
-          >
-            Components →
-          </a>
-
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <a
+              href="/storybook/"
+              className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors ${isDark ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
+            >
+              Components
+            </a>
             <a
               href="https://github.com/Deepractice/UIX"
               target="_blank"
@@ -717,7 +715,9 @@ function AppContent() {
                   <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">Human</span>
                 </h1>
                 <p className={`mt-6 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
-                  AI-to-UI IR Protocol Layer — one protocol that bridges Vercel AI SDK, AG-UI, A2UI, and every future agent protocol
+                  AI-to-UI IR Protocol Layer
+                  <br />
+                  one protocol that bridges Vercel AI SDK, AG-UI, A2UI, and every future agent protocol
                 </p>
 
                 {/* Install Command */}
