@@ -15,7 +15,7 @@ npx create-next-app@latest my-chat-app --typescript --tailwind --app
 cd my-chat-app
 
 # Install dependencies
-npm install ai @ai-sdk/anthropic @ai-sdk/react @uix/agent @uix/adapter-vercel @uix/core
+npm install ai @ai-sdk/anthropic @ai-sdk/react @uix-ai/agent @uix-ai/adapter-vercel @uix-ai/core
 ```
 
 ## Project Structure
@@ -54,8 +54,8 @@ Create `app/page.tsx` with the UIX chat interface:
 ```tsx
 'use client'
 
-import { AgentChat } from '@uix/agent'
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 
 export default function ChatPage() {
   const { conversations, status, send, stop } = useVercelChat({
@@ -101,8 +101,8 @@ If you already use `useChat` from `@ai-sdk/react`, you can use the lower-level `
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { useVercelMessages } from '@uix/adapter-vercel/react'
-import { AgentChat } from '@uix/agent'
+import { useVercelMessages } from '@uix-ai/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
 
 export default function ChatPage() {
   const chat = useChat({ api: '/api/chat' })

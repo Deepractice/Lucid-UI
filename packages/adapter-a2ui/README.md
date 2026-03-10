@@ -1,4 +1,4 @@
-# @uix/adapter-a2ui
+# @uix-ai/adapter-a2ui
 
 Adapter to convert [Google A2UI](https://github.com/google/A2UI) protocol payloads to UIX Lucid IR format.
 
@@ -7,15 +7,15 @@ Adapter to convert [Google A2UI](https://github.com/google/A2UI) protocol payloa
 ## Install
 
 ```bash
-pnpm add @uix/adapter-a2ui
+pnpm add @uix-ai/adapter-a2ui
 ```
 
-Peer dependency: `@uix/core`
+Peer dependency: `@uix-ai/core`
 
 ## Quick Start
 
 ```typescript
-import { fromA2UIPayload, toA2UIPayload } from '@uix/adapter-a2ui'
+import { fromA2UIPayload, toA2UIPayload } from '@uix-ai/adapter-a2ui'
 
 // A2UI -> UIX Lucid IR
 const conversation = fromA2UIPayload(a2uiPayload)
@@ -31,8 +31,8 @@ Converts an A2UI `updateComponents` payload into a `LucidConversation`. The A2UI
 Returns `null` if the payload does not contain `updateComponents`.
 
 ```typescript
-import { fromA2UIPayload } from '@uix/adapter-a2ui'
-import type { A2UIPayload } from '@uix/adapter-a2ui'
+import { fromA2UIPayload } from '@uix-ai/adapter-a2ui'
+import type { A2UIPayload } from '@uix-ai/adapter-a2ui'
 
 const payload: A2UIPayload = {
   version: 'v0.10',
@@ -54,7 +54,7 @@ const conversation = fromA2UIPayload(payload)
 ### Batch conversion
 
 ```typescript
-import { fromA2UIPayloads } from '@uix/adapter-a2ui'
+import { fromA2UIPayloads } from '@uix-ai/adapter-a2ui'
 
 const conversations = fromA2UIPayloads(payloadArray)
 ```
@@ -64,7 +64,7 @@ const conversations = fromA2UIPayloads(payloadArray)
 Converts a `LucidConversation` back to an A2UI `updateComponents` payload. All blocks are wrapped in a root `Column` layout.
 
 ```typescript
-import { toA2UIPayload } from '@uix/adapter-a2ui'
+import { toA2UIPayload } from '@uix-ai/adapter-a2ui'
 
 const payload = toA2UIPayload(conversation)
 // payload.updateComponents.components -> [Column root, Text, Image, ...]
@@ -108,7 +108,7 @@ Containers are walked to collect child components but do not produce blocks them
 ## Conversion Options
 
 ```typescript
-import type { A2UIConversionOptions } from '@uix/adapter-a2ui'
+import type { A2UIConversionOptions } from '@uix-ai/adapter-a2ui'
 
 const options: A2UIConversionOptions = {
   generateConversationId: (surfaceId) => `my-${surfaceId}`,

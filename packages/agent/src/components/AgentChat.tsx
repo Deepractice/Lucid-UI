@@ -7,7 +7,7 @@
  *
  * @example Minimal usage (3 lines)
  * ```tsx
- * import { AgentChat } from '@uix/agent'
+ * import { AgentChat } from '@uix-ai/agent'
  *
  * <AgentChat
  *   conversations={conversations}
@@ -27,8 +27,8 @@
  *
  * @example Full integration with AG-UI
  * ```tsx
- * import { AgentChat } from '@uix/agent'
- * import { useAGUI } from '@uix/adapter-agui/react'
+ * import { AgentChat } from '@uix-ai/agent'
+ * import { useAGUI } from '@uix-ai/adapter-agui/react'
  *
  * function App() {
  *   const { conversations, status, send } = useAGUI({ url: '/api/agent' })
@@ -38,8 +38,8 @@
  *
  * @example Full integration with Vercel AI SDK
  * ```tsx
- * import { AgentChat } from '@uix/agent'
- * import { useVercelChat } from '@uix/adapter-vercel/react'
+ * import { AgentChat } from '@uix-ai/agent'
+ * import { useVercelChat } from '@uix-ai/adapter-vercel/react'
  *
  * function App() {
  *   const chat = useVercelChat()
@@ -62,14 +62,14 @@ import type {
   ToolBlockContent,
   SourceBlockContent,
   ErrorBlockContent,
-} from '@uix/core'
+} from '@uix-ai/core'
 import {
   isTextBlock,
   isThinkingBlock,
   isToolBlock,
   isSourceBlock,
   isErrorBlock,
-} from '@uix/core'
+} from '@uix-ai/core'
 import {
   ChatWindow,
   ChatWindowHeader,
@@ -94,7 +94,7 @@ import {
 export interface AgentChatProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onError'> {
   /**
    * UIX LucidConversation array - the universal format from any adapter.
-   * Can come from @uix/adapter-vercel, @uix/adapter-agui, or any custom source.
+   * Can come from @uix-ai/adapter-vercel, @uix-ai/adapter-agui, or any custom source.
    */
   conversations: LucidConversation[]
 

@@ -8,7 +8,7 @@ import {
   ChatInputTools,
   ChatInputButton,
   ChatInputSubmit,
-} from '@uix/agent'
+} from '@uix-ai/agent'
 
 const meta: Meta<typeof ChatInput> = {
   title: 'Components/ChatInput',

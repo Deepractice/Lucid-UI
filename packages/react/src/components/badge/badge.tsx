@@ -8,7 +8,7 @@
  *
  * ### Basic Usage
  * ```tsx
- * import { Badge } from '@uix/lucid-react'
+ * import { Badge } from '@uix-ai/lucid-react'
  *
  * <Badge>Default</Badge>
  * <Badge variant="success">Active</Badge>

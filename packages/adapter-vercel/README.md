@@ -1,14 +1,14 @@
-# @uix/adapter-vercel
+# @uix-ai/adapter-vercel
 
 Adapter to convert Vercel AI SDK messages to UIX Lucid IR format. Compatible with Vercel AI SDK 4.x and 6.x.
 
 ## Install
 
 ```bash
-pnpm add @uix/adapter-vercel
+pnpm add @uix-ai/adapter-vercel
 ```
 
-Peer dependencies: `react`, `@uix/core`
+Peer dependencies: `react`, `@uix-ai/core`
 
 ## Quick Start
 
@@ -17,8 +17,8 @@ Peer dependencies: `react`, `@uix/core`
 The all-in-one hook manages chat state internally and returns UIX-ready data:
 
 ```tsx
-import { AgentChat } from '@uix/agent'
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 
 function App() {
   const { conversations, status, send, stop } = useVercelChat({ api: '/api/chat' })
@@ -40,7 +40,7 @@ If you already use `useChat` from `@ai-sdk/react`, wrap the messages with `useVe
 
 ```tsx
 import { useChat } from '@ai-sdk/react'
-import { useVercelMessages } from '@uix/adapter-vercel/react'
+import { useVercelMessages } from '@uix-ai/adapter-vercel/react'
 
 function App() {
   const chat = useChat({ api: '/api/chat' })
@@ -81,7 +81,7 @@ const conversations = useVercelMessages(messages)
 For non-React usage or server-side conversion:
 
 ```typescript
-import { fromVercelMessages, fromVercelMessage, toVercelMessage, toVercelMessages } from '@uix/adapter-vercel'
+import { fromVercelMessages, fromVercelMessage, toVercelMessage, toVercelMessages } from '@uix-ai/adapter-vercel'
 
 // Vercel -> UIX
 const conversations = fromVercelMessages(vercelMessages)
@@ -97,7 +97,7 @@ const vercelMsgs = toVercelMessages(conversations)
 Convert a single Vercel message part to a `LucidBlock`:
 
 ```typescript
-import { convertPartToBlock } from '@uix/adapter-vercel'
+import { convertPartToBlock } from '@uix-ai/adapter-vercel'
 
 const block = convertPartToBlock({ type: 'text', text: 'Hello' })
 ```
@@ -107,7 +107,7 @@ const block = convertPartToBlock({ type: 'text', text: 'Hello' })
 Convert a `LucidBlock` back to Vercel message parts:
 
 ```typescript
-import { convertBlockToParts } from '@uix/adapter-vercel'
+import { convertBlockToParts } from '@uix-ai/adapter-vercel'
 
 const parts = convertBlockToParts(textBlock)
 ```

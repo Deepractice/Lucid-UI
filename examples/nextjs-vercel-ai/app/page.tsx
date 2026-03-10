@@ -1,7 +1,7 @@
 'use client'
 
-import { AgentChat } from '@uix/agent'
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 
 /**
  * Chat page using Vercel AI SDK + UIX.

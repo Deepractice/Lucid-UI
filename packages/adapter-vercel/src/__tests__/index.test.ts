@@ -23,7 +23,7 @@ import type {
   FileBlockContent,
   SourceBlockContent,
   ToolBlockContent,
-} from '@uix/core'
+} from '@uix-ai/core'
 
 // Helper to get deterministic IDs in tests
 let idCounter = 0

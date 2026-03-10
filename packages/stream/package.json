@@ -1,5 +1,5 @@
 {
-  "name": "@uix/stream",
+  "name": "@uix-ai/stream",
   "version": "0.0.1",
   "description": "Streaming content renderer for UIX blocks - powered by Vercel Streamdown",
   "type": "module",
@@ -21,8 +21,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@uix/core": "workspace:*",
-    "@uix/lucid-tokens": "workspace:*",
+    "@uix-ai/core": "workspace:*",
+    "@uix-ai/lucid-tokens": "workspace:*",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.0",
     "streamdown": "^1.6.0"

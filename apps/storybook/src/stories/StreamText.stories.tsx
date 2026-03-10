@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import * as React from 'react'
-import { StreamText } from '@uix/agent'
+import { StreamText } from '@uix-ai/agent'
 
 const meta: Meta<typeof StreamText> = {
   title: 'Components/StreamText',

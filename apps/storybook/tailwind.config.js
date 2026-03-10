@@ -1,4 +1,4 @@
-import { lucidPreset } from '@uix/lucid-tokens/tailwind'
+import { lucidPreset } from '@uix-ai/lucid-tokens/tailwind'
 
 /** @type {import('tailwindcss').Config} */
 export default {

@@ -1,22 +1,22 @@
-# @uix/adapter-agui
+# @uix-ai/adapter-agui
 
 Adapter to convert [AG-UI protocol](https://docs.ag-ui.com) streaming events to UIX Lucid IR format.
 
 ## Install
 
 ```bash
-pnpm add @uix/adapter-agui
+pnpm add @uix-ai/adapter-agui
 ```
 
-Peer dependencies: `react`, `@uix/core`
+Peer dependencies: `react`, `@uix-ai/core`
 
 ## Quick Start
 
 ### Using the `useAGUI` hook (recommended)
 
 ```tsx
-import { AgentChat } from '@uix/agent'
-import { useAGUI } from '@uix/adapter-agui/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useAGUI } from '@uix-ai/adapter-agui/react'
 
 function App() {
   const { conversations, status, send, stop } = useAGUI({ url: '/api/agent' })
@@ -61,7 +61,7 @@ const { conversations, send } = useAGUI({
 For non-React use cases or custom event sources, use the stateful processor directly:
 
 ```typescript
-import { AGUIEventProcessor } from '@uix/adapter-agui'
+import { AGUIEventProcessor } from '@uix-ai/adapter-agui'
 
 const processor = new AGUIEventProcessor({
   onUpdate: (conversations) => {
@@ -87,7 +87,7 @@ processor.reset()
 For one-shot conversion of a complete event array:
 
 ```typescript
-import { fromAGUIEvents } from '@uix/adapter-agui'
+import { fromAGUIEvents } from '@uix-ai/adapter-agui'
 
 const conversations = fromAGUIEvents(events)
 ```

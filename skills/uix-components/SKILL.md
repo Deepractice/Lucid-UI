@@ -25,8 +25,8 @@ The fastest way to build an AI chat UI:
 
 ### With Vercel AI SDK
 ```tsx
-import { AgentChat } from '@uix/agent'
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 
 export default function Chat() {
   const { conversations, status, send, stop } = useVercelChat({ api: '/api/chat' })
@@ -36,8 +36,8 @@ export default function Chat() {
 
 ### With AG-UI Protocol
 ```tsx
-import { AgentChat } from '@uix/agent'
-import { useAGUI } from '@uix/adapter-agui/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useAGUI } from '@uix-ai/adapter-agui/react'
 
 export default function Chat() {
   const { conversations, status, send, stop } = useAGUI({ url: '/api/agent' })
@@ -47,8 +47,8 @@ export default function Chat() {
 
 ### Without Any Adapter (Manual IR)
 ```tsx
-import { AgentChat } from '@uix/agent'
-import type { LucidConversation } from '@uix/core'
+import { AgentChat } from '@uix-ai/agent'
+import type { LucidConversation } from '@uix-ai/core'
 
 const conversations: LucidConversation[] = [
   { id: '1', role: 'user', status: 'completed', blocks: [{ id: 'b1', type: 'text', status: 'completed', content: { text: 'Hello' } }] },
@@ -101,7 +101,7 @@ interface LucidBlock {
 
 ### Type Guards
 ```typescript
-import { isTextBlock, isToolBlock, isThinkingBlock, isStreaming, isCompleted } from '@uix/core'
+import { isTextBlock, isToolBlock, isThinkingBlock, isStreaming, isCompleted } from '@uix-ai/core'
 
 if (isTextBlock(block)) {
   // block.content is TextBlockContent
@@ -188,14 +188,14 @@ When you need more control than `AgentChat`, use individual components:
 
 ```typescript
 // React hook (recommended)
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 const { conversations, status, send, stop, setMessages } = useVercelChat({
   api: '/api/chat',
   // all useChat options supported
 })
 
 // Manual conversion
-import { fromVercelMessages, toVercelMessages } from '@uix/adapter-vercel'
+import { fromVercelMessages, toVercelMessages } from '@uix-ai/adapter-vercel'
 const lucidConversations = fromVercelMessages(vercelMessages)
 const vercelMessages = toVercelMessages(lucidConversations)
 ```
@@ -204,7 +204,7 @@ const vercelMessages = toVercelMessages(lucidConversations)
 
 ```typescript
 // React hook (recommended)
-import { useAGUI } from '@uix/adapter-agui/react'
+import { useAGUI } from '@uix-ai/adapter-agui/react'
 const { conversations, status, send, stop, reset } = useAGUI({
   url: '/api/agent',
   threadId: 'optional-thread-id',
@@ -212,7 +212,7 @@ const { conversations, status, send, stop, reset } = useAGUI({
 })
 
 // Manual event processing
-import { AGUIEventProcessor } from '@uix/adapter-agui'
+import { AGUIEventProcessor } from '@uix-ai/adapter-agui'
 const processor = new AGUIEventProcessor()
 processor.process(event) // feed AG-UI events
 const conversations = processor.getConversations()
@@ -221,7 +221,7 @@ const conversations = processor.getConversations()
 ### A2UI Adapter (Experimental)
 
 ```typescript
-import { fromA2UIPayload, toA2UIPayload } from '@uix/adapter-a2ui'
+import { fromA2UIPayload, toA2UIPayload } from '@uix-ai/adapter-a2ui'
 
 // Google A2UI → UIX IR
 const conversation = fromA2UIPayload(a2uiPayload)
@@ -251,8 +251,8 @@ export async function POST(req: Request) {
 
 // app/page.tsx
 'use client'
-import { AgentChat } from '@uix/agent'
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 
 export default function Page() {
   const { conversations, status, send, stop } = useVercelChat({ api: '/api/chat' })
@@ -286,7 +286,7 @@ export default function Page() {
 
 ### Multiple Conversations (Sidebar + Chat)
 ```tsx
-import { ChatList, ChatWindow } from '@uix/agent'
+import { ChatList, ChatWindow } from '@uix-ai/agent'
 
 function App() {
   const [activeId, setActiveId] = useState<string>()
@@ -305,14 +305,14 @@ function App() {
 
 | Package | Install | Purpose |
 |---------|---------|---------|
-| `@uix/core` | `pnpm add @uix/core` | IR types, type guards, JSON Schema |
-| `@uix/agent` | `pnpm add @uix/agent` | React chat components |
-| `@uix/adapter-vercel` | `pnpm add @uix/adapter-vercel` | Vercel AI SDK adapter |
-| `@uix/adapter-agui` | `pnpm add @uix/adapter-agui` | AG-UI protocol adapter |
-| `@uix/adapter-a2ui` | `pnpm add @uix/adapter-a2ui` | Google A2UI adapter |
-| `@uix/lucid-tokens` | `pnpm add @uix/lucid-tokens` | Design tokens |
-| `@uix/lucid-react` | `pnpm add @uix/lucid-react` | Base components (Button, Input, Card, Badge) |
-| `@uix/stream` | `pnpm add @uix/stream` | Streaming markdown renderer |
+| `@uix-ai/core` | `pnpm add @uix-ai/core` | IR types, type guards, JSON Schema |
+| `@uix-ai/agent` | `pnpm add @uix-ai/agent` | React chat components |
+| `@uix-ai/adapter-vercel` | `pnpm add @uix-ai/adapter-vercel` | Vercel AI SDK adapter |
+| `@uix-ai/adapter-agui` | `pnpm add @uix-ai/adapter-agui` | AG-UI protocol adapter |
+| `@uix-ai/adapter-a2ui` | `pnpm add @uix-ai/adapter-a2ui` | Google A2UI adapter |
+| `@uix-ai/lucid-tokens` | `pnpm add @uix-ai/lucid-tokens` | Design tokens |
+| `@uix-ai/lucid-react` | `pnpm add @uix-ai/lucid-react` | Base components (Button, Input, Card, Badge) |
+| `@uix-ai/stream` | `pnpm add @uix-ai/stream` | Streaming markdown renderer |
 
 ---
 

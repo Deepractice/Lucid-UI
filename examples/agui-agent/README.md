@@ -12,7 +12,7 @@ AG-UI is an open protocol for agent-to-UI communication via Server-Sent Events. 
 
 ```bash
 # Install dependencies
-npm install express cors @uix/agent @uix/adapter-agui @uix/core react react-dom
+npm install express cors @uix-ai/agent @uix-ai/adapter-agui @uix-ai/core react react-dom
 npm install -D typescript @types/express @types/cors @types/react @types/react-dom tsx
 ```
 
@@ -35,8 +35,8 @@ See `server.ts` for the full implementation.
 ## Step 2: Create the Chat UI
 
 The React app (`app.tsx`) uses:
-- `useAGUI` from `@uix/adapter-agui/react` to connect to the SSE endpoint
-- `AgentChat` from `@uix/agent` to render the conversation
+- `useAGUI` from `@uix-ai/adapter-agui/react` to connect to the SSE endpoint
+- `AgentChat` from `@uix-ai/agent` to render the conversation
 
 See `app.tsx` for the full implementation.
 

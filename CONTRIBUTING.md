@@ -15,11 +15,11 @@ When contributing, remember:
 
 | Package | Layer | Purpose |
 |---------|-------|---------|
-| `@uix/core` | Protocol | UIX IR JSON Schema & TypeScript types |
-| `@uix/lucid-react` | Renderer | React renderer & base components |
-| `@uix/stream` | Renderer | Streaming content (self-healing markdown) |
-| `@uix/agent` | Renderer | Conversation & block renderers |
-| `@uix/lucid-tokens` | Design System | Colors, typography, spacing |
+| `@uix-ai/core` | Protocol | UIX IR JSON Schema & TypeScript types |
+| `@uix-ai/lucid-react` | Renderer | React renderer & base components |
+| `@uix-ai/stream` | Renderer | Streaming content (self-healing markdown) |
+| `@uix-ai/agent` | Renderer | Conversation & block renderers |
+| `@uix-ai/lucid-tokens` | Design System | Colors, typography, spacing |
 
 ---
 
@@ -36,7 +36,7 @@ When creating a new component, ensure it meets these criteria:
 - [ ] Proper semantic HTML
 
 ### 2. **Design Consistency**
-- [ ] Uses design tokens from `@uix/lucid-tokens`
+- [ ] Uses design tokens from `@uix-ai/lucid-tokens`
 - [ ] Follows Lucid color philosophy (no AI purple)
 - [ ] Consistent with existing component patterns
 - [ ] Responsive by default
@@ -80,7 +80,7 @@ Use this template when creating a new component:
  *
  * ### Basic Usage
  * ```tsx
- * import { ComponentName } from '@uix/lucid-react'
+ * import { ComponentName } from '@uix-ai/lucid-react'
  *
  * <ComponentName>Content</ComponentName>
  * ```

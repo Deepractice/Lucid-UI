@@ -1,5 +1,5 @@
 /**
- * @uix/agent
+ * @uix-ai/agent
  *
  * UIX Conversation and Block Renderers
  *
@@ -18,8 +18,8 @@
  *
  * @example
  * ```tsx
- * import { MessageList } from '@uix/agent'
- * import type { LucidConversation } from '@uix/core'
+ * import { MessageList } from '@uix-ai/agent'
+ * import type { LucidConversation } from '@uix-ai/core'
  *
  * function Chat({ conversations }: { conversations: LucidConversation[] }) {
  *   return (

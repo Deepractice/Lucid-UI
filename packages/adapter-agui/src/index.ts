@@ -1,5 +1,5 @@
 /**
- * @uix/adapter-agui
+ * @uix-ai/adapter-agui
  *
  * Adapter to convert AG-UI protocol events to UIX Lucid IR format.
  *
@@ -13,8 +13,8 @@
  *
  * @example
  * ```typescript
- * import { AGUIEventProcessor } from '@uix/adapter-agui'
- * import { MessageList } from '@uix/agent'
+ * import { AGUIEventProcessor } from '@uix-ai/adapter-agui'
+ * import { MessageList } from '@uix-ai/agent'
  *
  * function Chat() {
  *   const processor = new AGUIEventProcessor()
@@ -35,7 +35,7 @@ import type {
   TextBlockContent,
   ToolBlockContent,
   ThinkingBlockContent,
-} from '@uix/core'
+} from '@uix-ai/core'
 
 // ============================================================================
 // AG-UI Protocol Event Types

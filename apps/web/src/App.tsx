@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext } from 'react'
-import type { LucidConversation, LucidBlock } from '@uix/core'
+import type { LucidConversation, LucidBlock } from '@uix-ai/core'
 
 // ============================================================================
 // Theme Context
@@ -283,7 +283,7 @@ const protocols: Record<ProtocolSource, ProtocolConfig> = {
   anthropic: {
     name: 'Anthropic',
     label: 'Anthropic Events',
-    adapter: '@uix/core (direct)',
+    adapter: '@uix-ai/core (direct)',
     color: 'amber',
     description: 'Claude API streaming events',
     mockEvents: anthropicEvents,
@@ -292,7 +292,7 @@ const protocols: Record<ProtocolSource, ProtocolConfig> = {
   'ag-ui': {
     name: 'AG-UI',
     label: 'AG-UI Protocol',
-    adapter: '@uix/adapter-agui',
+    adapter: '@uix-ai/adapter-agui',
     color: 'green',
     description: 'Agent-User Interaction Protocol (CopilotKit / Google / Microsoft)',
     mockEvents: agUIEvents,
@@ -301,7 +301,7 @@ const protocols: Record<ProtocolSource, ProtocolConfig> = {
   vercel: {
     name: 'Vercel AI SDK',
     label: 'Vercel AI SDK',
-    adapter: '@uix/adapter-vercel',
+    adapter: '@uix-ai/adapter-vercel',
     color: 'blue',
     description: 'Vercel AI SDK 4.x / 6.x message parts',
     mockEvents: vercelEvents,
@@ -401,7 +401,7 @@ function IRPanel({ conversation, showHeader = true }: { conversation: LucidConve
           <div className="w-2 h-2 rounded-full bg-blue-500" />
           <h2 className={`text-sm font-medium ${isDark ? 'text-white/90' : 'text-gray-800'}`}>UIX IR</h2>
           <span className={`text-xs ml-auto font-mono ${isDark ? 'text-white/40' : 'text-gray-400'}`}>
-            @uix/core
+            @uix-ai/core
           </span>
         </div>
       )}
@@ -459,7 +459,7 @@ function RenderedPanel({ conversation, showHeader = true }: { conversation: Luci
           <div className="w-2 h-2 rounded-full bg-purple-500" />
           <h2 className={`text-sm font-medium ${isDark ? 'text-white/90' : 'text-gray-800'}`}>Rendered UI</h2>
           <span className={`text-xs ml-auto font-mono ${isDark ? 'text-white/40' : 'text-gray-400'}`}>
-            @uix/stream
+            @uix-ai/stream
           </span>
         </div>
       )}
@@ -723,10 +723,10 @@ function AppContent() {
                 {/* Install Command */}
                 <div className={`mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl border font-mono text-sm ${isDark ? 'bg-white/5 border-white/10 text-white/80' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
                   <span className={isDark ? 'text-blue-400' : 'text-blue-600'}>$</span>
-                  <code>pnpm add @uix/agent @uix/core</code>
+                  <code>pnpm add @uix-ai/agent @uix-ai/core</code>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText('pnpm add @uix/agent @uix/core')
+                      navigator.clipboard.writeText('pnpm add @uix-ai/agent @uix-ai/core')
                       const btn = document.getElementById('copy-btn')
                       if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = '' }, 1500) }
                     }}
@@ -749,8 +749,8 @@ function AppContent() {
                     <span className="text-xs text-white/40 ml-2 font-mono">App.tsx</span>
                   </div>
                   <pre className="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><code className="text-white/80">{
-`import { `}<span className="text-blue-400">AgentChat</span>{` } from '@uix/agent'
-import { `}<span className="text-green-400">useAGUI</span>{` } from '@uix/adapter-agui/react'
+`import { `}<span className="text-blue-400">AgentChat</span>{` } from '@uix-ai/agent'
+import { `}<span className="text-green-400">useAGUI</span>{` } from '@uix-ai/adapter-agui/react'
 
 const { conversations, send } = `}<span className="text-green-400">useAGUI</span>{`({ url: `}<span className="text-amber-400">'/api/agent'</span>{` })
 return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="text-purple-400">{`conversations={conversations} onSend={send}`}</span>{` />`}
@@ -802,7 +802,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                     Star on GitHub
                   </a>
                   <a
-                    href="https://www.npmjs.com/package/@uix/core"
+                    href="https://www.npmjs.com/package/@uix-ai/core"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`
@@ -1043,7 +1043,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/core</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/core</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     Core IR types and type guards
@@ -1052,7 +1052,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/stream</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/stream</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     Streaming markdown renderer
@@ -1061,7 +1061,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/lucid-react</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/lucid-react</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     React components library
@@ -1070,7 +1070,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/adapter-agui</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/adapter-agui</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     AG-UI protocol adapter
@@ -1079,7 +1079,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix/adapter-vercel</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/adapter-vercel</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     Vercel AI SDK 4.x / 6.x adapter

@@ -1,5 +1,5 @@
 /**
- * Shared types for @uix/agent components
+ * Shared types for @uix-ai/agent components
  *
  * This file is the single source of truth for shared types.
  * Import from here instead of individual component files.

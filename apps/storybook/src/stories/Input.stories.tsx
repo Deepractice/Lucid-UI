@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Input } from '@uix/lucid-react'
+import { Input } from '@uix-ai/lucid-react'
 
 const meta: Meta<typeof Input> = {
   title: 'Base/Input',

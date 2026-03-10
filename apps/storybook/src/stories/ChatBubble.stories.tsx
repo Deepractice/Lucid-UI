@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ChatBubble } from '@uix/agent'
+import { ChatBubble } from '@uix-ai/agent'
 
 const meta: Meta<typeof ChatBubble> = {
   title: 'Components/ChatBubble',

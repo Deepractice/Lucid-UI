@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { AgentChat } from '@uix/agent'
-import type { ChatWindowAgent } from '@uix/agent'
-import type { LucidConversation } from '@uix/core'
+import { AgentChat } from '@uix-ai/agent'
+import type { ChatWindowAgent } from '@uix-ai/agent'
+import type { LucidConversation } from '@uix-ai/core'
 import { useState, useCallback } from 'react'
 
 const meta: Meta<typeof AgentChat> = {
@@ -351,7 +351,7 @@ export const FullDemo: Story = {
 /**
  * Demonstrates that the same LucidConversation data can be rendered regardless of
  * which protocol adapter produced it. AgentChat works with any protocol adapter
- * (@uix/adapter-vercel, @uix/adapter-agui, or custom sources) because they all
+ * (@uix-ai/adapter-vercel, @uix-ai/adapter-agui, or custom sources) because they all
  * output the same LucidConversation format.
  */
 export const MultiProtocol: Story = {

@@ -1,5 +1,5 @@
 {
-  "name": "@uix/agent",
+  "name": "@uix-ai/agent",
   "version": "0.0.1",
   "description": "UIX conversation and block renderers - renders LucidConversation and LucidBlock types",
   "type": "module",
@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.16",
-    "@uix/core": "workspace:*",
-    "@uix/lucid-tokens": "workspace:*",
-    "@uix/stream": "workspace:*",
+    "@uix-ai/core": "workspace:*",
+    "@uix-ai/lucid-tokens": "workspace:*",
+    "@uix-ai/stream": "workspace:*",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.0"
   },

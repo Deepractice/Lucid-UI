@@ -1,5 +1,5 @@
 /**
- * @uix/stream
+ * @uix-ai/stream
  *
  * Streaming content renderer for AI Agent applications.
  * Powered by Vercel Streamdown for optimal streaming performance.
@@ -17,7 +17,7 @@
  *
  * @example
  * ```tsx
- * import { StreamMarkdown, StreamText, CodeBlock } from '@uix/stream'
+ * import { StreamMarkdown, StreamText, CodeBlock } from '@uix-ai/stream'
  *
  * // Streaming markdown (auto-heals incomplete content)
  * <StreamMarkdown content={response} isStreaming={true} />

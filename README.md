@@ -11,7 +11,7 @@
     <a href="https://github.com/Deepractice/UIX"><img src="https://img.shields.io/github/stars/Deepractice/UIX?style=social" alt="Stars"/></a>
     <img src="https://komarev.com/ghpvc/?username=UIX&label=views&color=0e75b6&style=flat&abbreviated=true" alt="Views"/>
     <a href="LICENSE"><img src="https://img.shields.io/github/license/Deepractice/UIX?color=blue" alt="License"/></a>
-    <a href="https://www.npmjs.com/package/@uix/lucid-react"><img src="https://img.shields.io/npm/v/@uix/lucid-react?color=cb3837&logo=npm" alt="npm"/></a>
+    <a href="https://www.npmjs.com/package/@uix-ai/lucid-react"><img src="https://img.shields.io/npm/v/@uix-ai/lucid-react?color=cb3837&logo=npm" alt="npm"/></a>
   </p>
 
   <p>
@@ -158,9 +158,9 @@ AI reasoning → UIX IR → Renderer → User sees UI
                         ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Design System                                     │
-│  - @uix/lucid-tokens (design tokens)                        │
-│  - @uix/lucid-react (base components)                       │
-│  - @uix/stream (streaming renderer)                         │
+│  - @uix-ai/lucid-tokens (design tokens)                        │
+│  - @uix-ai/lucid-react (base components)                       │
+│  - @uix-ai/stream (streaming renderer)                         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -257,14 +257,14 @@ React Components
 
 | Package | Layer | Status | Description |
 |---------|-------|--------|-------------|
-| `@uix/core` | Protocol | 🚧 Designing | UIX IR JSON Schema & TypeScript types |
-| `@uix/lucid-tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
-| `@uix/lucid-react` | Renderer | ✅ Ready | React renderer & base components |
-| `@uix/stream` | Renderer | ✅ Ready | Streaming markdown renderer (Streamdown) |
-| `@uix/agent` | Components | ✅ Ready | AI Agent conversation components |
-| `@uix/adapter-vercel` | Adapter | ✅ Ready | Vercel AI SDK 4.x / 6.x ↔ UIX IR converter |
-| `@uix/adapter-agui` | Adapter | 🚧 Alpha | AG-UI protocol events → UIX IR converter |
-| `@uix/adapter-a2ui` | Adapter | 🧪 Experimental | Google A2UI declarative UI → UIX IR converter |
+| `@uix-ai/core` | Protocol | 🚧 Designing | UIX IR JSON Schema & TypeScript types |
+| `@uix-ai/lucid-tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
+| `@uix-ai/lucid-react` | Renderer | ✅ Ready | React renderer & base components |
+| `@uix-ai/stream` | Renderer | ✅ Ready | Streaming markdown renderer (Streamdown) |
+| `@uix-ai/agent` | Components | ✅ Ready | AI Agent conversation components |
+| `@uix-ai/adapter-vercel` | Adapter | ✅ Ready | Vercel AI SDK 4.x / 6.x ↔ UIX IR converter |
+| `@uix-ai/adapter-agui` | Adapter | 🚧 Alpha | AG-UI protocol events → UIX IR converter |
+| `@uix-ai/adapter-a2ui` | Adapter | 🧪 Experimental | Google A2UI declarative UI → UIX IR converter |
 
 ---
 
@@ -288,11 +288,11 @@ UIX provides skills (AI-readable design rules) that work with any AI coding tool
 ### For Developers (React Renderer)
 
 ```bash
-pnpm add @uix/lucid-react @uix/lucid-tokens
+pnpm add @uix-ai/lucid-react @uix-ai/lucid-tokens
 ```
 
 ```tsx
-import { Button } from '@uix/lucid-react'
+import { Button } from '@uix-ai/lucid-react'
 
 function App() {
   return <Button>Click me</Button>
@@ -352,26 +352,26 @@ function App() {
 ## Roadmap
 
 ### Phase 1: Foundation ✅
-- [x] Design token system (`@uix/lucid-tokens`)
-- [x] React base components (`@uix/lucid-react`)
-- [x] Streaming markdown renderer (`@uix/stream`)
-- [x] AI Agent components (`@uix/agent`)
+- [x] Design token system (`@uix-ai/lucid-tokens`)
+- [x] React base components (`@uix-ai/lucid-react`)
+- [x] Streaming markdown renderer (`@uix-ai/stream`)
+- [x] AI Agent components (`@uix-ai/agent`)
   - [x] ChatMessage, ChatInput, Avatar system
   - [x] StreamText, ThinkingIndicator, ToolResult
   - [x] ChatList, ChatWindow layout components
 
 ### Phase 2: Protocol & Adapters ✅
 - [x] UIX IR JSON Schema (`packages/core/schema/uix-ir.schema.json`)
-- [x] TypeScript type definitions (`@uix/core`)
-- [x] Vercel AI SDK adapter (`@uix/adapter-vercel`, supports SDK 4.x & 6.x)
-- [x] AG-UI protocol adapter (`@uix/adapter-agui`)
-- [x] A2UI protocol adapter (`@uix/adapter-a2ui`, experimental)
+- [x] TypeScript type definitions (`@uix-ai/core`)
+- [x] Vercel AI SDK adapter (`@uix-ai/adapter-vercel`, supports SDK 4.x & 6.x)
+- [x] AG-UI protocol adapter (`@uix-ai/adapter-agui`)
+- [x] A2UI protocol adapter (`@uix-ai/adapter-a2ui`, experimental)
 - [x] Documentation & examples (`examples/`, per-package READMEs)
 - [ ] AgentX adapter
 - [ ] IR validation tools
 
 ### Phase 3: Ecosystem
-- [ ] npm publish (`@uix/*` packages)
+- [ ] npm publish (`@uix-ai/*` packages)
 - [ ] `create-uix-app` CLI scaffolding
 - [ ] Live demo with real AI agent
 - [ ] MCP Apps renderer (when mature)

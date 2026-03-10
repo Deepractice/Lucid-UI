@@ -1,12 +1,12 @@
 /**
- * @uix/adapter-vercel/react
+ * @uix-ai/adapter-vercel/react
  *
  * React hooks for seamless integration between Vercel AI SDK and UIX components.
  *
  * @example 3 lines to a full chat UI
  * ```tsx
- * import { AgentChat } from '@uix/agent'
- * import { useVercelChat } from '@uix/adapter-vercel/react'
+ * import { AgentChat } from '@uix-ai/agent'
+ * import { useVercelChat } from '@uix-ai/adapter-vercel/react'
  *
  * function App() {
  *   const { conversations, status, send, stop } = useVercelChat()
@@ -17,7 +17,7 @@
  * @example With existing useChat
  * ```tsx
  * import { useChat } from '@ai-sdk/react'
- * import { useVercelMessages } from '@uix/adapter-vercel/react'
+ * import { useVercelMessages } from '@uix-ai/adapter-vercel/react'
  *
  * function App() {
  *   const chat = useChat({ api: '/api/chat' })
@@ -30,7 +30,7 @@
 import { useMemo, useCallback, useRef } from 'react'
 import { fromVercelMessages } from '../index'
 import type { VercelUIMessage, ConversionOptions } from '../index'
-import type { LucidConversation, ContentStatus } from '@uix/core'
+import type { LucidConversation, ContentStatus } from '@uix-ai/core'
 
 // ============================================================================
 // useVercelMessages - Convert Vercel messages to UIX conversations

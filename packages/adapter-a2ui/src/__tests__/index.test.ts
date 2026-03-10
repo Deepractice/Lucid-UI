@@ -13,7 +13,7 @@ import type {
   TextBlockContent,
   ImageBlockContent,
   ErrorBlockContent,
-} from '@uix/core'
+} from '@uix-ai/core'
 
 // Deterministic IDs for testing
 let blockIdCounter = 0

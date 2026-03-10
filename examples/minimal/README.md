@@ -16,7 +16,7 @@ npm create vite@latest minimal-uix -- --template react-ts
 cd minimal-uix
 
 # Install UIX
-npm install @uix/agent @uix/core react react-dom
+npm install @uix-ai/agent @uix-ai/core react react-dom
 ```
 
 ## The Core Idea
@@ -24,7 +24,7 @@ npm install @uix/agent @uix/core react react-dom
 UIX components render `LucidConversation[]` -- an array of conversation turns. Each turn has a role (`user` or `assistant`), a status, and an array of content blocks.
 
 ```typescript
-import type { LucidConversation } from '@uix/core'
+import type { LucidConversation } from '@uix-ai/core'
 
 const conversations: LucidConversation[] = [
   {
@@ -75,5 +75,5 @@ Open `http://localhost:5173` to see the chat interface with static messages.
 ## Next Steps
 
 - Add `onSend` to handle user input and append new conversations
-- Connect to a real backend using `@uix/adapter-vercel` or `@uix/adapter-agui`
+- Connect to a real backend using `@uix-ai/adapter-vercel` or `@uix-ai/adapter-agui`
 - Use `renderBlock` to customize how specific block types are displayed

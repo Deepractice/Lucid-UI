@@ -1,11 +1,11 @@
-# @uix/core
+# @uix-ai/core
 
 Core type definitions for the UIX Intermediate Representation (Lucid IR) -- the universal format that bridges AI agent backends and UI renderers.
 
 ## Install
 
 ```bash
-pnpm add @uix/core
+pnpm add @uix-ai/core
 ```
 
 ## What is Lucid IR?
@@ -23,7 +23,7 @@ AI Agent Events -> Adapter -> Lucid IR (this package) -> Renderer -> UI
 A single message in a conversation, containing one or more content blocks.
 
 ```typescript
-import type { LucidConversation } from '@uix/core'
+import type { LucidConversation } from '@uix-ai/core'
 
 const conversation: LucidConversation = {
   id: 'conv-1',
@@ -39,7 +39,7 @@ const conversation: LucidConversation = {
 A content block within a conversation. The generic type parameter narrows the `content` field automatically.
 
 ```typescript
-import type { LucidBlock } from '@uix/core'
+import type { LucidBlock } from '@uix-ai/core'
 
 // Text block
 const text: LucidBlock<'text'> = {
@@ -88,7 +88,7 @@ With optional human-in-the-loop: `ready` -> `approval-required` -> `approved` | 
 Type guards narrow `LucidBlock` to a specific block type, giving you type-safe access to `content`:
 
 ```typescript
-import { isTextBlock, isToolBlock, isThinkingBlock, isSourceBlock } from '@uix/core'
+import { isTextBlock, isToolBlock, isThinkingBlock, isSourceBlock } from '@uix-ai/core'
 
 function renderBlock(block: LucidBlock) {
   if (isTextBlock(block)) {
@@ -106,7 +106,7 @@ function renderBlock(block: LucidBlock) {
 ### Status Guards
 
 ```typescript
-import { isStreaming, isCompleted, isError } from '@uix/core'
+import { isStreaming, isCompleted, isError } from '@uix-ai/core'
 
 if (isStreaming(block)) { /* show cursor */ }
 if (isCompleted(block)) { /* render final */ }
@@ -115,7 +115,7 @@ if (isCompleted(block)) { /* render final */ }
 ### Tool Status Helpers
 
 ```typescript
-import { isToolAwaitingApproval, isToolTerminal, isToolExecuting } from '@uix/core'
+import { isToolAwaitingApproval, isToolTerminal, isToolExecuting } from '@uix-ai/core'
 
 if (isToolAwaitingApproval(toolBlock)) { /* show approve/deny buttons */ }
 if (isToolTerminal(toolBlock)) { /* show result */ }
@@ -127,7 +127,7 @@ if (isToolExecuting(toolBlock)) { /* show spinner */ }
 Implement this interface to create custom renderers:
 
 ```typescript
-import type { LucidRenderer, LucidConversation, LucidBlock } from '@uix/core'
+import type { LucidRenderer, LucidConversation, LucidBlock } from '@uix-ai/core'
 
 class MyRenderer implements LucidRenderer<string> {
   render(conversations: LucidConversation[]): string {

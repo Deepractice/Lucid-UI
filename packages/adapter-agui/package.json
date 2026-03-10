@@ -1,5 +1,5 @@
 {
-  "name": "@uix/adapter-agui",
+  "name": "@uix-ai/adapter-agui",
   "version": "0.0.1",
   "description": "Adapter to convert AG-UI protocol events to UIX Lucid IR format",
   "type": "module",
@@ -26,7 +26,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@uix/core": "workspace:*"
+    "@uix-ai/core": "workspace:*"
   },
   "peerDependencies": {
     "@ag-ui/core": ">=0.0.1",

@@ -17,7 +17,7 @@ import {
   type AGUIReasoningMessageContentEvent,
   type AGUIReasoningMessageEndEvent,
 } from '../index'
-import type { TextBlockContent, ToolBlockContent, ThinkingBlockContent } from '@uix/core'
+import type { TextBlockContent, ToolBlockContent, ThinkingBlockContent } from '@uix-ai/core'
 
 // Deterministic IDs for testing
 let idCounter = 0

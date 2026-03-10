@@ -8,7 +8,7 @@ import {
   ChatMessageError,
   ChatMessageSimple,
   StreamText,
-} from '@uix/agent'
+} from '@uix-ai/agent'
 
 const meta: Meta<typeof ChatMessage> = {
   title: 'Components/ChatMessage',

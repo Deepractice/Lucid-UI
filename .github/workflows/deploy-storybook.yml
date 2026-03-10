@@ -30,26 +30,26 @@ jobs:
 
       - name: Build packages
         run: |
-          pnpm -F @uix/core build
-          pnpm -F @uix/lucid-tokens build
-          pnpm -F @uix/lucid-react build
-          pnpm -F @uix/stream build
-          pnpm -F @uix/adapter-vercel build
-          pnpm -F @uix/adapter-agui build
-          pnpm -F @uix/adapter-a2ui build
-          pnpm -F @uix/agent build
+          pnpm -F @uix-ai/core build
+          pnpm -F @uix-ai/lucid-tokens build
+          pnpm -F @uix-ai/lucid-react build
+          pnpm -F @uix-ai/stream build
+          pnpm -F @uix-ai/adapter-vercel build
+          pnpm -F @uix-ai/adapter-agui build
+          pnpm -F @uix-ai/adapter-a2ui build
+          pnpm -F @uix-ai/agent build
 
       - name: Run tests
         run: |
-          pnpm -F @uix/adapter-vercel test
-          pnpm -F @uix/adapter-agui test
-          pnpm -F @uix/adapter-a2ui test
+          pnpm -F @uix-ai/adapter-vercel test
+          pnpm -F @uix-ai/adapter-agui test
+          pnpm -F @uix-ai/adapter-a2ui test
 
       - name: Build Web
         run: pnpm -F web build
 
       - name: Build Storybook
-        run: pnpm -F @uix/storybook build
+        run: pnpm -F @uix-ai/storybook build
 
       - name: Merge builds
         run: |

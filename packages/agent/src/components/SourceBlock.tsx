@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { SourceBlockContent } from '@uix/core'
+import type { SourceBlockContent } from '@uix-ai/core'
 import { cn } from '../utils'
 
 export interface SourceBlockProps {

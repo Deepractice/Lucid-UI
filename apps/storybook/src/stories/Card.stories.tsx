@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from '@uix/lucid-react'
+} from '@uix-ai/lucid-react'
 
 const meta: Meta<typeof Card> = {
   title: 'Base/Card',

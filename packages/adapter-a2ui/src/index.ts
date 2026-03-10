@@ -1,5 +1,5 @@
 /**
- * @uix/adapter-a2ui
+ * @uix-ai/adapter-a2ui
  *
  * Adapter to convert Google A2UI protocol payloads to UIX Lucid IR format.
  *
@@ -14,7 +14,7 @@
  *
  * @example
  * ```typescript
- * import { fromA2UIPayload, toA2UIPayload } from '@uix/adapter-a2ui'
+ * import { fromA2UIPayload, toA2UIPayload } from '@uix-ai/adapter-a2ui'
  *
  * // Convert A2UI payload to UIX Lucid IR
  * const conversation = fromA2UIPayload(a2uiPayload)
@@ -32,7 +32,7 @@ import type {
   TextBlockContent,
   ImageBlockContent,
   ErrorBlockContent,
-} from '@uix/core'
+} from '@uix-ai/core'
 
 // ============================================================================
 // A2UI Protocol Types

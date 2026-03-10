@@ -15,7 +15,7 @@ import {
   ToolResult,
   SourceBlock,
   type Message,
-} from '@uix/agent'
+} from '@uix-ai/agent'
 
 const meta: Meta = {
   title: 'Playground',

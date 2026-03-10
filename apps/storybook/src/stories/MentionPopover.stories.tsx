@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import * as React from 'react'
-import { MentionPopover, MentionItem, type MentionAgent } from '@uix/agent'
+import { MentionPopover, MentionItem, type MentionAgent } from '@uix-ai/agent'
 
 const meta: Meta<typeof MentionPopover> = {
   title: 'Components/MentionPopover',

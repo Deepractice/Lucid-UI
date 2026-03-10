@@ -8,7 +8,7 @@
  *
  * ### Basic Usage
  * ```tsx
- * import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@uix/lucid-react'
+ * import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@uix-ai/lucid-react'
  *
  * <Card>
  *   <CardHeader>

@@ -12,9 +12,9 @@ import {
   ChatMessageAvatar,
   ChatMessageContent,
   ChatMessageSimple,
-} from '@uix/agent'
-import { StreamMarkdown } from '@uix/stream'
-import type { ChatWindowAgent, Message } from '@uix/agent'
+} from '@uix-ai/agent'
+import { StreamMarkdown } from '@uix-ai/stream'
+import type { ChatWindowAgent, Message } from '@uix-ai/agent'
 
 const meta: Meta<typeof ChatWindow> = {
   title: 'Layout/ChatWindow',

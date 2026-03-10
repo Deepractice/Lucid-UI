@@ -1,5 +1,5 @@
 /**
- * @uix/core
+ * @uix-ai/core
  *
  * UIX Core - AI-to-UI Protocol.
  *
@@ -20,7 +20,7 @@
  *
  * @example
  * ```typescript
- * import type { LucidConversation, LucidBlock } from '@uix/core'
+ * import type { LucidConversation, LucidBlock } from '@uix-ai/core'
  *
  * const conversation: LucidConversation = {
  *   id: 'conv-1',
@@ -322,7 +322,7 @@ export interface LucidConversation {
  *
  * @example
  * ```typescript
- * import type { LucidRenderer, LucidConversation } from '@uix/core'
+ * import type { LucidRenderer, LucidConversation } from '@uix-ai/core'
  *
  * class ReactRenderer implements LucidRenderer<React.ReactNode> {
  *   render(conversations: LucidConversation[]): React.ReactNode {

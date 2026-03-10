@@ -1,5 +1,5 @@
 {
-  "name": "@uix/storybook",
+  "name": "@uix-ai/storybook",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,10 +11,10 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@uix/agent": "workspace:*",
-    "@uix/lucid-react": "workspace:*",
-    "@uix/lucid-tokens": "workspace:*",
-    "@uix/stream": "workspace:*",
+    "@uix-ai/agent": "workspace:*",
+    "@uix-ai/lucid-react": "workspace:*",
+    "@uix-ai/lucid-tokens": "workspace:*",
+    "@uix-ai/stream": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

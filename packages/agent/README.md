@@ -1,19 +1,19 @@
-# @uix/agent
+# @uix-ai/agent
 
 React components for rendering UIX Lucid IR conversations. From a single `<AgentChat>` drop-in to fully composable primitives.
 
 ## Install
 
 ```bash
-pnpm add @uix/agent
+pnpm add @uix-ai/agent
 ```
 
-Peer dependencies: `react`, `@uix/core`
+Peer dependencies: `react`, `@uix-ai/core`
 
 ## Quick Start (3 lines)
 
 ```tsx
-import { AgentChat } from '@uix/agent'
+import { AgentChat } from '@uix-ai/agent'
 
 <AgentChat
   conversations={conversations}
@@ -26,8 +26,8 @@ import { AgentChat } from '@uix/agent'
 ### With Vercel AI SDK
 
 ```tsx
-import { AgentChat } from '@uix/agent'
-import { useVercelChat } from '@uix/adapter-vercel/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useVercelChat } from '@uix-ai/adapter-vercel/react'
 
 function App() {
   const { conversations, status, send, stop } = useVercelChat()
@@ -38,8 +38,8 @@ function App() {
 ### With AG-UI
 
 ```tsx
-import { AgentChat } from '@uix/agent'
-import { useAGUI } from '@uix/adapter-agui/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useAGUI } from '@uix-ai/adapter-agui/react'
 
 function App() {
   const { conversations, status, send } = useAGUI({ url: '/api/agent' })

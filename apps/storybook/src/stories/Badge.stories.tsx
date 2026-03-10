@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Badge } from '@uix/lucid-react'
+import { Badge } from '@uix-ai/lucid-react'
 
 const meta: Meta<typeof Badge> = {
   title: 'Base/Badge',

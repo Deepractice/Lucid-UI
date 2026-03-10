@@ -10,10 +10,13 @@
     "test": "pnpm -r --if-present test",
     "lint": "eslint . --ext .ts,.tsx",
     "clean": "pnpm -r clean",
-    "storybook": "pnpm --filter @uix/storybook storybook",
+    "storybook": "pnpm --filter @uix-ai/storybook storybook",
     "release": "bash scripts/release.sh",
     "release:dry": "bash scripts/release.sh --dry-run",
-    "version:bump": "bash scripts/version-bump.sh"
+    "version:bump": "bash scripts/version-bump.sh",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "publish-packages": "changeset publish"
   },
   "keywords": [
     "uix",
@@ -38,5 +41,9 @@
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.6.0",
+    "@changesets/cli": "^2.30.0"
   }
 }

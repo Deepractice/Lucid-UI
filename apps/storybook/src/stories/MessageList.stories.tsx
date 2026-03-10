@@ -6,7 +6,7 @@ import {
   ChatMessageAvatar,
   ChatMessageContent,
   type Message,
-} from '@uix/agent'
+} from '@uix-ai/agent'
 
 const meta: Meta<typeof MessageList> = {
   title: 'Components/MessageList',

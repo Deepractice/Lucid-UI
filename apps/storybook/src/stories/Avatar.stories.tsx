@@ -5,7 +5,7 @@ import {
   AvatarFallback,
   AvatarStatusIndicator,
   AvatarGroup,
-} from '@uix/agent'
+} from '@uix-ai/agent'
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',

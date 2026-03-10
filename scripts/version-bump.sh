@@ -102,14 +102,14 @@ for pkgDir in "${PACKAGES[@]}"; do
 
     // Internal package names that should be updated if pinned (not workspace:*)
     const internalPkgs = [
-      '@uix/core',
-      '@uix/lucid-tokens',
-      '@uix/lucid-react',
-      '@uix/stream',
-      '@uix/agent',
-      '@uix/adapter-vercel',
-      '@uix/adapter-agui',
-      '@uix/adapter-a2ui'
+      '@uix-ai/core',
+      '@uix-ai/lucid-tokens',
+      '@uix-ai/lucid-react',
+      '@uix-ai/stream',
+      '@uix-ai/agent',
+      '@uix-ai/adapter-vercel',
+      '@uix-ai/adapter-agui',
+      '@uix-ai/adapter-a2ui'
     ];
 
     // Update dependencies that reference specific versions (not workspace:*)

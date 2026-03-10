@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { AgentAvatar } from '@uix/agent'
+import { AgentAvatar } from '@uix-ai/agent'
 
 const meta: Meta<typeof AgentAvatar> = {
   title: 'Components/AgentAvatar',

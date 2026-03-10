@@ -10,8 +10,8 @@ import {
   ChatListItemContent,
   ChatListItemBadge,
   ChatListEmpty,
-} from '@uix/agent'
-import type { Conversation } from '@uix/agent'
+} from '@uix-ai/agent'
+import type { Conversation } from '@uix-ai/agent'
 
 const meta: Meta<typeof ChatList> = {
   title: 'Layout/ChatList',

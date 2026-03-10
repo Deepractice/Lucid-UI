@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { AgentChat } from '@uix/agent'
-import type { LucidConversation } from '@uix/core'
+import { AgentChat } from '@uix-ai/agent'
+import type { LucidConversation } from '@uix-ai/core'
 
 /**
  * Minimal UIX example -- no adapters, no backend.
@@ -108,7 +108,7 @@ export default function App() {
       const assistantConv = createTextConversation(
         String(nextId + 1),
         'assistant',
-        `You said: "${message}"\n\nThis is a static response. In a real app, you would connect to a backend using an adapter like @uix/adapter-vercel or @uix/adapter-agui.`
+        `You said: "${message}"\n\nThis is a static response. In a real app, you would connect to a backend using an adapter like @uix-ai/adapter-vercel or @uix-ai/adapter-agui.`
       )
 
       setConversations((prev) => [...prev, userConv, assistantConv])

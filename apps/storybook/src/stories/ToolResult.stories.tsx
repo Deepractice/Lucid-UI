@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import * as React from 'react'
-import { ToolResult } from '@uix/agent'
+import { ToolResult } from '@uix-ai/agent'
 
 const meta: Meta<typeof ToolResult> = {
   title: 'Components/ToolResult',

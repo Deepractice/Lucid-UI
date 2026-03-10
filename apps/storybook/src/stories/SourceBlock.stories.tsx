@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { SourceBlock } from '@uix/agent'
+import { SourceBlock } from '@uix-ai/agent'
 
 const meta: Meta<typeof SourceBlock> = {
   title: 'Components/SourceBlock',

@@ -8,7 +8,7 @@
  *
  * ### Basic Usage
  * ```tsx
- * import { Input } from '@uix/lucid-react'
+ * import { Input } from '@uix-ai/lucid-react'
  *
  * <Input placeholder="Enter text..." />
  * <Input variant="error" placeholder="Invalid input" />

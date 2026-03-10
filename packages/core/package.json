@@ -1,5 +1,5 @@
 {
-  "name": "@uix/core",
+  "name": "@uix-ai/core",
   "version": "0.0.1",
   "description": "UIX Core - The protocol types for declarative UI generation",
   "type": "module",

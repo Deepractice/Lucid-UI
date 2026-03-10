@@ -1,13 +1,13 @@
 /**
- * @uix/adapter-agui/react
+ * @uix-ai/adapter-agui/react
  *
  * React hooks for connecting to AG-UI protocol agent backends
  * and rendering with UIX components.
  *
  * @example 3 lines to a full chat UI
  * ```tsx
- * import { AgentChat } from '@uix/agent'
- * import { useAGUI } from '@uix/adapter-agui/react'
+ * import { AgentChat } from '@uix-ai/agent'
+ * import { useAGUI } from '@uix-ai/adapter-agui/react'
  *
  * function App() {
  *   const { conversations, status, send } = useAGUI({ url: '/api/agent' })
@@ -19,7 +19,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { AGUIEventProcessor } from '../index'
 import type { AGUIEvent, AGUIProcessorOptions } from '../index'
-import type { LucidConversation } from '@uix/core'
+import type { LucidConversation } from '@uix-ai/core'
 
 // ============================================================================
 // useAGUI - Connect to AG-UI agent backend

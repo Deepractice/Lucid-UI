@@ -1,5 +1,5 @@
 {
-  "name": "@uix/adapter-a2ui",
+  "name": "@uix-ai/adapter-a2ui",
   "version": "0.0.1",
   "description": "Adapter to convert Google A2UI protocol payloads to UIX Lucid IR format",
   "type": "module",
@@ -22,7 +22,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@uix/core": "workspace:*"
+    "@uix-ai/core": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.0.0",

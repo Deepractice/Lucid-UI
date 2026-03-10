@@ -11,7 +11,7 @@
     <a href="https://github.com/Deepractice/UIX"><img src="https://img.shields.io/github/stars/Deepractice/UIX?style=social" alt="Stars"/></a>
     <img src="https://komarev.com/ghpvc/?username=UIX&label=views&color=0e75b6&style=flat&abbreviated=true" alt="Views"/>
     <a href="LICENSE"><img src="https://img.shields.io/github/license/Deepractice/UIX?color=blue" alt="License"/></a>
-    <a href="https://www.npmjs.com/package/@uix/lucid-react"><img src="https://img.shields.io/npm/v/@uix/lucid-react?color=cb3837&logo=npm" alt="npm"/></a>
+    <a href="https://www.npmjs.com/package/@uix-ai/lucid-react"><img src="https://img.shields.io/npm/v/@uix-ai/lucid-react?color=cb3837&logo=npm" alt="npm"/></a>
   </p>
 
   <p>
@@ -170,9 +170,9 @@ AI 推理 → UIX IR → 渲染引擎 → 用户看到界面
                         ↓
 ┌───────────────────────────────────────────────────┐
 │  第三层: 设计系统                                  │
-│  - @uix/lucid-tokens (设计令牌)                   │
-│  - @uix/lucid-react (基础组件)                    │
-│  - @uix/stream (流式渲染)                         │
+│  - @uix-ai/lucid-tokens (设计令牌)                   │
+│  - @uix-ai/lucid-react (基础组件)                    │
+│  - @uix-ai/stream (流式渲染)                         │
 └───────────────────────────────────────────────────┘
 ```
 
@@ -269,14 +269,14 @@ React 组件
 
 | 包 | 层级 | 状态 | 描述 |
 |---|------|------|------|
-| `@uix/core` | 协议 | 🚧 设计中 | UIX IR JSON Schema 和 TypeScript 类型 |
-| `@uix/lucid-tokens` | 设计系统 | ✅ 就绪 | 设计令牌（颜色、字体、间距） |
-| `@uix/lucid-react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
-| `@uix/stream` | 渲染器 | ✅ 就绪 | 流式 Markdown 渲染器 (Streamdown) |
-| `@uix/agent` | 组件 | ✅ 就绪 | AI Agent 对话组件 |
-| `@uix/adapter-vercel` | 适配器 | ✅ 就绪 | Vercel AI SDK 4.x / 6.x ↔ UIX IR 转换器 |
-| `@uix/adapter-agui` | 适配器 | 🚧 Alpha | AG-UI 协议事件 → UIX IR 转换器 |
-| `@uix/adapter-a2ui` | 适配器 | 🧪 实验性 | Google A2UI 声明式 UI → UIX IR 转换器 |
+| `@uix-ai/core` | 协议 | 🚧 设计中 | UIX IR JSON Schema 和 TypeScript 类型 |
+| `@uix-ai/lucid-tokens` | 设计系统 | ✅ 就绪 | 设计令牌（颜色、字体、间距） |
+| `@uix-ai/lucid-react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
+| `@uix-ai/stream` | 渲染器 | ✅ 就绪 | 流式 Markdown 渲染器 (Streamdown) |
+| `@uix-ai/agent` | 组件 | ✅ 就绪 | AI Agent 对话组件 |
+| `@uix-ai/adapter-vercel` | 适配器 | ✅ 就绪 | Vercel AI SDK 4.x / 6.x ↔ UIX IR 转换器 |
+| `@uix-ai/adapter-agui` | 适配器 | 🚧 Alpha | AG-UI 协议事件 → UIX IR 转换器 |
+| `@uix-ai/adapter-a2ui` | 适配器 | 🧪 实验性 | Google A2UI 声明式 UI → UIX IR 转换器 |
 
 ---
 
@@ -300,11 +300,11 @@ UIX 提供 AI 可读的设计规则（Skills），适用于任何 AI 编程工�
 ### 给开发者 (React 渲染器)
 
 ```bash
-pnpm add @uix/lucid-react @uix/lucid-tokens
+pnpm add @uix-ai/lucid-react @uix-ai/lucid-tokens
 ```
 
 ```tsx
-import { Button } from '@uix/lucid-react'
+import { Button } from '@uix-ai/lucid-react'
 
 function App() {
   return <Button>点击我</Button>
@@ -364,26 +364,26 @@ function App() {
 ## 路线图
 
 ### 第一阶段：基础建设 ✅
-- [x] 设计令牌系统 (`@uix/lucid-tokens`)
-- [x] React 基础组件 (`@uix/lucid-react`)
-- [x] 流式 Markdown 渲染器 (`@uix/stream`)
-- [x] AI Agent 组件 (`@uix/agent`)
+- [x] 设计令牌系统 (`@uix-ai/lucid-tokens`)
+- [x] React 基础组件 (`@uix-ai/lucid-react`)
+- [x] 流式 Markdown 渲染器 (`@uix-ai/stream`)
+- [x] AI Agent 组件 (`@uix-ai/agent`)
   - [x] ChatMessage, ChatInput, Avatar 系统
   - [x] StreamText, ThinkingIndicator, ToolResult
   - [x] ChatList, ChatWindow 布局组件
 
 ### 第二阶段：协议与适配器 ✅
 - [x] UIX IR JSON Schema（`packages/core/schema/uix-ir.schema.json`）
-- [x] TypeScript 类型定义（`@uix/core`）
-- [x] Vercel AI SDK 适配器（`@uix/adapter-vercel`，支持 SDK 4.x 和 6.x）
-- [x] AG-UI 协议适配器（`@uix/adapter-agui`）
-- [x] A2UI 协议适配器（`@uix/adapter-a2ui`，实验性）
+- [x] TypeScript 类型定义（`@uix-ai/core`）
+- [x] Vercel AI SDK 适配器（`@uix-ai/adapter-vercel`，支持 SDK 4.x 和 6.x）
+- [x] AG-UI 协议适配器（`@uix-ai/adapter-agui`）
+- [x] A2UI 协议适配器（`@uix-ai/adapter-a2ui`，实验性）
 - [x] 文档和示例（`examples/`，各包 README）
 - [ ] AgentX 适配器
 - [ ] IR 校验工具
 
 ### 第三阶段：生态
-- [ ] npm 发布（`@uix/*` 包）
+- [ ] npm 发布（`@uix-ai/*` 包）
 - [ ] `create-uix-app` CLI 脚手架
 - [ ] 接入真实 AI Agent 的 Live Demo
 - [ ] MCP Apps 渲染器（等成熟后）

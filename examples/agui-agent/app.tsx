@@ -1,6 +1,6 @@
 import React from 'react'
-import { AgentChat } from '@uix/agent'
-import { useAGUI } from '@uix/adapter-agui/react'
+import { AgentChat } from '@uix-ai/agent'
+import { useAGUI } from '@uix-ai/adapter-agui/react'
 
 /**
  * Chat UI connected to an AG-UI protocol agent.

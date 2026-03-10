@@ -1,5 +1,5 @@
 /**
- * @uix/adapter-vercel
+ * @uix-ai/adapter-vercel
  *
  * Adapter to convert Vercel AI SDK messages to UIX Lucid IR format.
  *
@@ -11,8 +11,8 @@
  * @example
  * ```typescript
  * import { useChat } from '@ai-sdk/react'
- * import { fromVercelMessages } from '@uix/adapter-vercel'
- * import { MessageList } from '@uix/agent'
+ * import { fromVercelMessages } from '@uix-ai/adapter-vercel'
+ * import { MessageList } from '@uix-ai/agent'
  *
  * function Chat() {
  *   const { messages } = useChat()
@@ -34,7 +34,7 @@ import type {
   FileBlockContent,
   SourceBlockContent,
   ToolApproval,
-} from '@uix/core'
+} from '@uix-ai/core'
 
 // ============================================================================
 // Vercel AI SDK Types (simplified for adapter use)
@@ -375,7 +375,7 @@ export function fromVercelMessage(
  * @example
  * ```typescript
  * import { useChat } from '@ai-sdk/react'
- * import { fromVercelMessages } from '@uix/adapter-vercel'
+ * import { fromVercelMessages } from '@uix-ai/adapter-vercel'
  *
  * function Chat() {
  *   const { messages } = useChat()

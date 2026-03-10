@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ThinkingIndicator } from '@uix/agent'
+import { ThinkingIndicator } from '@uix-ai/agent'
 
 const meta: Meta<typeof ThinkingIndicator> = {
   title: 'Components/ThinkingIndicator',

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { ToolStatus } from '@uix/core'
+import type { ToolStatus } from '@uix-ai/core'
 import { cn } from '../utils'
 
 export interface ToolResultProps {
