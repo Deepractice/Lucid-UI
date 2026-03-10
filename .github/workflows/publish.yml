@@ -1,0 +1,87 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (patch, minor, major, or explicit like 0.2.0)"
+        required: true
+        default: "patch"
+      tag:
+        description: "npm dist-tag (latest, next, beta, etc.)"
+        required: false
+        default: "latest"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Bump version
+        run: bash scripts/version-bump.sh ${{ github.event.inputs.version }}
+
+      - name: Read new version
+        id: version
+        run: echo "version=$(node -e \"console.log(require('./package.json').version)\")" >> "$GITHUB_OUTPUT"
+
+      - name: Build all packages
+        run: |
+          pnpm --filter "./packages/core" build
+          pnpm --filter "./packages/tokens" build
+          pnpm --filter "./packages/stream" build
+          pnpm --filter "./packages/react" build
+          pnpm --filter "./packages/adapter-vercel" build
+          pnpm --filter "./packages/adapter-agui" build
+          pnpm --filter "./packages/adapter-a2ui" build
+          pnpm --filter "./packages/agent" build
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Publish packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          PACKAGES=(core tokens stream react adapter-vercel adapter-agui adapter-a2ui agent)
+          TAG="${{ github.event.inputs.tag }}"
+
+          for pkg in "${PACKAGES[@]}"; do
+            echo "Publishing packages/$pkg ..."
+            cd packages/$pkg
+            pnpm publish --access public --tag "$TAG" --no-git-checks
+            cd ../..
+            echo "Done: packages/$pkg"
+          done
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: release v${{ steps.version.outputs.version }}"
+          git push
+
+      - name: Create git tag
+        run: |
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}"

@@ -13,6 +13,9 @@ importers:
       '@uix/agent':
         specifier: workspace:*
         version: link:../../packages/agent
+      '@uix/lucid-react':
+        specifier: workspace:*
+        version: link:../../packages/react
       '@uix/lucid-tokens':
         specifier: workspace:*
         version: link:../../packages/tokens

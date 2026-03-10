@@ -10,7 +10,10 @@
     "test": "pnpm -r --if-present test",
     "lint": "eslint . --ext .ts,.tsx",
     "clean": "pnpm -r clean",
-    "storybook": "pnpm --filter @uix/storybook storybook"
+    "storybook": "pnpm --filter @uix/storybook storybook",
+    "release": "bash scripts/release.sh",
+    "release:dry": "bash scripts/release.sh --dry-run",
+    "version:bump": "bash scripts/version-bump.sh"
   },
   "keywords": [
     "uix",

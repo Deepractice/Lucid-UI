@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@uix/agent": "workspace:*",
+    "@uix/lucid-react": "workspace:*",
     "@uix/lucid-tokens": "workspace:*",
     "@uix/stream": "workspace:*",
     "react": "^19.1.0",
