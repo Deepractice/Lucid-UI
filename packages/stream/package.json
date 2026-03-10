@@ -1,6 +1,6 @@
 {
   "name": "@uix-ai/stream",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Streaming content renderer for UIX blocks - powered by Vercel Streamdown",
   "type": "module",
   "main": "./dist/index.js",
