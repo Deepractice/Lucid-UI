@@ -37,6 +37,7 @@
     "tailwind",
     "design-system"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",

@@ -47,6 +47,7 @@
     "declarative-ui",
     "self-healing"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",

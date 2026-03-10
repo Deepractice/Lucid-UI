@@ -38,6 +38,7 @@
     "converter",
     "google"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",

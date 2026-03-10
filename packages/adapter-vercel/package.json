@@ -54,6 +54,7 @@
     "adapter",
     "converter"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",

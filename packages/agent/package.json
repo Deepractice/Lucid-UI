@@ -48,6 +48,7 @@
     "agent",
     "declarative-ui"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",

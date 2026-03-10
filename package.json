@@ -12,9 +12,6 @@
     "lint": "eslint . --ext .ts,.tsx",
     "clean": "pnpm -r clean",
     "storybook": "pnpm --filter @uix-ai/storybook storybook",
-    "release": "bash scripts/release.sh",
-    "release:dry": "bash scripts/release.sh --dry-run",
-    "version:bump": "bash scripts/version-bump.sh",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "publish-packages": "changeset publish"

@@ -54,6 +54,7 @@
     "protocol",
     "converter"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",

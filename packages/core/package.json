@@ -38,6 +38,7 @@
     "typescript",
     "intermediate-representation"
   ],
+  "sideEffects": false,
   "license": "MIT",
   "repository": {
     "type": "git",
