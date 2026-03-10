@@ -8,7 +8,7 @@
  *
  * ### Basic Usage
  * ```tsx
- * import { Button } from '@uix-ai/lucid-react'
+ * import { Button } from '@uix-ai/react'
  *
  * <Button>Click me</Button>
  * <Button variant="outline">Outline</Button>

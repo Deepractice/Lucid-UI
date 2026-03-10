@@ -7,7 +7,7 @@
  *
  * ### Basic Usage
  * ```tsx
- * import { Skeleton } from '@uix-ai/lucid-react'
+ * import { Skeleton } from '@uix-ai/react'
  *
  * <Skeleton className="h-4 w-[250px]" />
  * <Skeleton className="h-12 w-12 rounded-full" />

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Skeleton } from '@uix-ai/lucid-react'
+import { Skeleton } from '@uix-ai/react'
 
 const meta: Meta<typeof Skeleton> = {
   title: 'Base/Skeleton',

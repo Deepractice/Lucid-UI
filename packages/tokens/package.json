@@ -1,5 +1,5 @@
 {
-  "name": "@uix-ai/lucid-tokens",
+  "name": "@uix-ai/tokens",
   "version": "0.0.1",
   "description": "Design tokens for Lucid - colors, typography, spacing for the design system layer",
   "type": "module",

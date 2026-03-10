@@ -137,7 +137,7 @@ function BounceAnimation({
 
 /**
  * Wave animation (sequential height change)
- * Uses animate-wave from Tailwind config (defined in @uix-ai/lucid-tokens)
+ * Uses animate-wave from Tailwind config (defined in @uix-ai/tokens)
  */
 function WaveAnimation({
   size,

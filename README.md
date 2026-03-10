@@ -11,7 +11,7 @@
     <a href="https://github.com/Deepractice/UIX"><img src="https://img.shields.io/github/stars/Deepractice/UIX?style=social" alt="Stars"/></a>
     <img src="https://komarev.com/ghpvc/?username=UIX&label=views&color=0e75b6&style=flat&abbreviated=true" alt="Views"/>
     <a href="LICENSE"><img src="https://img.shields.io/github/license/Deepractice/UIX?color=blue" alt="License"/></a>
-    <a href="https://www.npmjs.com/package/@uix-ai/lucid-react"><img src="https://img.shields.io/npm/v/@uix-ai/lucid-react?color=cb3837&logo=npm" alt="npm"/></a>
+    <a href="https://www.npmjs.com/package/@uix-ai/react"><img src="https://img.shields.io/npm/v/@uix-ai/react?color=cb3837&logo=npm" alt="npm"/></a>
   </p>
 
   <p>
@@ -158,8 +158,8 @@ AI reasoning → UIX IR → Renderer → User sees UI
                         ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Design System                                     │
-│  - @uix-ai/lucid-tokens (design tokens)                     │
-│  - @uix-ai/lucid-react (base components)                    │
+│  - @uix-ai/tokens (design tokens)                           │
+│  - @uix-ai/react (base components)                          │
 │  - @uix-ai/stream (streaming renderer)                      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -258,8 +258,8 @@ React Components
 | Package | Layer | Status | Description |
 |---------|-------|--------|-------------|
 | `@uix-ai/core` | Protocol | 🚧 Designing | UIX IR JSON Schema & TypeScript types |
-| `@uix-ai/lucid-tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
-| `@uix-ai/lucid-react` | Renderer | ✅ Ready | React renderer & base components |
+| `@uix-ai/tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
+| `@uix-ai/react` | Renderer | ✅ Ready | React renderer & base components |
 | `@uix-ai/stream` | Renderer | ✅ Ready | Streaming markdown renderer (Streamdown) |
 | `@uix-ai/agent` | Components | ✅ Ready | AI Agent conversation components |
 | `@uix-ai/adapter-vercel` | Adapter | ✅ Ready | Vercel AI SDK 4.x / 6.x ↔ UIX IR converter |
@@ -288,11 +288,11 @@ UIX provides skills (AI-readable design rules) that work with any AI coding tool
 ### For Developers (React Renderer)
 
 ```bash
-pnpm add @uix-ai/lucid-react
+pnpm add @uix-ai/react
 ```
 
 ```tsx
-import { Button } from '@uix-ai/lucid-react'
+import { Button } from '@uix-ai/react'
 
 function App() {
   return <Button>Click me</Button>
@@ -352,8 +352,8 @@ function App() {
 ## Roadmap
 
 ### Phase 1: Foundation ✅
-- [x] Design token system (`@uix-ai/lucid-tokens`)
-- [x] React base components (`@uix-ai/lucid-react`)
+- [x] Design token system (`@uix-ai/tokens`)
+- [x] React base components (`@uix-ai/react`)
 - [x] Streaming markdown renderer (`@uix-ai/stream`)
 - [x] AI Agent components (`@uix-ai/agent`)
   - [x] ChatMessage, ChatInput, Avatar system

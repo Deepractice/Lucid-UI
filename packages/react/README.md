@@ -1,17 +1,17 @@
-# @uix-ai/lucid-react
+# @uix-ai/react
 
 React renderer and base components for the UIX protocol layer, built on the Lucid design system.
 
 ## Installation
 
 ```bash
-pnpm add @uix-ai/lucid-react
+pnpm add @uix-ai/react
 ```
 
 ## Usage
 
 ```tsx
-import { Button, Card, Badge, Input, Skeleton } from '@uix-ai/lucid-react'
+import { Button, Card, Badge, Input, Skeleton } from '@uix-ai/react'
 
 function App() {
   return (

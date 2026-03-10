@@ -29,8 +29,8 @@ jobs:
       - name: Build packages
         run: |
           pnpm -F @uix-ai/core build
-          pnpm -F @uix-ai/lucid-tokens build
-          pnpm -F @uix-ai/lucid-react build
+          pnpm -F @uix-ai/tokens build
+          pnpm -F @uix-ai/react build
           pnpm -F @uix-ai/stream build
           pnpm -F @uix-ai/adapter-vercel build
           pnpm -F @uix-ai/adapter-agui build

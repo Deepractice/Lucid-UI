@@ -11,7 +11,7 @@
     <a href="https://github.com/Deepractice/UIX"><img src="https://img.shields.io/github/stars/Deepractice/UIX?style=social" alt="Stars"/></a>
     <img src="https://komarev.com/ghpvc/?username=UIX&label=views&color=0e75b6&style=flat&abbreviated=true" alt="Views"/>
     <a href="LICENSE"><img src="https://img.shields.io/github/license/Deepractice/UIX?color=blue" alt="License"/></a>
-    <a href="https://www.npmjs.com/package/@uix-ai/lucid-react"><img src="https://img.shields.io/npm/v/@uix-ai/lucid-react?color=cb3837&logo=npm" alt="npm"/></a>
+    <a href="https://www.npmjs.com/package/@uix-ai/react"><img src="https://img.shields.io/npm/v/@uix-ai/react?color=cb3837&logo=npm" alt="npm"/></a>
   </p>
 
   <p>
@@ -170,8 +170,8 @@ AI 推理 → UIX IR → 渲染引擎 → 用户看到界面
                         ↓
 ┌───────────────────────────────────────────────────┐
 │  第三层: 设计系统                                  │
-│  - @uix-ai/lucid-tokens (设计令牌)                   │
-│  - @uix-ai/lucid-react (基础组件)                    │
+│  - @uix-ai/tokens (设计令牌)                   │
+│  - @uix-ai/react (基础组件)                    │
 │  - @uix-ai/stream (流式渲染)                         │
 └───────────────────────────────────────────────────┘
 ```
@@ -270,8 +270,8 @@ React 组件
 | 包 | 层级 | 状态 | 描述 |
 |---|------|------|------|
 | `@uix-ai/core` | 协议 | 🚧 设计中 | UIX IR JSON Schema 和 TypeScript 类型 |
-| `@uix-ai/lucid-tokens` | 设计系统 | ✅ 就绪 | 设计令牌（颜色、字体、间距） |
-| `@uix-ai/lucid-react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
+| `@uix-ai/tokens` | 设计系统 | ✅ 就绪 | 设计令牌（颜色、字体、间距） |
+| `@uix-ai/react` | 渲染器 | ✅ 就绪 | React 渲染器和基础组件 |
 | `@uix-ai/stream` | 渲染器 | ✅ 就绪 | 流式 Markdown 渲染器 (Streamdown) |
 | `@uix-ai/agent` | 组件 | ✅ 就绪 | AI Agent 对话组件 |
 | `@uix-ai/adapter-vercel` | 适配器 | ✅ 就绪 | Vercel AI SDK 4.x / 6.x ↔ UIX IR 转换器 |
@@ -300,11 +300,11 @@ UIX 提供 AI 可读的设计规则（Skills），适用于任何 AI 编程工�
 ### 给开发者 (React 渲染器)
 
 ```bash
-pnpm add @uix-ai/lucid-react
+pnpm add @uix-ai/react
 ```
 
 ```tsx
-import { Button } from '@uix-ai/lucid-react'
+import { Button } from '@uix-ai/react'
 
 function App() {
   return <Button>点击我</Button>
@@ -364,8 +364,8 @@ function App() {
 ## 路线图
 
 ### 第一阶段：基础建设 ✅
-- [x] 设计令牌系统 (`@uix-ai/lucid-tokens`)
-- [x] React 基础组件 (`@uix-ai/lucid-react`)
+- [x] 设计令牌系统 (`@uix-ai/tokens`)
+- [x] React 基础组件 (`@uix-ai/react`)
 - [x] 流式 Markdown 渲染器 (`@uix-ai/stream`)
 - [x] AI Agent 组件 (`@uix-ai/agent`)
   - [x] ChatMessage, ChatInput, Avatar 系统

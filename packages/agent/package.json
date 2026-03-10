@@ -23,7 +23,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.27.16",
     "@uix-ai/core": "workspace:*",
-    "@uix-ai/lucid-tokens": "workspace:*",
+    "@uix-ai/tokens": "workspace:*",
     "@uix-ai/stream": "workspace:*",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.0"

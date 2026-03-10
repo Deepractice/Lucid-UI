@@ -13,12 +13,12 @@
  *
  * ## Installation
  * ```bash
- * pnpm add @uix-ai/lucid-react
+ * pnpm add @uix-ai/react
  * ```
  *
  * ## Usage
  * ```tsx
- * import { Button } from '@uix-ai/lucid-react'
+ * import { Button } from '@uix-ai/react'
  *
  * function App() {
  *   return <Button>Click me</Button>
@@ -28,7 +28,7 @@
  * ## Styling
  * This library uses Tailwind CSS. Add to your tailwind.config.ts:
  * ```ts
- * import { lucidPreset } from '@uix-ai/lucid-tokens/tailwind'
+ * import { lucidPreset } from '@uix-ai/tokens/tailwind'
  *
  * export default {
  *   presets: [lucidPreset],

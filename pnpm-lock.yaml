@@ -20,15 +20,15 @@ importers:
       '@uix-ai/agent':
         specifier: workspace:*
         version: link:../../packages/agent
-      '@uix-ai/lucid-react':
+      '@uix-ai/react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@uix-ai/lucid-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
       '@uix-ai/stream':
         specifier: workspace:*
         version: link:../../packages/stream
+      '@uix-ai/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -99,10 +99,10 @@ importers:
       '@uix-ai/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@uix-ai/lucid-react':
+      '@uix-ai/react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@uix-ai/lucid-tokens':
+      '@uix-ai/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
       react:
@@ -232,12 +232,12 @@ importers:
       '@uix-ai/core':
         specifier: workspace:*
         version: link:../core
-      '@uix-ai/lucid-tokens':
-        specifier: workspace:*
-        version: link:../tokens
       '@uix-ai/stream':
         specifier: workspace:*
         version: link:../stream
+      '@uix-ai/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -278,7 +278,7 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.2.4(@types/react@18.3.28)(react@18.3.1)
-      '@uix-ai/lucid-tokens':
+      '@uix-ai/tokens':
         specifier: workspace:*
         version: link:../tokens
       class-variance-authority:
@@ -324,7 +324,7 @@ importers:
       '@uix-ai/core':
         specifier: workspace:*
         version: link:../core
-      '@uix-ai/lucid-tokens':
+      '@uix-ai/tokens':
         specifier: workspace:*
         version: link:../tokens
       clsx:

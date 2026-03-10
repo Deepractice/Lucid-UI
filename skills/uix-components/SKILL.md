@@ -310,8 +310,8 @@ function App() {
 | `@uix-ai/adapter-vercel` | `pnpm add @uix-ai/adapter-vercel` | Vercel AI SDK adapter |
 | `@uix-ai/adapter-agui` | `pnpm add @uix-ai/adapter-agui` | AG-UI protocol adapter |
 | `@uix-ai/adapter-a2ui` | `pnpm add @uix-ai/adapter-a2ui` | Google A2UI adapter |
-| `@uix-ai/lucid-tokens` | `pnpm add @uix-ai/lucid-tokens` | Design tokens |
-| `@uix-ai/lucid-react` | `pnpm add @uix-ai/lucid-react` | Base components (Button, Input, Card, Badge) |
+| `@uix-ai/tokens` | `pnpm add @uix-ai/tokens` | Design tokens |
+| `@uix-ai/react` | `pnpm add @uix-ai/react` | Base components (Button, Input, Card, Badge) |
 | `@uix-ai/stream` | `pnpm add @uix-ai/stream` | Streaming markdown renderer |
 
 ---

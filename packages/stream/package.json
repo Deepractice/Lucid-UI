@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@uix-ai/core": "workspace:*",
-    "@uix-ai/lucid-tokens": "workspace:*",
+    "@uix-ai/tokens": "workspace:*",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.0",
     "streamdown": "^1.6.0"

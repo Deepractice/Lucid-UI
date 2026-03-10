@@ -1061,7 +1061,7 @@ return <`}<span className="text-blue-400">AgentChat</span>{` `}<span className="
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>📦</span>
-                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/lucid-react</span>
+                    <span className={`font-mono text-sm ${isDark ? 'text-white/80' : 'text-gray-800'}`}>@uix-ai/react</span>
                   </div>
                   <p className={`text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     React components library
