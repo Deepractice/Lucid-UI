@@ -1,6 +1,6 @@
 {
   "name": "@uix-ai/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UIX Core - The protocol types for declarative UI generation",
   "type": "module",
   "main": "./dist/index.js",
