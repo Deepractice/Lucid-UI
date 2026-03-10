@@ -39,7 +39,10 @@ jobs:
           pnpm -F @uix/agent build
 
       - name: Run tests
-        run: pnpm test
+        run: |
+          pnpm -F @uix/adapter-vercel test
+          pnpm -F @uix/adapter-agui test
+          pnpm -F @uix/adapter-a2ui test
 
       - name: Build Web
         run: pnpm -F web build
