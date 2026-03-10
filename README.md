@@ -268,6 +268,21 @@ React Components
 
 ---
 
+## AI Skills
+
+UIX provides skills (AI-readable design rules) that work with any AI coding tool. No npm install needed — just copy a Markdown file.
+
+| Skill | For | Description |
+|-------|-----|-------------|
+| [`lucid-ui`](skills/lucid-ui/SKILL.md) | Everyone | Professional design system that replaces AI purple cliché |
+| [`uix-components`](skills/uix-components/SKILL.md) | UIX users | Component API, adapter patterns, IR type reference |
+
+**Supported platforms:** Claude Code, Claude.ai, Cursor, OpenAI Codex, Windsurf, GitHub Copilot, Cline, Gemini Code Assist
+
+> See [`skills/README.md`](skills/README.md) for installation instructions.
+
+---
+
 ## Quick Start
 
 ### For Developers (React Renderer)

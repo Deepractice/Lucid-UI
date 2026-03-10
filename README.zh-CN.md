@@ -280,6 +280,21 @@ React 组件
 
 ---
 
+## AI Skills
+
+UIX 提供 AI 可读的设计规则（Skills），适用于任何 AI 编程工具。无需 npm 安装 —— 复制一个 Markdown 文件即可。
+
+| Skill | 面向 | 描述 |
+|-------|------|------|
+| [`lucid-ui`](skills/lucid-ui/SKILL.md) | 所有人 | 专业设计系统，替代 AI 紫色渐变 |
+| [`uix-components`](skills/uix-components/SKILL.md) | UIX 用户 | 组件 API、适配器模式、IR 类型参考 |
+
+**支持平台：** Claude Code, Claude.ai, Cursor, OpenAI Codex, Windsurf, GitHub Copilot, Cline, Gemini Code Assist
+
+> 安装说明见 [`skills/README.md`](skills/README.md)
+
+---
+
 ## 快速开始
 
 ### 给开发者 (React 渲染器)

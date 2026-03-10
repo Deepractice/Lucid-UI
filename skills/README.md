@@ -1,6 +1,6 @@
 # UIX Skills
 
-AI-readable design rules and component documentation, distributed as skills for Claude, Cursor, and other AI coding tools.
+AI-readable design rules and component documentation, distributed as skills for AI coding tools.
 
 ## Available Skills
 
@@ -23,27 +23,29 @@ AI-readable design rules and component documentation, distributed as skills for 
 ## Installation
 
 ### Claude Code
+Copy `SKILL.md` to your project as `CLAUDE.md`, or place in `.claude/skills/`:
 ```bash
-# Install from the skills marketplace (when available)
-claude plugin install lucid-ui@deepractice-uix
-claude plugin install uix-components@deepractice-uix
+cp skills/lucid-ui/SKILL.md CLAUDE.md
 ```
 
 ### Claude.ai
 Upload the `SKILL.md` file from either skill directory via the Claude.ai interface.
 
 ### Cursor
-Copy the skill content to your project's `.cursor/rules` file:
+Copy to `.cursor/rules/`:
 ```bash
-# For design rules
 cp skills/lucid-ui/SKILL.md .cursor/rules/lucid-ui.md
-
-# For UIX components
 cp skills/uix-components/SKILL.md .cursor/rules/uix-components.md
 ```
 
+### OpenAI Codex
+Copy to `AGENTS.md`:
+```bash
+cp skills/lucid-ui/SKILL.md AGENTS.md
+```
+
 ### Windsurf
-Copy to `.windsurfrules`:
+Append to `.windsurfrules`:
 ```bash
 cat skills/lucid-ui/SKILL.md >> .windsurfrules
 ```
@@ -54,8 +56,27 @@ Copy to `.github/copilot-instructions.md`:
 cat skills/lucid-ui/SKILL.md >> .github/copilot-instructions.md
 ```
 
+### Cline
+Append to `.clinerules`:
+```bash
+cat skills/lucid-ui/SKILL.md >> .clinerules
+```
+
 ### Any AI Tool
 The skill files are plain Markdown. Copy the content into whatever system prompt or context mechanism your AI tool supports.
+
+## Supported Platforms
+
+| Platform | File | Auto-loaded |
+|----------|------|-------------|
+| Claude Code | `CLAUDE.md` | Yes |
+| Claude.ai | Upload skill | Yes |
+| Cursor | `.cursor/rules/*.md` | Yes |
+| OpenAI Codex | `AGENTS.md` | Yes |
+| Windsurf | `.windsurfrules` | Yes |
+| GitHub Copilot | `.github/copilot-instructions.md` | Yes |
+| Cline | `.clinerules` | Yes |
+| Gemini Code Assist | Style guide / system instruction | Manual |
 
 ## Why?
 
