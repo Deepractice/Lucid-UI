@@ -345,19 +345,22 @@ function App() {
   - [x] StreamText, ThinkingIndicator, ToolResult
   - [x] ChatList, ChatWindow layout components
 
-### Phase 2: Protocol & Adapters (Current)
-- [ ] UIX IR JSON Schema
-- [ ] TypeScript type definitions
+### Phase 2: Protocol & Adapters ✅
+- [x] UIX IR JSON Schema (`packages/core/schema/uix-ir.schema.json`)
+- [x] TypeScript type definitions (`@uix/core`)
 - [x] Vercel AI SDK adapter (`@uix/adapter-vercel`, supports SDK 4.x & 6.x)
 - [x] AG-UI protocol adapter (`@uix/adapter-agui`)
+- [x] A2UI protocol adapter (`@uix/adapter-a2ui`, experimental)
+- [x] Documentation & examples (`examples/`, per-package READMEs)
 - [ ] AgentX adapter
-- [ ] Validation tools
+- [ ] IR validation tools
 
 ### Phase 3: Ecosystem
-- [ ] A2UI renderer (when mature)
+- [ ] npm publish (`@uix/*` packages)
+- [ ] `create-uix-app` CLI scaffolding
+- [ ] Live demo with real AI agent
 - [ ] MCP Apps renderer (when mature)
 - [ ] More adapter integrations (LangChain, CrewAI, etc.)
-- [ ] Documentation & examples
 
 ---
 

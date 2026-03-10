@@ -357,19 +357,22 @@ function App() {
   - [x] StreamText, ThinkingIndicator, ToolResult
   - [x] ChatList, ChatWindow 布局组件
 
-### 第二阶段：协议与适配器（当前）
-- [ ] UIX IR JSON Schema
-- [ ] TypeScript 类型定义
+### 第二阶段：协议与适配器 ✅
+- [x] UIX IR JSON Schema（`packages/core/schema/uix-ir.schema.json`）
+- [x] TypeScript 类型定义（`@uix/core`）
 - [x] Vercel AI SDK 适配器（`@uix/adapter-vercel`，支持 SDK 4.x 和 6.x）
 - [x] AG-UI 协议适配器（`@uix/adapter-agui`）
+- [x] A2UI 协议适配器（`@uix/adapter-a2ui`，实验性）
+- [x] 文档和示例（`examples/`，各包 README）
 - [ ] AgentX 适配器
-- [ ] 校验工具
+- [ ] IR 校验工具
 
 ### 第三阶段：生态
-- [ ] A2UI 渲染器（等成熟后）
+- [ ] npm 发布（`@uix/*` 包）
+- [ ] `create-uix-app` CLI 脚手架
+- [ ] 接入真实 AI Agent 的 Live Demo
 - [ ] MCP Apps 渲染器（等成熟后）
 - [ ] 更多适配器集成（LangChain、CrewAI 等）
-- [ ] 文档和示例
 
 ---
 
