@@ -288,7 +288,7 @@ UIX provides skills (AI-readable design rules) that work with any AI coding tool
 ### For Developers (React Renderer)
 
 ```bash
-pnpm add @uix-ai/lucid-react @uix-ai/lucid-tokens
+pnpm add @uix-ai/lucid-react
 ```
 
 ```tsx
@@ -371,7 +371,7 @@ function App() {
 - [ ] IR validation tools
 
 ### Phase 3: Ecosystem
-- [ ] npm publish (`@uix-ai/*` packages)
+- [x] npm publish (`@uix-ai/*` packages)
 - [ ] `create-uix-app` CLI scaffolding
 - [ ] Live demo with real AI agent
 - [ ] MCP Apps renderer (when mature)

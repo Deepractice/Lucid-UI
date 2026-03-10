@@ -13,7 +13,7 @@
  *
  * ## Installation
  * ```bash
- * pnpm add @uix-ai/lucid-react @uix-ai/lucid-tokens
+ * pnpm add @uix-ai/lucid-react
  * ```
  *
  * ## Usage

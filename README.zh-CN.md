@@ -300,7 +300,7 @@ UIX 提供 AI 可读的设计规则（Skills），适用于任何 AI 编程工�
 ### 给开发者 (React 渲染器)
 
 ```bash
-pnpm add @uix-ai/lucid-react @uix-ai/lucid-tokens
+pnpm add @uix-ai/lucid-react
 ```
 
 ```tsx
@@ -383,7 +383,7 @@ function App() {
 - [ ] IR 校验工具
 
 ### 第三阶段：生态
-- [ ] npm 发布（`@uix-ai/*` 包）
+- [x] npm 发布（`@uix-ai/*` 包）
 - [ ] `create-uix-app` CLI 脚手架
 - [ ] 接入真实 AI Agent 的 Live Demo
 - [ ] MCP Apps 渲染器（等成熟后）
