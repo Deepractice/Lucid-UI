@@ -4,14 +4,14 @@
     <strong>The Last Mile from AI to Human</strong>
   </p>
   <p>
-    AI-to-UI Intermediate Representation (IR) Protocol Layer
+    AI-to-UI Intermediate Representation (IR) Protocol & Conversion Engine
   </p>
 
   <p>
     <a href="https://github.com/Deepractice/UIX"><img src="https://img.shields.io/github/stars/Deepractice/UIX?style=social" alt="Stars"/></a>
     <img src="https://komarev.com/ghpvc/?username=UIX&label=views&color=0e75b6&style=flat&abbreviated=true" alt="Views"/>
     <a href="LICENSE"><img src="https://img.shields.io/github/license/Deepractice/UIX?color=blue" alt="License"/></a>
-    <a href="https://www.npmjs.com/package/@uix-ai/react"><img src="https://img.shields.io/npm/v/@uix-ai/react?color=cb3837&logo=npm" alt="npm"/></a>
+    <a href="https://www.npmjs.com/package/@uix-ai/core"><img src="https://img.shields.io/npm/v/@uix-ai/core?color=cb3837&logo=npm" alt="npm"/></a>
   </p>
 
   <p>
@@ -22,166 +22,79 @@
 
 ---
 
-## The Last Mile Problem
+## What UIX Is (and What It Is Not)
+
+**UIX is a protocol layer and conversion engine**, not a Chat UI framework.
+
+If you need a full-featured React chat interface, use [assistant-ui](https://github.com/assistant-ui/assistant-ui) — it's excellent and battle-tested. UIX solves a different problem: **normalizing AI output from any source into a single, stable format.**
 
 ```
-Human Intent → AI Understanding → AI Generation → ??? → Human Perception
-                                                   ↑
-                                            The gap is here
+                      ┌─────────────────────────┐
+Vercel AI SDK ──────→ │                         │
+AgentX ─────────────→ │   UIX IR                │ ──→ assistant-ui
+AG-UI (CopilotKit) ─→ │   (unified format)      │ ──→ your own renderer
+A2UI (Google) ──────→ │                         │ ──→ any UI framework
+                      └─────────────────────────┘
 ```
 
-AI can understand human intent, reason, call tools, and generate content. But **how does AI output actually reach the human?** This "last mile" has been broken.
-
-**UIX bridges this gap** — a protocol that both AI and UI understand.
+**Think of UIX as Babel for AI output** — Babel normalizes JavaScript across engines; UIX normalizes AI output across providers.
 
 ---
 
-## What is UIX?
+## The Problem
 
-**UIX** is an Intermediate Representation (IR) protocol layer between AI and UI.
+AI backends all speak different formats:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                       UIX                                   │
-│       "The Last Mile from AI to Human"                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  Human Intent                                               │
-│       ↓                                                     │
-│  AI Processing (thinking, tool calls, generation)           │
-│       ↓                                                     │
-│  UIX IR ← Standardized format AI outputs                    │
-│       ↓                                                     │
-│  UI Rendering ← Components that understand IR               │
-│       ↓                                                     │
-│  Human Perception                                           │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+| Source | Message Format | Tool Call Format | Streaming Protocol |
+|--------|---------------|-----------------|-------------------|
+| Vercel AI SDK | `UIMessage.parts[]` | `ToolInvocationPart` | Data Stream |
+| AgentX | `Conversation.blocks[]` | `ToolBlock` | WebSocket events |
+| AG-UI (CopilotKit) | AG-UI events | `ToolCallStart/End` | SSE events |
+| A2UI (Google) | Declarative UI payload | Component-based | gRPC stream |
 
-### Two Consumers, One Protocol
+If you build a chat UI, you're locked into one format. Switch backends? Rewrite your UI layer.
 
-> **UIX IR is consumed by both AI and UI.**
-
-- **For AI**: A standardized output format — AI generates UIX IR directly
-- **For UI**: A standardized input format — UI renders UIX IR directly
-- **Result**: AI speaks this format, UI understands this format — no translation needed
-
----
-
-## Why UIX?
-
-### The Problem
-
-| Protocol | Status | Issue |
-|----------|--------|-------|
-| A2UI (Google) | v0.8+ | Declarative UI payload, multi-platform (React/Flutter/SwiftUI) |
-| AG-UI (CopilotKit) | v0.1+ | Event-based agent-to-frontend protocol, adopted by Google/Microsoft/AWS |
-| MCP Apps (Anthropic) | SEP-1865 Draft | Still in design, **not usable** |
-
-**Multiple protocols are emerging, but none provides a unified IR layer that bridges them all.**
-
-### The Solution
-
-UIX provides:
-1. **UIX IR** - A stable internal protocol that works today
-2. **Adapters** - Compatibility with Vercel AI SDK, AG-UI, A2UI, and future protocols
-3. **Reference implementation** - React renderer as default
-
-```
-AI Agent Events (Vercel AI SDK / AG-UI / AgentX / ...)
-    ↓
-UIX IR (stable internal protocol)
-    ↓
-    ├── ReactRenderer (works today)
-    ├── A2UIRenderer (when A2UI matures)
-    └── MCPAppsRenderer (when MCP Apps matures)
-```
-
----
-
-## UIX IR vs Design Tokens
-
-> **"Design Tokens let developers stop redefining colors. UIX IR lets AI stop relearning how to describe UI structure."**
-
-### Different Layers, Different Problems
-
-```
-UIX IR       = Script (what to perform)
-React Components = Actors (how to perform)
-Design Tokens  = Costumes & Props (what to wear)
-```
-
-| Dimension | Design Tokens | UIX IR |
-|-----------|---------------|----------|
-| Problem Solved | Design-to-code consistency | AI-output-to-UI standardization |
-| Consumer | Human developers (understands CSS) | AI (needs structured, semantic description) |
-| Target Market | Design systems, component libraries | AI Agent platforms |
-| Competitors | Style Dictionary, Theo | AG-UI, A2UI (protocol layer, not unified IR) |
-
-### The Key Insight
-
-Traditional UI pipeline:
-```
-Designer (Figma) → Developer writes code → User sees UI
-                   ↑ Design Tokens solve this
-```
-
-AI Agent pipeline:
-```
-AI reasoning → UIX IR → Renderer → User sees UI
-               ↑ UIX IR solves this (no one did before)
-```
-
-**Design Tokens is "style variables". UIX IR is "AI's UI expression language"** — completely different layers and purposes.
+**UIX IR eliminates this coupling.** Your UI only knows `LucidConversation` and `LucidBlock` — adapters handle the rest.
 
 ---
 
 ## Architecture
 
-### Three-Layer Design
-
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 1: UIX IR (Core)                                     │
-│  - JSON Schema definition                                   │
-│  - Block & Conversation standards                           │
-│  - AI-generatable format                                    │
-└─────────────────────────────────────────────────────────────┘
-                        ↓
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 2: Renderers                                         │
-│  - ReactRenderer → Web                                      │
-│  - A2UIRenderer → Native (future)                           │
-│  - MCPAppsRenderer → Claude Desktop (future)                │
-└─────────────────────────────────────────────────────────────┘
-                        ↓
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 3: Design System                                     │
-│  - @uix-ai/tokens (design tokens)                           │
-│  - @uix-ai/react (base components)                          │
-│  - @uix-ai/stream (streaming renderer)                      │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│  AI Backends (upstream)                                         │
+│  Vercel AI SDK · AgentX · AG-UI · A2UI · LangChain · ...       │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                    UIX Adapters (ACL)
+                    Pure functions, zero side effects
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  UIX IR  (@uix-ai/core)                                        │
+│  LucidConversation → LucidBlock[]                               │
+│  7 block types: text · tool · thinking · image · file · error · │
+│  source                                                         │
+│  JSON Schema + TypeScript types + type guards                   │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+               ┌───────────┴───────────┐
+               ▼                       ▼
+┌──────────────────────┐  ┌──────────────────────────────────────┐
+│  assistant-ui         │  │  UIX Reference Renderer              │
+│  (recommended)        │  │  @uix-ai/stream (StreamMarkdown)     │
+│  Full chat UI runtime │  │  @uix-ai/agent (ChatBubble, etc.)    │
+│  via ExternalStore    │  │  Lightweight, zero-runtime            │
+└──────────────────────┘  └──────────────────────────────────────┘
 ```
 
-### Dependency Inversion
+### Why Adapters Instead of Direct Integration?
 
-All implementations depend on the UIX IR abstraction:
+In DDD terms, each AI backend is a separate **Bounded Context**. UIX adapters are the **Anti-Corruption Layer (ACL)** — the downstream consumer (UI) protects itself from upstream format changes.
 
-```
-        ┌─────────────────────┐
-        │       UIX IR        │  ← Abstract protocol
-        │    (JSON Schema)    │
-        └──────────┬──────────┘
-                   │
-     ┌─────────┬───┴───┬─────────┐
-     │         │       │         │
-     ▼         ▼       ▼         ▼
-┌─────────┐ ┌──────┐ ┌──────┐ ┌──────┐
-│ Vercel  │ │AG-UI │ │A2UI  │ │AgentX│
-│ AI SDK  │ │Adapt.│ │Adapt.│ │  UI  │
-└─────────┘ └──────┘ └──────┘ └──────┘
-```
+- Upstream (AgentX, Vercel, etc.) owns its own types — no pressure to change
+- Downstream (UI) only depends on UIX IR — immune to backend switches
+- Adapters are pure functions: `fromX(input) → LucidConversation[]`
 
 ---
 
@@ -198,16 +111,11 @@ interface LucidConversation {
   timestamp: number
 }
 
-interface LucidBlock {
+interface LucidBlock<T extends BlockType> {
   id: string
-  type: 'text' | 'tool' | 'thinking' | 'image' | 'file' | 'error'
+  type: T  // 'text' | 'tool' | 'thinking' | 'image' | 'file' | 'error' | 'source'
   status: 'streaming' | 'completed' | 'error'
-  content: unknown  // varies by type
-}
-
-// Renderer interface
-interface LucidRenderer<T> {
-  render(conversations: LucidConversation[]): T
+  content: ContentByType<T>  // conditional type, inferred from T
 }
 ```
 
@@ -216,61 +124,182 @@ interface LucidRenderer<T> {
 | Type | Description | Content |
 |------|-------------|---------|
 | `text` | Text content (supports streaming) | `{ text: string }` |
-| `tool` | Tool/function call result | `{ name, input, output, status }` |
+| `tool` | Tool/function call | `{ name, input, output, status }` — 9-state lifecycle |
 | `thinking` | AI reasoning process | `{ reasoning: string }` |
 | `image` | Image content | `{ url, alt, width, height }` |
-| `file` | File attachment | `{ name, type, url }` |
-| `error` | Error message | `{ code, message }` |
+| `file` | File attachment | `{ name, type, url, size }` |
+| `error` | Error message | `{ code, message, details }` |
+| `source` | Source citation | `{ sourceId, title, url, excerpt }` |
 
----
-
-## Relationship with AgentX
-
-UIX is abstracted from [AgentX](https://github.com/Deepractice/AgentX) practices:
+### Tool Lifecycle (9 states)
 
 ```
-AgentX UI (rough implementation, experimental)
-    ↓ abstract & refine
-UIX IR (protocol specification)
-    ↓ implement
-AgentX UI + Other frameworks (follow the spec)
-```
-
-### Event Flow
-
-```
-AgentX 4-Layer Events
-    │
-    │ Stream: text_delta, tool_use_start
-    │ State: conversation_thinking, tool_executing
-    │ Message: assistant_message, tool_result_message
-    │
-    ↓ Transform
-UIX IR (LucidConversation[])
-    ↓ Render
-React Components
+pending → streaming → ready → running → success
+                                ↓
+                        approval-required → approved → success
+                                         → denied
+                                ↓
+                               error
 ```
 
 ---
 
 ## Packages
 
-| Package | Layer | Status | Description |
-|---------|-------|--------|-------------|
-| `@uix-ai/core` | Protocol | 🚧 Designing | UIX IR JSON Schema & TypeScript types |
-| `@uix-ai/tokens` | Design System | ✅ Ready | Design tokens (colors, typography, spacing) |
-| `@uix-ai/react` | Renderer | ✅ Ready | React renderer & base components |
-| `@uix-ai/stream` | Renderer | ✅ Ready | Streaming markdown renderer (Streamdown) |
-| `@uix-ai/agent` | Components | ✅ Ready | AI Agent conversation components |
-| `@uix-ai/adapter-vercel` | Adapter | ✅ Ready | Vercel AI SDK 4.x / 6.x ↔ UIX IR converter |
-| `@uix-ai/adapter-agui` | Adapter | 🚧 Alpha | AG-UI protocol events → UIX IR converter |
-| `@uix-ai/adapter-a2ui` | Adapter | 🧪 Experimental | Google A2UI declarative UI → UIX IR converter |
+### Core (the value)
+
+| Package | Description | Status |
+|---------|-------------|--------|
+| `@uix-ai/core` | UIX IR types, JSON Schema, type guards | ✅ v0.0.2 |
+
+### Adapters (the bridge)
+
+| Package | Converts From | Status |
+|---------|--------------|--------|
+| `@uix-ai/adapter-vercel` | Vercel AI SDK 4.x / 6.x | ✅ v0.0.2 |
+| `@uix-ai/adapter-agui` | AG-UI protocol (CopilotKit) | 🚧 Alpha |
+| `@uix-ai/adapter-a2ui` | A2UI protocol (Google) | 🧪 Experimental |
+| `@uix-ai/adapter-agentx` | AgentX Presentation | 🔜 Planned |
+
+### Reference Renderers (optional)
+
+These are **not** the core value of UIX. They are lightweight reference implementations. For production chat UI, we recommend [assistant-ui](https://github.com/assistant-ui/assistant-ui).
+
+| Package | Description | Status |
+|---------|-------------|--------|
+| `@uix-ai/stream` | Streaming Markdown renderer (Streamdown + Shiki + KaTeX + Mermaid, self-healing) | ✅ v0.0.2 |
+| `@uix-ai/agent` | Chat components (MessageList, ChatBubble, ToolResult, ThinkingIndicator) | ✅ v0.0.2 |
+| `@uix-ai/react` | Base UI components (Button, Input, Badge, Card) | ✅ v0.0.2 |
+| `@uix-ai/tokens` | Lucid design tokens (Tailwind preset) | ✅ v0.0.2 |
+
+---
+
+## Relationship with Other Projects
+
+### vs assistant-ui
+
+| | UIX | assistant-ui |
+|---|---|---|
+| **Solves** | "How to normalize AI output" | "How to render AI chat in React" |
+| **Core artifact** | JSON Schema + TypeScript types | React components + Runtime |
+| **State management** | Stateless (pure conversion) | Full runtime (Thread, messages, branching) |
+| **Relationship** | **Data source for assistant-ui** | **Rendering layer for UIX IR** |
+
+They are complementary. Use UIX to normalize your AI backend, then feed the result into assistant-ui's `ExternalStoreRuntime`.
+
+### vs AG-UI / A2UI / MCP Apps
+
+These are **transport protocols** (how AI talks to frontend). UIX IR is an **internal representation** (how your app stores and renders AI output). UIX adapters bridge the gap:
+
+```
+AG-UI events → adapter-agui → UIX IR → your UI
+A2UI payload → adapter-a2ui → UIX IR → your UI
+```
+
+### Within the Deepractice Ecosystem
+
+```
+AgentX  — AI Agent runtime (the engine)
+UIX     — AI output protocol (the translator)
+PromptX — AI application (the product, built with both)
+```
+
+| Project | Role |
+|---------|------|
+| [AgentX](https://github.com/Deepractice/AgentX) | AI Agent runtime — create, drive, and manage agents |
+| [PromptX](https://github.com/Deepractice/PromptX) | AI-powered application platform |
+| [PromptML](https://github.com/Deepractice/PromptML) | Prompt markup language |
+
+---
+
+## Quick Start
+
+### Normalize Vercel AI SDK output
+
+```typescript
+import { fromVercelMessages } from '@uix-ai/adapter-vercel'
+import type { LucidConversation } from '@uix-ai/core'
+
+// Your Vercel AI SDK messages
+const vercelMessages = useChat().messages
+
+// Convert to UIX IR — one line
+const conversations: LucidConversation[] = fromVercelMessages(vercelMessages)
+
+// Now render with any UI framework
+conversations.forEach(conv => {
+  conv.blocks.forEach(block => {
+    if (block.type === 'text') console.log(block.content.text)
+    if (block.type === 'tool') console.log(block.content.name, block.content.output)
+  })
+})
+```
+
+### Use with assistant-ui (recommended for production)
+
+```typescript
+import { fromVercelMessages } from '@uix-ai/adapter-vercel'
+import { useExternalStoreRuntime } from '@assistant-ui/react'
+
+// UIX IR as the data layer, assistant-ui as the rendering layer
+const runtime = useExternalStoreRuntime({
+  messages: fromVercelMessages(vercelMessages),
+  onNew: (message) => { /* send to backend */ }
+})
+```
+
+### Use reference renderer (lightweight / prototyping)
+
+```typescript
+import { fromVercelMessages } from '@uix-ai/adapter-vercel'
+import { StreamMarkdown } from '@uix-ai/stream'
+
+const conversations = fromVercelMessages(messages)
+const lastBlock = conversations.at(-1)?.blocks.at(-1)
+
+if (lastBlock?.type === 'text') {
+  return <StreamMarkdown content={lastBlock.content.text} />
+}
+```
+
+---
+
+## UIX IR Format
+
+A complete UIX IR document:
+
+```json
+{
+  "conversations": [
+    {
+      "id": "conv-1",
+      "role": "user",
+      "status": "completed",
+      "blocks": [
+        { "id": "b1", "type": "text", "status": "completed", "content": { "text": "Explain quicksort" } }
+      ],
+      "timestamp": 1710000000000
+    },
+    {
+      "id": "conv-2",
+      "role": "assistant",
+      "status": "completed",
+      "blocks": [
+        { "id": "b2", "type": "thinking", "status": "completed", "content": { "reasoning": "User wants an algorithm explanation..." } },
+        { "id": "b3", "type": "text", "status": "completed", "content": { "text": "Quicksort is a divide-and-conquer algorithm..." } },
+        { "id": "b4", "type": "tool", "status": "completed", "content": { "name": "run_code", "input": { "code": "..." }, "output": "[3,5,7,9]", "status": "success" } }
+      ],
+      "timestamp": 1710000001000
+    }
+  ]
+}
+```
 
 ---
 
 ## AI Skills
 
-UIX provides skills (AI-readable design rules) that work with any AI coding tool. No npm install needed — just copy a Markdown file.
+UIX provides AI-readable design rules that work with any AI coding tool. No npm install needed — just copy a Markdown file.
 
 | Skill | For | Description |
 |-------|-----|-------------|
@@ -283,125 +312,25 @@ UIX provides skills (AI-readable design rules) that work with any AI coding tool
 
 ---
 
-## Quick Start
-
-### For Developers (React Renderer)
-
-```bash
-pnpm add @uix-ai/react
-```
-
-```tsx
-import { Button } from '@uix-ai/react'
-
-function App() {
-  return <Button>Click me</Button>
-}
-```
-
-### For AI Agents (UIX IR)
-
-```json
-{
-  "conversations": [
-    {
-      "id": "conv-1",
-      "role": "user",
-      "status": "completed",
-      "blocks": [
-        { "id": "b1", "type": "text", "status": "completed", "content": { "text": "Hello" } }
-      ]
-    },
-    {
-      "id": "conv-2",
-      "role": "assistant",
-      "status": "streaming",
-      "blocks": [
-        { "id": "b2", "type": "text", "status": "streaming", "content": { "text": "Hi there..." } },
-        { "id": "b3", "type": "tool", "status": "completed", "content": { "name": "search", "output": "..." } }
-      ]
-    }
-  ]
-}
-```
-
----
-
-## Design Philosophy
-
-### Dual Theme System
-
-**Rational Theme** - Tech Blue `#0284c7`
-- For: Data analysis, Technical products, Productivity tools
-- Represents: Efficiency, Precision, Computation
-
-**Sentient Theme** - Wisdom Gold `#f59e0b`
-- For: Creative tools, Human-centric products, Thinking aids
-- Represents: Wisdom, Thinking, Humanity
-
-### Design Principles
-
-1. **White Foundation** - Clear visual base, no dark mode
-2. **No AI Purple** - Reject overused AI clichés
-3. **Block-Based** - Parallel rendering of text + tools
-4. **Streaming-First** - Self-healing incomplete content
-5. **Accessibility by Default** - Not an afterthought
-
----
-
 ## Roadmap
 
 ### Phase 1: Foundation ✅
+- [x] UIX IR JSON Schema + TypeScript types (`@uix-ai/core`)
 - [x] Design token system (`@uix-ai/tokens`)
-- [x] React base components (`@uix-ai/react`)
-- [x] Streaming markdown renderer (`@uix-ai/stream`)
-- [x] AI Agent components (`@uix-ai/agent`)
-  - [x] ChatMessage, ChatInput, Avatar system
-  - [x] StreamText, ThinkingIndicator, ToolResult
-  - [x] ChatList, ChatWindow layout components
+- [x] Reference React components (`@uix-ai/react`, `@uix-ai/agent`)
+- [x] Streaming Markdown renderer (`@uix-ai/stream`)
 
-### Phase 2: Protocol & Adapters ✅
-- [x] UIX IR JSON Schema (`packages/core/schema/uix-ir.schema.json`)
-- [x] TypeScript type definitions (`@uix-ai/core`)
-- [x] Vercel AI SDK adapter (`@uix-ai/adapter-vercel`, supports SDK 4.x & 6.x)
+### Phase 2: Adapters ✅
+- [x] Vercel AI SDK adapter (`@uix-ai/adapter-vercel`, SDK 4.x & 6.x)
 - [x] AG-UI protocol adapter (`@uix-ai/adapter-agui`)
 - [x] A2UI protocol adapter (`@uix-ai/adapter-a2ui`, experimental)
-- [x] Documentation & examples (`examples/`, per-package READMEs)
-- [ ] AgentX adapter
-- [ ] IR validation tools
 
-### Phase 3: Ecosystem
-- [x] npm publish (`@uix-ai/*` packages)
-- [ ] `create-uix-app` CLI scaffolding
+### Phase 3: Ecosystem Integration (current)
+- [ ] AgentX adapter (`@uix-ai/adapter-agentx`)
+- [ ] assistant-ui integration guide
+- [ ] IR validation CLI tool
 - [ ] Live demo with real AI agent
-- [ ] MCP Apps renderer (when mature)
-- [ ] More adapter integrations (LangChain, CrewAI, etc.)
-
----
-
-## Why Not Just Use A2UI / AG-UI / MCP Apps Directly?
-
-> "Protocols are multiplying — AG-UI, A2UI, MCP Apps, Vercel AI SDK — each with its own message format. UIX IR is the unified abstraction layer that adapts to all of them."
-
-| Approach | Risk |
-|----------|------|
-| Wait for one standard to win | Product stalls, bet on wrong horse |
-| Bind to AG-UI directly | Locked into one protocol's event model |
-| Bind to A2UI directly | A2UI changes, major rewrite needed |
-| Bind to MCP Apps directly | Still in draft, may pivot |
-| **UIX IR + Adapters** | Internal stability, external flexibility |
-
----
-
-## Ecosystem
-
-Part of the **Deepractice AI development ecosystem**:
-
-| Project | Description |
-|---------|-------------|
-| [AgentX](https://github.com/Deepractice/AgentX) | AI Agent development framework |
-| [PromptX](https://github.com/Deepractice/PromptX) | Prompt engineering platform |
-| [PromptML](https://github.com/Deepractice/PromptML) | Deepractice Prompt Markup Language |
+- [ ] More adapters (LangChain, CrewAI, etc.)
 
 ---
 
