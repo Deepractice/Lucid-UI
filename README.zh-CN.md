@@ -32,7 +32,7 @@
                       ┌─────────────────────────┐
 Vercel AI SDK ──────→ │                         │
 AgentX ─────────────→ │   UIX IR                │ ──→ assistant-ui
-AG-UI (CopilotKit) ─→ │   (统一格式)             │ ──→ 你自己的渲染器
+AG-UI (CopilotKit) ─→ │   (统一格式)              │ ──→ 你自己的渲染器
 A2UI (Google) ──────→ │                         │ ──→ 任何 UI 框架
                       └─────────────────────────┘
 ```
@@ -62,8 +62,8 @@ A2UI (Google) ──────→ │                         │ ──→ �
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  AI 后端 (上游)                                                  │
-│  Vercel AI SDK · AgentX · AG-UI · A2UI · LangChain · ...       │
+│  AI 后端 (上游)                                                   │
+│  Vercel AI SDK · AgentX · AG-UI · A2UI · LangChain · ...        │
 └──────────────────────────┬──────────────────────────────────────┘
                            │
                     UIX 适配器 (防腐层 ACL)
@@ -71,20 +71,20 @@ A2UI (Google) ──────→ │                         │ ──→ �
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  UIX IR  (@uix-ai/core)                                        │
+│  UIX IR  (@uix-ai/core)                                         │
 │  LucidConversation → LucidBlock[]                               │
-│  7 种 Block: text · tool · thinking · image · file · error ·    │
+│  7 种 Block: text · tool · thinking · image · file · error ·     │
 │  source                                                         │
-│  JSON Schema + TypeScript 类型 + 类型守卫                        │
+│  JSON Schema + TypeScript 类型 + 类型守卫                          │
 └──────────────────────────┬──────────────────────────────────────┘
                            │
                ┌───────────┴───────────┐
                ▼                       ▼
 ┌──────────────────────┐  ┌──────────────────────────────────────┐
 │  assistant-ui         │  │  UIX 参考渲染器                       │
-│  (推荐用于生产)        │  │  @uix-ai/stream (StreamMarkdown)     │
-│  完整的聊天 UI 运行时  │  │  @uix-ai/agent (ChatBubble 等)       │
-│  通过 ExternalStore   │  │  轻量级，零运行时依赖                  │
+│  (推荐用于生产)        │  │  @uix-ai/stream (StreamMarkdown)      │
+│  完整的聊天 UI 运行时  │  │  @uix-ai/agent (ChatBubble 等)         │
+│  通过 ExternalStore   │  │  轻量级，零运行时依赖                    │
 └──────────────────────┘  └──────────────────────────────────────┘
 ```
 
