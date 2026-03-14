@@ -174,6 +174,25 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/browser@3.2.4)
 
+  packages/adapter-agentx:
+    dependencies:
+      '@uix-ai/core':
+        specifier: workspace:*
+        version: link:../core
+      agentxjs:
+        specifier: '>=2.0.0'
+        version: 2.8.0
+    devDependencies:
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.8)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/browser@3.2.4)
+
   packages/adapter-agui:
     dependencies:
       '@ag-ui/core':
@@ -372,6 +391,9 @@ packages:
 
   '@ag-ui/core@0.0.47':
     resolution: {integrity: sha512-fHat7ZErAH028R90psYclTWaj6PdcvN2GJxzwWPF/j1c5ceqbF2+6xe+t06Psg+gCzZneI9QE3IkOkdJNplZ5A==}
+
+  '@agentxjs/core@2.8.0':
+    resolution: {integrity: sha512-Vnz/ip63ZNbeVHiXJzvE+5MzmmKs5Sau1fnuGvv6hklZP90t4kAd+BI5cF6L+3CWF7Vt/7bG9Iby+9l+9kWAOA==}
 
   '@ai-sdk/gateway@3.0.66':
     resolution: {integrity: sha512-SIQ0YY0iMuv+07HLsZ+bB990zUJ6S4ujORAh+Jv1V2KGNn73qQKnGO0JBk+w+Res8YqOFSycwDoWcFlQrVxS4A==}
@@ -575,6 +597,12 @@ packages:
     engines: {node: '>=20.0.0', yarn: '>=1.22.18'}
     peerDependencies:
       storybook: ^0.0.0-0 || ^9.0.0 || ^9.1.0-0 || ^9.2.0-0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0
+
+  '@deepracticex/id@0.2.0':
+    resolution: {integrity: sha512-Cs4G2tbfj8iN03N5Aj40xiwjihJVhb9TlOuMPLbInZ+PqS0MemDW6i94ivpedRlv+L2yHgD8UkLjdnfjDWpHUQ==}
+
+  '@deepracticex/logger@1.2.0':
+    resolution: {integrity: sha512-p9dvgAeZmb8q+lBNpcKnJWxsIa75J5j0nsscCFW4mLPW3LnaUVE5enIkVluNbI2UoKMSI/0m44+58u/EaJOGaw==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -1645,6 +1673,9 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  agentxjs@2.8.0:
+    resolution: {integrity: sha512-1cel5U+U0DAu69C3Ny7XOiD3Fi2TRz9SgSefmpDsvtsRnEo1tm7a91FyRBlUrpZMO40CPbI4QgiyqZhnUdb0KQ==}
+
   ai@6.0.116:
     resolution: {integrity: sha512-7yM+cTmyRLeNIXwt4Vj+mrrJgVQ9RMIW5WO0ydoLoYkewIvsMcvUmqS4j2RJTUXaF1HphwmSKUMQ/HypNRGOmA==}
     engines: {node: '>=18'}
@@ -1880,6 +1911,10 @@ packages:
   commander@8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
+
+  commonxjs@0.1.1:
+    resolution: {integrity: sha512-yGZQy8ev1Lit8mytPj9VBvDgl1xVh+HeqFMf9eRinZs2jPk4yYwQv3J1ZUeN7hk3wop+0nl3kFXKBJQ/W3v3bQ==}
+    engines: {node: '>=22.0.0'}
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -2658,6 +2693,9 @@ packages:
   jsonfile@6.2.0:
     resolution: {integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==}
 
+  jsonrpc-lite@2.2.0:
+    resolution: {integrity: sha512-/cbbSxtZWs1O7R4tWqabrCM/t3N8qKUZMAg9IUqpPvUs6UyRvm6pCNYkskyKN/XU0UgffW+NY2ZRr8t0AknX7g==}
+
   katex@0.16.38:
     resolution: {integrity: sha512-cjHooZUmIAUmDsHBN+1n8LaZdpmbj03LtYeYPyuYB7OuloiaeaV6N4LcfjcnHVzGWjVQmKrxxTrpDcmSzEZQwQ==}
     hasBin: true
@@ -3372,6 +3410,9 @@ packages:
   rxjs@7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
 
+  rxjs@7.8.2:
+    resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
+
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
@@ -3888,6 +3929,12 @@ snapshots:
       rxjs: 7.8.1
       zod: 3.25.76
 
+  '@agentxjs/core@2.8.0':
+    dependencies:
+      commonxjs: 0.1.1
+      jsonrpc-lite: 2.2.0
+      rxjs: 7.8.2
+
   '@ai-sdk/gateway@3.0.66(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
@@ -4222,6 +4269,10 @@ snapshots:
     transitivePeerDependencies:
       - '@chromatic-com/cypress'
       - '@chromatic-com/playwright'
+
+  '@deepracticex/id@0.2.0': {}
+
+  '@deepracticex/logger@1.2.0': {}
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
@@ -5231,6 +5282,12 @@ snapshots:
 
   acorn@8.16.0: {}
 
+  agentxjs@2.8.0:
+    dependencies:
+      '@agentxjs/core': 2.8.0
+      '@deepracticex/id': 0.2.0
+      '@deepracticex/logger': 1.2.0
+
   ai@6.0.116(zod@4.3.6):
     dependencies:
       '@ai-sdk/gateway': 3.0.66(zod@4.3.6)
@@ -5440,6 +5497,8 @@ snapshots:
   commander@7.2.0: {}
 
   commander@8.3.0: {}
+
+  commonxjs@0.1.1: {}
 
   concat-map@0.0.1: {}
 
@@ -6312,6 +6371,8 @@ snapshots:
       universalify: 2.0.1
     optionalDependencies:
       graceful-fs: 4.2.11
+
+  jsonrpc-lite@2.2.0: {}
 
   katex@0.16.38:
     dependencies:
@@ -7301,6 +7362,10 @@ snapshots:
   rw@1.3.3: {}
 
   rxjs@7.8.1:
+    dependencies:
+      tslib: 2.8.1
+
+  rxjs@7.8.2:
     dependencies:
       tslib: 2.8.1
 
