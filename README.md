@@ -63,7 +63,7 @@ If you build a chat UI, you're locked into one format. Switch backends? Rewrite 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  AI Backends (upstream)                                         │
-│  Vercel AI SDK · AgentX · AG-UI · A2UI · LangChain · ...       │
+│  Vercel AI SDK · AgentX · AG-UI · A2UI · LangChain · ...        │
 └──────────────────────────┬──────────────────────────────────────┘
                            │
                     UIX Adapters (ACL)
@@ -71,7 +71,7 @@ If you build a chat UI, you're locked into one format. Switch backends? Rewrite 
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  UIX IR  (@uix-ai/core)                                        │
+│  UIX IR  (@uix-ai/core)                                         │
 │  LucidConversation → LucidBlock[]                               │
 │  7 block types: text · tool · thinking · image · file · error · │
 │  source                                                         │
@@ -81,10 +81,10 @@ If you build a chat UI, you're locked into one format. Switch backends? Rewrite 
                ┌───────────┴───────────┐
                ▼                       ▼
 ┌──────────────────────┐  ┌──────────────────────────────────────┐
-│  assistant-ui         │  │  UIX Reference Renderer              │
-│  (recommended)        │  │  @uix-ai/stream (StreamMarkdown)     │
-│  Full chat UI runtime │  │  @uix-ai/agent (ChatBubble, etc.)    │
-│  via ExternalStore    │  │  Lightweight, zero-runtime            │
+│  assistant-ui        │  │  UIX Reference Renderer              │
+│  (recommended)       │  │  @uix-ai/stream (StreamMarkdown)     │
+│  Full chat UI runtime│  │  @uix-ai/agent (ChatBubble, etc.)    │
+│  via ExternalStore   │  │  Lightweight, zero-runtime           │
 └──────────────────────┘  └──────────────────────────────────────┘
 ```
 
