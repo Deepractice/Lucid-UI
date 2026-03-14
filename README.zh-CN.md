@@ -326,7 +326,7 @@ UIX 提供 AI 可读的设计规则（Skills），适用于任何 AI 编程工�
 - [x] A2UI 协议适配器（`@uix-ai/adapter-a2ui`，实验性）
 
 ### 第三阶段：生态集成（进行中）
-- [ ] AgentX 适配器（`@uix-ai/adapter-agentx`）
+- [x] AgentX 适配器（`@uix-ai/adapter-agentx`）
 - [ ] assistant-ui 集成指南
 - [ ] IR 校验 CLI 工具
 - [ ] 接入真实 AI Agent 的 Live Demo

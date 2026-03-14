@@ -326,7 +326,7 @@ UIX provides AI-readable design rules that work with any AI coding tool. No npm 
 - [x] A2UI protocol adapter (`@uix-ai/adapter-a2ui`, experimental)
 
 ### Phase 3: Ecosystem Integration (current)
-- [ ] AgentX adapter (`@uix-ai/adapter-agentx`)
+- [x] AgentX adapter (`@uix-ai/adapter-agentx`)
 - [ ] assistant-ui integration guide
 - [ ] IR validation CLI tool
 - [ ] Live demo with real AI agent
